@@ -25,6 +25,7 @@
                     <img src="http://localhost:8080/images/MangoGamesLogo.png">
                 </div>
                 <div class="col-2 footer optional">
+                    <?php if(isset($footerPart)) echo $footerPart ?>
                 </div>
                 <div class="col-2 footer userWelcome">
                     <?php

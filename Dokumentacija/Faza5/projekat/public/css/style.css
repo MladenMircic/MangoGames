@@ -62,7 +62,7 @@ img.logo {
     margin-top: -20px;
 }
 
-table.registerForm, table.modMenu {
+table.registerForm, table.loginForm, table.userInterfaceForm {
     font-size: 15px;
     font-weight: bold;
     text-align: center;
@@ -75,10 +75,34 @@ table.modMenu td {
 
 table.modMenu input {
     width: 50%;
+
+.loginFooter{
+    text-align: center;
+    margin-top: 100px;
+
 }
 
 input.btnRegister
 {
     margin-top: 10px;
     width: 50%;
+}
+
+table.userInterfaceForm td
+{
+    border: none;
+}
+
+table.userInterfaceForm input{
+    width: 50%;
+}
+
+div.userWelcome{
+    font-size: large;
+    border-left: none;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-bottom: 2%;
 }
