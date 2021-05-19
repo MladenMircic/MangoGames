@@ -48,7 +48,13 @@ div.optional {
 }
 
 div.userWelcome {
+    font-size: large;
     border-left: none;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-bottom: 2%;
 }
 
 img.logo {
@@ -56,11 +62,19 @@ img.logo {
     margin-top: -20px;
 }
 
-table.registerForm {
+table.registerForm, table.modMenu {
     font-size: 15px;
     font-weight: bold;
     text-align: center;
     margin-top: 50px;
+}
+
+table.modMenu td {
+    border: none;
+}
+
+table.modMenu input {
+    width: 50%;
 }
 
 input.btnRegister

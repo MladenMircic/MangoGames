@@ -27,6 +27,10 @@
                 <div class="col-2 footer optional">
                 </div>
                 <div class="col-2 footer userWelcome">
+                    <?php
+                        if (isset($welcomeMessage))
+                            echo $welcomeMessage
+                    ?>
                 </div>
             </div>
         </div>
