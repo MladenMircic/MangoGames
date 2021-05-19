@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `SongClickerDB`.`Playlist` (
   `genre` VARCHAR(45) NOT NULL,
   `number` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`idP`),
-  INDEX `FK_genre_Playlist_idx` (`genre` ASC) VISIBLE,
+  INDEX `FK_genre_Playlist_idx` (`genre` ASC),
   CONSTRAINT `FK_genre_Playlist`
     FOREIGN KEY (`genre`)
     REFERENCES `SongClickerDB`.`Genre` (`name`)
@@ -77,7 +77,7 @@ CREATE TABLE IF NOT EXISTS `SongClickerDB`.`Song` (
   `path` VARCHAR(45) NOT NULL,
   `idP` INT NOT NULL,
   PRIMARY KEY (`idS`),
-  INDEX `FK_idP_Song_idx` (`idP` ASC) VISIBLE,
+  INDEX `FK_idP_Song_idx` (`idP` ASC),
   CONSTRAINT `FK_idP_Song`
     FOREIGN KEY (`idP`)
     REFERENCES `SongClickerDB`.`Playlist` (`idP`)
@@ -97,7 +97,7 @@ CREATE TABLE IF NOT EXISTS `SongClickerDB`.`User_info` (
   `points` INT NOT NULL DEFAULT 0,
   `tokens` INT NOT NULL DEFAULT 0,
   PRIMARY KEY (`username`, `genre`),
-  INDEX `FK_genre_User_info_idx` (`genre` ASC) VISIBLE,
+  INDEX `FK_genre_User_info_idx` (`genre` ASC),
   CONSTRAINT `FK_genre_User_info`
     FOREIGN KEY (`genre`)
     REFERENCES `SongClickerDB`.`Genre` (`name`)
@@ -120,7 +120,7 @@ CREATE TABLE IF NOT EXISTS `SongClickerDB`.`Mistake_log` (
   `idM` INT NOT NULL,
   `idS` INT NOT NULL,
   PRIMARY KEY (`idM`),
-  INDEX `FK_idS_MistakeLog_idx` (`idS` ASC) VISIBLE,
+  INDEX `FK_idS_MistakeLog_idx` (`idS` ASC),
   CONSTRAINT `FK_idS_Mistake_log`
     FOREIGN KEY (`idS`)
     REFERENCES `SongClickerDB`.`Song` (`idS`)
@@ -145,8 +145,8 @@ CREATE TABLE IF NOT EXISTS `SongClickerDB`.`Moderator_change_log` (
   `moderatorUsername` VARCHAR(45) NOT NULL,
   `idS` INT NOT NULL,
   PRIMARY KEY (`idC`),
-  INDEX `FK_modUsername_Changes_idx` (`moderatorUsername` ASC) VISIBLE,
-  INDEX `FK_idS_Changes_idx` (`idS` ASC) VISIBLE,
+  INDEX `FK_modUsername_Changes_idx` (`moderatorUsername` ASC),
+  INDEX `FK_idS_Changes_idx` (`idS` ASC),
   CONSTRAINT `FK_modUsername_Moderator_chnage_log`
     FOREIGN KEY (`moderatorUsername`)
     REFERENCES `SongClickerDB`.`User` (`username`)
