@@ -20,7 +20,7 @@
 
     </tr>
 </table>
-<form method="post" action=" <?= site_url("User/chooseGenres") ?>">
+<form method="post" action=" <?= site_url("User") ?>">
 <input type="submit" id="chooseGenres" class="btn btn-dark" value="Choose"disabled>
 </form>
 

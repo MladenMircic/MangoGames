@@ -15,12 +15,8 @@ class User extends BaseController
     }
     public function index()
     {
-        $this->pickGenres();
+        $this->showView('userInterface',[]);
     }
 
-    public function pickGenres(){
-        $genreModel=new GenreModel();
-        $data['genres'] =$genreModel->findAll();
-        $this->showView('pages/pickGenres',$data);
-    }
+
 }
