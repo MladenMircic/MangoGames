@@ -30,7 +30,7 @@
     <tr>
         <td>
             <form method="post" action="#">
-                <input class="userbtn btn btn-dark" type="submit" value="Quit">
+                <input class="btn btn-dark" type="submit" value="Quit">
             </form>
         </td>
     </tr>
