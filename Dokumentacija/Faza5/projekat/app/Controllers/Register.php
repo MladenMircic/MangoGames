@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Models\UserModel;
 
-class PreLogin extends BaseController
+class Register extends BaseController
 {
     public function showView($data)
     {

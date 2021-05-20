@@ -1,4 +1,4 @@
-<form method="post" action=" <?= site_url("PreLogin/checkRegisterCredentials") ?>">
+<form method="post" action=" <?= site_url("Register/checkRegisterCredentials") ?>">
     <table class="table registerForm">
         <tr>
             <td colspan="2" style="color: red; border-top: none">

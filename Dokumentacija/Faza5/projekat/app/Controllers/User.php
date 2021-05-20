@@ -26,4 +26,6 @@ class User extends BaseController
         $data['genres'] =$genreModel->findAll();
         $this->showView('pages/pickGenres',$data);
     }
+
+
 }

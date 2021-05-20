@@ -8,7 +8,7 @@
             $path = "http://localhost:8080/images/{$genre->name}.png";
             echo  "<td class='borderless'>
         <div class='dropdown'>
-            <img src='{$path}' id='{$genre->name}' class='dropdown-toggle' data-toggle='dropdown'>
+            <img src='{$path}' id='{$genre->name}' class=' dropdown-toggle' data-toggle='dropdown'>
 
             <div class='dropdown-menu ' >
                 <div class='dropdown-item'>{$genre->name}</div>
@@ -20,12 +20,8 @@
 
     </tr>
 </table>
-
-<div class="offset-2 col-4">
-<table class="table table-light table-bordered">
-    <tr id="chosen">
-    </tr>
-</table>
-</div>
+<form method="post" action=" <?= site_url("User/chooseGenres") ?>">
+<input type="submit" id="chooseGenres" class="btn btn-dark" value="Choose"disabled>
+</form>
 
 

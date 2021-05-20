@@ -2,44 +2,41 @@ $(document).ready(function(){
     let cnt=0;
     let isHovering=false;
     let chosen=[];
-    $(".dropdown-toggle").click(function(){
-        if(isHovering==false) {
-            // if(chosen.includes($(this).attr("id"))){
-            //    chosen.splice(chosen.findIndex(element => element == $(this).attr("id")),1);
-            // }
-            // else if (chosen.length<2){
-            //     chosen.push($(this).attr("id"));
-            // }
-            // $("#chosen").empty();
-            // for(let i=0;i<chosen.length;i++){
-            //     let path="http://localhost:8080/images/"+chosen[i]+".png";
-            //     $("#chosen").append($("<td></td>").append($("<img>").attr("src",path )));
-            // }
+    $(".dropdown-toggle").click(function() {
+        if (isHovering == false) {
 
 
-            if($(this).hasClass("chosen")==false && $(this).hasClass("unchosen")==false ){
-                $(this).toggleClass("chosen");
+            if ($(this).hasClass("chosen") == false && $(this).hasClass("unchosen") == false && cnt<2) {
+                //this is chosen first time - both classes are false
                 cnt++;
+                $(this).toggleClass("chosen");
 
-            }
-            else if(cnt<2){
-
-                if($(this).hasClass("chosen")==true) cnt--;
-                else if($(this).hasClass("unchosen")==true) cnt++;
-
+            } else if ($(this).hasClass("chosen") == true) {
+                //this is unchosen
+                cnt--;
                 $(this).toggleClass("chosen");
                 $(this).toggleClass("unchosen");
+            } else if (cnt < 2) {
+                //this is chosen
+                $(this).toggleClass("chosen");
+                $(this).toggleClass("unchosen");
+                cnt++;
             }
+           if(cnt==2){
+               $("#chooseGenres").prop("disabled", false);
+           }
+           else $("#chooseGenres").prop("disabled", true);
 
 
         }
+
+
+
+
         });
 
 
-    // $(".dropdown-toggle").hover(function(){
-    // $(this).addClass("show-genre-name");
-    //
-    // });
+
 
     $(".dropdown-toggle").hover(function(){
         if(!$(this).hasClass("chosen")) {
