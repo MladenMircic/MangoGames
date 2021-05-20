@@ -2,7 +2,9 @@
 
 namespace App\Controllers;
 
+use App\Models\GenreModel;
 use App\Models\UserModel;
+use CodeIgniter\Model;
 
 class Register extends BaseController
 {
@@ -24,7 +26,7 @@ class Register extends BaseController
             'password' => 'trim|required|min_length[5]',
             'confirmPass' => 'trim|required|matches[password]'
         ])) {
-            return $this->showView(['errors' => $this->validator->getErrors()]);
+            return $this->showView('register',['errors' => $this->validator->getErrors()]);
         }
 
         $userModel = new UserModel();
@@ -32,7 +34,7 @@ class Register extends BaseController
 
         if ($user != null)
         {
-            return $this->showView(['errors' => ['username' => 'User already exists.']]);
+            return $this->showView('register',['errors' => ['username' => 'User already exists.']]);
         }
 
         $userModel->insert([
@@ -40,6 +42,17 @@ class Register extends BaseController
             'password' => $this->request->getVar('password'),
             'type' => 'user'
         ]);
-        echo 'Uspesno!';
+        $this->session->set("username", $this->request->getVar('username'));
+        $this->pickGenres();
+
     }
+
+    public function pickGenres(){
+        $genreModel=new GenreModel();
+        $data['genres'] =$genreModel->findAll();
+        $this->showView('pickGenres',$data);
+    }
+
+
+
 }
