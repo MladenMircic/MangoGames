@@ -56,11 +56,16 @@ img.logo {
     margin-top: -20px;
 }
 
-table.registerForm {
+table.registerForm, table.loginForm, table.userInterfaceForm {
     font-size: 15px;
     font-weight: bold;
     text-align: center;
     margin-top: 50px;
+}
+
+.loginFooter{
+    text-align: center;
+    margin-top: 100px;
 }
 
 input.btnRegister
@@ -68,6 +73,7 @@ input.btnRegister
     margin-top: 10px;
     width: 50%;
 }
+
 .tableAdminMenu{
     text-align: center;
    margin-top: 50px;
@@ -116,4 +122,22 @@ input.btnRegister
 }
 
 
+table.userInterfaceForm td
+{
+    border: none;
+}
+
+table.userInterfaceForm input{
+    width: 50%;
+}
+
+div.userWelcome{
+    font-size: large;
+    border-left: none;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-bottom: 2%;
+}
 
