@@ -74,6 +74,54 @@ input.btnRegister
     width: 50%;
 }
 
+.tableAdminMenu{
+    text-align: center;
+   margin-top: 50px;
+}
+
+
+
+.btnMenu{
+    width:50%;
+}
+
+.genres-table{
+    text-align: center;
+}
+
+.table .borderless {
+    border:none;
+}
+
+.dropdown .dropdown-menu{
+    text-align: center;
+    margin-left:-50px;
+    width:20px;
+}
+
+@keyframes choosePicture {
+    from {margin-top:0px}
+    to{margin-top: 100px}
+}
+
+@keyframes unchoosePicture {
+    from {margin-top: 100px}
+    to{margin-top: 0px}
+}
+
+.chosen {
+    animation-name: choosePicture;
+    animation-duration: 500ms;
+    animation-fill-mode: forwards;
+}
+
+.unchosen {
+    animation-name: unchoosePicture;
+    animation-duration: 500ms;
+    animation-fill-mode: forwards;
+}
+
+
 table.userInterfaceForm td
 {
     border: none;
@@ -92,3 +140,4 @@ div.userWelcome{
     justify-content: flex-end;
     padding-bottom: 2%;
 }
+

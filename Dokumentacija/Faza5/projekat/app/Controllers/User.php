@@ -3,6 +3,8 @@
 
 namespace App\Controllers;
 
+use App\Models\GenreModel;
+
 
 class User extends BaseController
 {
@@ -11,8 +13,14 @@ class User extends BaseController
         $data['welcomeMessage'] = "Welcome, {$this->session->get('username')}";
         echo view("patterns/default_page_pattern", $data);
     }
+    public function index()
+    {
+        $this->pickGenres();
+    }
 
-    public function index(){
-        $this->showView("userInterface", []);
+    public function pickGenres(){
+        $genreModel=new GenreModel();
+        $data['genres'] =$genreModel->findAll();
+        $this->showView('pages/pickGenres',$data);
     }
 }
