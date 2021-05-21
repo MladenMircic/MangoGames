@@ -15,8 +15,11 @@ class User extends BaseController
     }
     public function index()
     {
-        $this->showView('userInterface',[]);
+
+      $this->showView('userInterface',[]);
     }
+
+
 
 
 }
