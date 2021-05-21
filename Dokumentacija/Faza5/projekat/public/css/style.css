@@ -157,3 +157,16 @@ div.userWelcome{
     padding-bottom: 2%;
 }
 
+table.center{
+    text-align: center;
+}
+.formWidth {
+    width: 150px;
+    background-color: #5e5e5e;
+
+}
+
+.ok {
+    width:20%;
+}
+
