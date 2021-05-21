@@ -1,7 +1,7 @@
 $(document).ready(function(){
     let cnt=0;
     let isHovering=false;
-    let chosen=[];
+
     $(".dropdown-toggle").click(function() {
         if (isHovering == false) {
 
@@ -23,17 +23,28 @@ $(document).ready(function(){
                 cnt++;
             }
            if(cnt==2){
-               $("#chooseGenres").prop("disabled", false);
+               $("#confirmGenres").prop("disabled", false);
            }
-           else $("#chooseGenres").prop("disabled", true);
+           else $("#confirmGenres").prop("disabled", true);
 
 
         }
 
 
-
-
         });
+
+
+    $("#confirmGenres").click(function (){
+        let chosen=document.getElementsByClassName("chosen");
+        $("#g1").attr("value", chosen[0].id);
+        $("#g2").attr("value", chosen[1].id);
+
+
+
+
+    });
+
+
 
 
 

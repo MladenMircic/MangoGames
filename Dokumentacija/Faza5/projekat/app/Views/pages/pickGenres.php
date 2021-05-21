@@ -1,3 +1,6 @@
+
+<br>
+<h4>Choose two genres</h4>
 <table class="genres-table table">
     <tr>
 
@@ -20,8 +23,15 @@
 
     </tr>
 </table>
-<form method="post" action=" <?= site_url("User") ?>">
-<input type="submit" id="chooseGenres" class="btn btn-dark" value="Choose"disabled>
+<form method="post" action=" <?= site_url("Register/confirmGenres") ?>">
+    <input type="submit" id="confirmGenres" class="btn btn-dark" value="Choose"disabled>
+    <input type="hidden" id="g1" name="g1" value="">
+    <input type="hidden" id="g2" name="g2" value="">
+
 </form>
+
+<div class="a" id="v0"></div>
+<div class="a"  id="v1"></div>
+<div class="a"  id="v2"></div>
 
 
