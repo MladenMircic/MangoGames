@@ -3,6 +3,8 @@
 
 namespace App\Controllers;
 
+use App\Models\GenreModel;
+
 
 class User extends BaseController
 {
@@ -15,4 +17,6 @@ class User extends BaseController
     public function index() {
         $this->showView("userInterface", []);
     }
+
+
 }

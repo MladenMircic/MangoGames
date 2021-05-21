@@ -2,7 +2,9 @@
 
 namespace App\Controllers;
 
+use App\Models\GenreModel;
 use App\Models\UserModel;
+use CodeIgniter\Model;
 
 class Register extends BaseController
 {
@@ -39,8 +41,17 @@ class Register extends BaseController
             'password' => $this->request->getVar('password'),
             'type' => 'user'
         ]);
+        $this->session->set("username", $this->request->getVar('username'));
+        $this->pickGenres();
 
-        $this->session->set('username', $this->request->getVar('username'));
-        return redirect()->to(site_url("Moderator"));
     }
+
+    public function pickGenres(){
+        $genreModel=new GenreModel();
+        $data['genres'] =$genreModel->findAll();
+        $this->showView('pickGenres',$data);
+    }
+
+
+
 }
