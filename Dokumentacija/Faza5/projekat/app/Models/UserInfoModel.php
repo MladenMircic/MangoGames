@@ -8,10 +8,11 @@ use CodeIgniter\Model;
 class UserInfoModel extends \CodeIgniter\Model
 {
     protected $table      = 'user_info';
-    protected $primaryKey = 'username'+'genre';
+    protected $primaryKey = 'id';
     protected $returnType = 'object';
+    protected $useAutoIncrement = true;
 
-    protected $allowedFields = ['username', 'genre', 'points', 'tokens'];
+    protected $allowedFields = ['id','username', 'genre', 'points', 'tokens'];
 
 
 

@@ -57,11 +57,15 @@ class Register extends BaseController
 
     public function confirmGenres(){
         $userInfo=new UserInfoModel();
-        $userInfo->insertBatch([
-            "username" => [$this->session->get("username"), $this->session->get("username")],
-            "genre"=> [$this->request->getVar('g1'), $this->request->getVar('g2')]
+        $userInfo->insert([
+            "username" => $this->session->get("username"),
+            "genre"=> $this->request->getVar('g1')
         ]);
-        redirect()->to(site_url("User"));
+        $userInfo->insert([
+            "username" => $this->session->get("username"),
+            "genre"=>  $this->request->getVar('g2')
+        ]);
+        return redirect()->to(site_url("User"));
 
         //echo ($this->request->getVar('g1'));
     }
