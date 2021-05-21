@@ -30,8 +30,7 @@ class Register extends BaseController
         $userModel = new UserModel();
         $user = $userModel->find($this->request->getVar('username'));
 
-        if ($user != null)
-        {
+        if ($user != null) {
             return $this->showView('register', ['errors' => ['username' => 'User already exists.']]);
         }
 
