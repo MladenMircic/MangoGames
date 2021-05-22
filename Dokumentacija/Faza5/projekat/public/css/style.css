@@ -78,30 +78,37 @@ table.modMenu input {
     width: 50%;
 }
 
-.loginFooter{
+.loginFooter {
     text-align: center;
     margin-top: 100px;
 
 }
 
-input.btnRegister
-{
+input.btnRegister {
     margin-top: 10px;
     width: 50%;
 }
 
-.tableAdminMenu{
+input.btnTransition {
+    transition: width 500ms;
+}
+
+input.btnRegister:hover {
+    width: 80%;
+}
+
+.tableAdminMenu {
     text-align: center;
    margin-top: 50px;
 }
 
 
 
-.btnMenu{
+.btnMenu {
     width:50%;
 }
 
-.genres-table{
+.genres-table {
     text-align: center;
 }
 
@@ -109,20 +116,20 @@ input.btnRegister
     border:none;
 }
 
-.dropdown .dropdown-menu{
+.dropdown .dropdown-menu {
     text-align: center;
     margin-left:-50px;
     width:20px;
 }
 
 @keyframes choosePicture {
-    from {margin-top:0px}
-    to{margin-top: 100px}
+    from { margin-top:0px }
+    to { margin-top: 100px }
 }
 
 @keyframes unchoosePicture {
-    from {margin-top: 100px}
-    to{margin-top: 0px}
+    from { margin-top: 100px }
+    to { margin-top: 0px }
 }
 
 .chosen {
@@ -138,16 +145,15 @@ input.btnRegister
 }
 
 
-table.userInterfaceForm td
-{
+table.userInterfaceForm td {
     border: none;
 }
 
-table.userInterfaceForm input, table.tableQuit input{
+table.userInterfaceForm input, table.tableQuit input {
     width: 50%;
 }
 
-div.userWelcome{
+div.userWelcome {
     font-size: large;
     border-left: none;
     text-align: center;
@@ -157,9 +163,10 @@ div.userWelcome{
     padding-bottom: 2%;
 }
 
-table.center{
+table.center {
     text-align: center;
 }
+
 .formWidth {
     width: 150px;
     background-color: #5e5e5e;
@@ -174,5 +181,22 @@ table.center{
     color:red;
 }
 
+.genreChoices {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
 
+.genreChoices img {
+    transition: border-left-width 500ms,
+            border-bottom-width 400ms,
+            border-top-width 300ms,
+            border-right-width 100ms;
+}
 
+.selectedGenre {
+    border-left: 5px solid red;
+    border-right: 5px solid green;
+    border-top: 5px solid blue;
+    border-bottom: 5px solid yellow;
+}

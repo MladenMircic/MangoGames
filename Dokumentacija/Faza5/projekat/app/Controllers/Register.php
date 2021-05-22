@@ -5,7 +5,6 @@ namespace App\Controllers;
 use App\Models\GenreModel;
 use App\Models\UserInfoModel;
 use App\Models\UserModel;
-use CodeIgniter\Model;
 
 class Register extends BaseController
 {
@@ -64,10 +63,6 @@ class Register extends BaseController
             "username" => $this->session->get("username"),
             "genre"=>  $this->request->getVar('g2')
         ]);
-        return redirect()->to(site_url("User"));
+        return redirect()->to(base_url("User"));
     }
-
-
-
-
 }
