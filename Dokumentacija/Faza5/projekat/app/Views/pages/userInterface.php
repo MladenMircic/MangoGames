@@ -29,8 +29,8 @@
     </tr>
     <tr>
         <td>
-            <form method="post" action="#">
-                <input class="btn btn-dark" type="submit" value="Quit">
+            <form method="post" action="<?= site_url('User/showView/quit/false') ?>">
+                <input class="btn btn-dark" type="submit" value="Quit" id="quit">
             </form>
         </td>
     </tr>

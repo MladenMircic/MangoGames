@@ -2,7 +2,7 @@
 <tr >
     <td class="borderless">
         <form method="post" action= "<?= site_url("Administrator/Leaderboards")?>">
-            <input type="submit" class="btn btnMenu btn-dark" name="submit" value="leaderboards">
+            <input type="submit" class="btn btnMenu btn-dark" name="submit" value="Leaderboards">
         </form>
     </td>
 </tr>
@@ -29,8 +29,8 @@
 </tr>
 <tr>
     <td class="borderless">
-        <form method="post" action= "<?= site_url("Administrator/deleteLog")?>">
-            <input type="submit" class="btn btnMenu btn-dark" name="submit" value="Delete Log">
+        <form method="post" action= "<?= site_url("Administrator/showView/deleteAccount")?>">
+            <input type="submit" class="btn btnMenu btn-dark" name="submit" value="Delete Account">
         </form>
     </td>
 </tr>
@@ -43,7 +43,7 @@
 </tr>
 <tr>
     <td class="borderless">
-        <form method="post" action= "<?= site_url("Administrator/quit")?>">
+        <form method="post" action= "<?= site_url("")?>">
             <input type="submit" class="btn btnMenu btn-dark" name="submit" value="Quit">
         </form>
     </td>

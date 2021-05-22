@@ -8,7 +8,6 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
         <script src="http://localhost:8080/js/pickGenres.js"></script>
     </head>
-
     <body>
         <div class="container">
             <div class="row">
