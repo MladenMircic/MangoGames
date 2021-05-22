@@ -1,10 +1,8 @@
 <?php
 
-
 namespace App\Controllers;
 
-use App\Models\GenreModel;
-
+use App\Models\UserInfoModel;
 
 class User extends BaseController
 {
@@ -16,5 +14,12 @@ class User extends BaseController
 
     public function index() {
         $this->showView("userInterface", []);
+    }
+
+    public function selectGenreToPlay()
+    {
+        $userInfoModel = new UserInfoModel();
+        $userInfo = $userInfoModel->where('username', $this->session->get('username'))->findAll();
+        return ['userInfo' => $userInfo];
     }
 }

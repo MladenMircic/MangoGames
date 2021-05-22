@@ -2,16 +2,16 @@
     <table class="table registerForm">
         <tr>
             <td colspan="2" style="color: red; border-top: none">
-                <?php
-                if (!empty($errors['username']))
-                    echo $errors['username'];
-                else if (!empty($errors['password'])) {
-                    echo $errors['password'];
-                }
-                else if (!empty($errors['confirmPass'])) {
-                    echo $errors['confirmPass'];
-                }
-                ?>
+                    <?php
+                        if (!empty($errors['username']))
+                            echo $errors['username'];
+                        else if (!empty($errors['password'])) {
+                            echo $errors['password'];
+                        }
+                        else if (!empty($errors['confirmPass'])) {
+                            echo $errors['confirmPass'];
+                        }
+                    ?>
             </td>
         </tr>
         <tr>
@@ -40,7 +40,7 @@
         </tr>
         <tr>
             <td colspan="2" style="text-align: center">
-                <input class="btn btn-dark btnRegister" type="submit" name="submit" value="Register">
+                <input class="btn btn-dark btnRegister btnTransition" type="submit" name="submit" value="Register">
             </td>
         </tr>
     </table>

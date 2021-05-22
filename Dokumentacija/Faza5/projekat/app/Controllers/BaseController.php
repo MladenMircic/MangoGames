@@ -55,4 +55,11 @@ class BaseController extends Controller
 		//--------------------------------------------------------------------
 		$this->session = \Config\Services::session();
 	}
+
+	public function echoView($page, $additionalData = null)
+    {
+        if ($additionalData != null)
+            $data = $this->{$additionalData}();
+	    echo view("pages/$page", $data);
+    }
 }

@@ -31,7 +31,7 @@
         </tr>
         <tr>
             <td colspan="2" style="text-align: center">
-                <input type="submit" class=" btn btn-dark btnRegister" name="submit" value="Login">
+                <input type="submit" class="btn btn-dark btnTransition btnRegister" name="submit" value="Login">
             </td>
         </tr>
     </table>

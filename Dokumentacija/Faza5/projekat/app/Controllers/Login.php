@@ -39,6 +39,6 @@ class Login extends BaseController
         }
 
         $this->session->set("username", $this->request->getVar('username'));
-        return redirect()->to(site_url("User"));
+        return redirect()->to(base_url("User"));
     }
 }
