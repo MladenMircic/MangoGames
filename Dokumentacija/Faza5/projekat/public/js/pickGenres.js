@@ -2,10 +2,8 @@ $(document).ready(function(){
     let cnt=0;
     let isHovering=false;
 
-    $(".dropdown-toggle").click(function() {
+    $(".toMove").click(function() {
         if (isHovering == false) {
-
-
             if ($(this).hasClass("chosen") == false && $(this).hasClass("unchosen") == false && cnt<2) {
                 //this is chosen first time - both classes are false
                 cnt++;
@@ -26,38 +24,20 @@ $(document).ready(function(){
                $("#confirmGenres").prop("disabled", false);
            }
            else $("#confirmGenres").prop("disabled", true);
-
-
         }
-
-
-        });
-
+    });
 
     $("#confirmGenres").click(function (){
         let chosen=document.getElementsByClassName("chosen");
         $("#g1").attr("value", chosen[0].id);
         $("#g2").attr("value", chosen[1].id);
-
-
-
-
     });
 
-
-
-
-
-
-    $(".dropdown-toggle").hover(function(){
+    $(".toMove").hover(function(){
         if(!$(this).hasClass("chosen")) {
             isHovering = true;
             $(this).trigger('click');
             isHovering = false;
         }
-
-
     });
-
-
 });
