@@ -30,7 +30,6 @@
                 }
             }
             let plArr=pl.split("/");
-            alert(plArr[0]+ plArr[1] +plArr[2]);
 
             $.post("<?=base_url('Moderator/insertSong')?>",{
                 'name': name,
@@ -39,8 +38,6 @@
                 'difficulty': plArr[1],
                 'number': plArr[2],
                 'location': location
-            }, function(data){
-                alert(data);
             });
             $("#change").empty().append("<br><br><h3>Song inserted successfully</h3>");
 
