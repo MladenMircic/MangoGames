@@ -1,3 +1,4 @@
+
 <html>
     <head>
         <title>SongClicker</title>
@@ -7,18 +8,7 @@
         <script src= "https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.1/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
         <script src="http://localhost:8080/js/pickGenres.js"></script>
-        <script>
-            $("#dugme").click(function() {
-
-                $.post("userInterface.php", {
-                    g1 : chosen[0].id,
-                    g2 : chosen[1].id
-                }, function(data, status) {
-                    $(".center").html(data);
-                })
-
-            });
-        </script>
+        <script src="http://localhost:8080/js/Modifications.js"></script>
     </head>
     <body>
         <div class="container">

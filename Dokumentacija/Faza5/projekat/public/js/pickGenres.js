@@ -2,7 +2,7 @@ $(document).ready(function(){
     let cnt=0;
     let isHovering=false;
 
-    $(".dropdown-toggle").click(function() {
+    $(".toMove").click(function() {
         if (isHovering == false) {
 
 
@@ -49,7 +49,7 @@ $(document).ready(function(){
 
 
 
-    $(".dropdown-toggle").hover(function(){
+    $(".toMove").hover(function(){
         if(!$(this).hasClass("chosen")) {
             isHovering = true;
             $(this).trigger('click');
