@@ -3,6 +3,8 @@
 namespace App\Controllers;
 
 use App\Models\PlaylistModel;
+use App\Models\SongModel;
+
 
 class Moderator extends BaseController
 {
@@ -27,8 +29,8 @@ class Moderator extends BaseController
     }
 
     public function getPlaylists(){
-        $playlist=new PlaylistModel();
-        $playlists=$playlist->findAll();
+        $playlistModel=new PlaylistModel();
+        $playlists=$playlistModel->findAll();
         foreach ($playlists as $pl){
             $name=$pl->genre."/".$pl->difficulty."/".$pl->number.",";
             echo ($name);
@@ -36,7 +38,22 @@ class Moderator extends BaseController
         }
     }
     public function insertSong(){
-    echo "succ1";
+
+        $songModel=new SongModel();
+        $playlistModel=new PlaylistModel();
+        $multipleWhere = ['genre' => $this->request->getVar('genre'), 'difficulty' => $this->request->getVar('difficulty'), 'number'=>$this->request->getVar('number')];
+
+        $pl= $playlistModel->where($multipleWhere)->findAll();
+//
+        $songModel->insert([
+            "idS"=>   "1",
+            "name" => $this->request->getVar('name'),
+            "artist"=>  $this->request->getVar('performer'),
+            "path"=> $this->request->getVar('location'),
+            "idP"=> $pl[0]->idP
+        ]);
+
+
     }
 
 

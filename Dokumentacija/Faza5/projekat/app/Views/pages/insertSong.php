@@ -1,23 +1,56 @@
 <script>
     $("#insertSong").click(function(){
-        let name=$("#name").value;
-        let performer=$("#performer").value;
-        let playlists = document.getElementsByClassName("opt");
-        let pl="";
-        for(let i=0;i<playlists.length;i++) {
-            if (playlists[i].selected) {
-                pl = playlists[i].id;
-                break;
-            }
+        $("#error").empty();
+        let name=$("#name").val();
+        let performer=$("#performer").val();
+        let location=$("#location").val();
+        if(name==""){
+            $("#error").append("You must enter name");
         }
-        let plArr=pl.split("/");
-        alert("succ");
-        $("#change").get("<?=site_url('Moderator/insertSong/')?>", function(data){
-            alert(data);
-        });
+        else if(performer==""){
+            $("#error").append("You must enter performer");
+        }
+        else if($("#genreDefault").prop("selected")==true){
+            $("#error").append("You must select playlist");
+        }
+        else if(location==""){
+            $("#error").append("You must enter location");
+        }
+        else if(/^[a-zA-Z]+.[a-z]{3,4}$/.test(location)==false){
+            $("#error").append("Invalid location format");
+        }
+        else{
+
+            let playlists = document.getElementsByClassName("opt");
+            let pl="";
+            for(let i=0;i<playlists.length;i++) {
+                if (playlists[i].selected) {
+                    pl = playlists[i].id;
+                    break;
+                }
+            }
+            let plArr=pl.split("/");
+            alert(plArr[0]+ plArr[1] +plArr[2]);
+
+            $.post("<?=base_url('Moderator/insertSong')?>",{
+                'name': name,
+                'performer': performer,
+                'genre': plArr[0],
+                'difficulty': plArr[1],
+                'number': plArr[2],
+                'location': location
+            }, function(data){
+                alert(data);
+            });
+            $("#change").empty().append("<br><br><h3>Song inserted successfully</h3>");
+
+        }
+
     });
 </script>
+<div id="error" class="red">
 
+</div>
 <table class="table " >
     <tr>
         <td>Name:</td>
@@ -31,7 +64,7 @@
         <td>Playlist:</td>
         <td>
             <select id="playlists" class="form-select  form-select-lg mb-3" aria-label=".form-select-lg example">
-                <option selected>Genre</option>
+                <option id="genreDefault" selected>Genre</option>
             </select>
         </td>
     </tr>
