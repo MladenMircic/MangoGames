@@ -4,6 +4,7 @@
 namespace App\Controllers;
 
 
+use App\Models\MistakeLogModel;
 use App\Models\UserInfoModel;
 use App\Models\UserModel;
 
@@ -18,8 +19,19 @@ class Administrator extends BaseController
         $this->showView("adminMenu", []);
     }
 
-    public function leaderboards(){
-        echo view("pages/temp.html");
+
+    public function getMistakes()
+    {
+        $mistakeModel = new MistakeLogModel();
+        $mistakes = $mistakeModel->findAll();
+        foreach ($mistakes as $mistake){
+            $mistakeString = $mistake->idM . '/' . $mistake->idS . ',';
+            echo $mistakeString;
+        }
+    }
+
+    public function echoView($page){
+        echo view("pages/$page");
     }
 
     public function deleteAccount(){

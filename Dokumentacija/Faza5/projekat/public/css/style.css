@@ -142,3 +142,13 @@ div.userWelcome{
     padding-bottom: 2%;
 }
 
+div.scroll {
+    width : 400px;
+    height : 200px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    text-align: center;
+    border: solid black 3px;
+    background-color: gray;
+}
+
