@@ -27,15 +27,14 @@ class Register extends BaseController
             'password' => 'trim|required|min_length[5]',
             'confirmPass' => 'trim|required|matches[password]'
         ])) {
-            return $this->showView('register',['errors' => $this->validator->getErrors()]);
+            return $this->showView('register', ['errors' => $this->validator->getErrors()]);
         }
 
         $userModel = new UserModel();
         $user = $userModel->find($this->request->getVar('username'));
 
-        if ($user != null)
-        {
-            return $this->showView('register',['errors' => ['username' => 'User already exists.']]);
+        if ($user != null) {
+            return $this->showView('register', ['errors' => ['username' => 'User already exists.']]);
         }
 
         $userModel->insert([
