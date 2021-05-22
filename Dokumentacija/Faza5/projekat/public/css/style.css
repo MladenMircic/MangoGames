@@ -63,7 +63,7 @@ img.logo {
     margin-top: -20px;
 }
 
-table.registerForm, table.loginForm, table.userInterfaceForm {
+table.registerForm, table.loginForm, table.userInterfaceForm, table.tableQuit {
     font-size: 15px;
     font-weight: bold;
     text-align: center;
@@ -143,7 +143,7 @@ table.userInterfaceForm td
     border: none;
 }
 
-table.userInterfaceForm input{
+table.userInterfaceForm input, table.tableQuit input{
     width: 50%;
 }
 

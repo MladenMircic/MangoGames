@@ -65,8 +65,6 @@ class Register extends BaseController
             "genre"=>  $this->request->getVar('g2')
         ]);
         return redirect()->to(site_url("User"));
-
-        //echo ($this->request->getVar('g1'));
     }
 
 
