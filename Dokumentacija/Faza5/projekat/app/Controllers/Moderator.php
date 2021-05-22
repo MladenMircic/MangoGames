@@ -44,16 +44,11 @@ class Moderator extends BaseController
         $multipleWhere = ['genre' => $this->request->getVar('genre'), 'difficulty' => $this->request->getVar('difficulty'), 'number'=>$this->request->getVar('number')];
 
         $pl= $playlistModel->where($multipleWhere)->findAll();
-//
         $songModel->insert([
             "name" => $this->request->getVar('name'),
             "artist"=>  $this->request->getVar('performer'),
             "path"=> $this->request->getVar('location'),
             "idP"=> $pl[0]->idP
         ]);
-
-
     }
-
-
 }
