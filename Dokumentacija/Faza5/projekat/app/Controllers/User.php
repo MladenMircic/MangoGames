@@ -9,7 +9,7 @@ class User extends BaseController
     public function showView($page, $welcome, $data = []){
         $data['middlePart'] = view("pages/$page", $data);
         if($welcome == "true")
-            $data['welcomeMessage'] = "Welcome,<br> {$this->session->get('username')}";
+            $data['welcomeMessage'] = "Welcome,<br> <b>{$this->session->get('username')}</b>";
         echo view("patterns/default_page_pattern", $data);
     }
 
@@ -18,13 +18,18 @@ class User extends BaseController
       $this->showView('userInterface', "true", []);
     }
 
+    public function goToTraining() {
+        $this->session->set("chosenGenre", $this->request->getVar("chosenGenre"));
+        return redirect()->to(base_url("Gameplay"));
+    }
+
     public function logout()
     {
         $this->session->destroy();
         return redirect()->to(site_url('Login'));
     }
 
-    public function selectGenreToPlay()
+    public function selectAvailableGenresForUser()
     {
         $userInfoModel = new UserInfoModel();
         $userInfo = $userInfoModel->where('username', $this->session->get('username'))->findAll();

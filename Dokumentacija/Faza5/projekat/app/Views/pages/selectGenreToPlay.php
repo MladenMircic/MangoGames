@@ -1,6 +1,5 @@
 <script>
     $(document).ready(function () {
-        let isSelected = false;
         let selected = null;
 
        $(".genreChoices img").on({
@@ -8,9 +7,9 @@
                if (selected == null) {
                    $("#confirmGenre").prop("disabled", false);
                    selected = $(this).attr("id");
-                   selected.addClass("selectedGenre");
+                   $(this).addClass("selectedGenre");
                }
-               else if (selected == $(this).attr("id")) {
+               else if (selected === $(this).attr("id")) {
                    $("#confirmGenre").prop("disabled", true);
                    $(this).removeClass("selectedGenre");
                    selected = null;
@@ -25,6 +24,18 @@
                    $(this).removeClass("selectedGenre");
            }
        });
+
+        $("#confirmGenre").click(function () {
+            if ($(this).parent().hasClass("center")) {
+                let myself = $(this);
+                $.get("<?= base_url("User/echoView/waitForPlayer") ?>", function (data) {
+                    $("#insertable").html(data);
+                    myself.remove();
+                });
+            }
+            if ($(this).parent().attr("id") === "confirmGenreForm")
+                $(this).parent().children("#chosenGenre").attr("value", selected);
+        });
     });
 </script>
 
@@ -36,13 +47,12 @@
     foreach ($userInfo as $oneInfo) {
         $path = base_url("images/{$oneInfo->genre}.png");
         echo  "
-           <picture>
-                <img src='{$path}' id='{$oneInfo->genre}'>
-           </picture>
-";
+               <picture>
+                    <img src='{$path}' id='{$oneInfo->genre}'>
+               </picture>
+                ";
     }
     ?>
 </div>
 <br>
 <br>
-<input type="submit" id="confirmGenre" class="btn btn-dark" value="Choose" disabled>

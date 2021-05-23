@@ -24,10 +24,6 @@ class Moderator extends BaseController
         $this->showView("addPlaylist", []);
     }
 
-    public function echoView($name){
-        echo view("pages/$name");
-    }
-
     public function getPlaylists(){
         $playlistModel=new PlaylistModel();
         $playlists=$playlistModel->findAll();
@@ -37,6 +33,7 @@ class Moderator extends BaseController
 
         }
     }
+
     public function insertSong(){
 
         $songModel=new SongModel();
