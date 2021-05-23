@@ -45,7 +45,7 @@
             $("#error").empty();
             let name=$("#name").val();
             let performer=$("#performer").val();
-            // let location=$("#location").val();
+           
             if(name==""){
                 $("#error").append("You must enter name");
             }
@@ -55,12 +55,6 @@
             else if($("#genreDefault").prop("selected")==true){
                 $("#error").append("You must select playlist");
             }
-           /* else if(location==""){
-                $("#error").append("You must enter location");
-            }
-            else if(/^[a-zA-Z]+.[a-z]{3,4}$/.test(location)==false){
-                $("#error").append("Invalid location format");
-            }*/
             else{
 
                 let playlists = document.getElementsByClassName("opt");
