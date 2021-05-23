@@ -2,7 +2,7 @@
     $(document).ready(function (){
         $("#mistakeLog").click(function(){
             $.get("<?= base_url("Administrator/echoView/mistakeLog") ?>", function (data) {
-                $("#insertable").html(data);
+                $(".center").html(data);
                 $.get("<?= base_url("Administrator/getMistakes") ?>", function (data1){
 
                     let mistakes = [];
@@ -25,10 +25,14 @@
                 });
             });
         });
+        $("#registerMod").click(function () {
+            $.post("<?= base_url("Administrator/echoView/registerModerator") ?>", function (data) {
+                $(".center").html(data);
+            });
+        });
     });
 </script>
 
-<div id="insertable">
     <table class="table tableAdminMenu">
         <tr >
             <td class="borderless">
@@ -59,7 +63,7 @@
         </tr>
         <tr>
             <td class="borderless">
-                <input type="submit" class="btn btnMenu btn-dark" name="submit" value="Register Moderator">
+                <input type="submit" class="btn btnMenu btn-dark" name="submit" value="Register Moderator" id = "registerMod">
             </td>
         </tr>
         <tr>
@@ -68,4 +72,4 @@
             </td>
         </tr>
     </table>
-</div>
+
