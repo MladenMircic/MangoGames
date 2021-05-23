@@ -22,7 +22,6 @@
 
                         $(".mistakeLogTable").append(row);
                     }
-
                 });
             });
         });
@@ -33,16 +32,12 @@
     <table class="table tableAdminMenu">
         <tr >
             <td class="borderless">
-                <form method="post" action= "<?= site_url("Administrator/Leaderboards")?>">
-                    <input type="submit" class="btn btnMenu btn-dark" name="submit" value="Leaderboards">
-                </form>
+                <input type="submit" class="btn btnMenu btn-dark" name="submit" value="Leaderboards">
             </td>
         </tr>
         <tr>
             <td class="borderless">
-                <form method="post" action= "<?= site_url("Administrator/update")?>">
-                    <input type="submit" class="btn btnMenu btn-dark" name="submit" value="Update">
-                </form>
+                <input type="submit" class="btn btnMenu btn-dark" name="submit" value="Update">
             </td>
         </tr>
         <tr>
@@ -52,9 +47,7 @@
         </tr>
         <tr>
             <td class="borderless">
-                <form method="post" action= "<?= site_url("Administrator/changeLog")?>">
-                    <input type="submit" class="btn btnMenu btn-dark" name="submit" value="Change Log">
-                </form>
+                <input type="submit" class="btn btnMenu btn-dark" name="submit" value="Change Log">
             </td>
         </tr>
         <tr>
@@ -66,16 +59,12 @@
         </tr>
         <tr>
             <td class="borderless">
-                <form method="post" action= "<?= site_url("Administrator/registerModerator")?>">
-                    <input type="submit" class="btn btnMenu btn-dark" name="submit" value="Register Moderator">
-                </form>
+                <input type="submit" class="btn btnMenu btn-dark" name="submit" value="Register Moderator">
             </td>
         </tr>
         <tr>
             <td class="borderless">
-                <form method="post" action= "<?= site_url("")?>">
-                    <input type="submit" class="btn btnMenu btn-dark" name="submit" value="Quit">
-                </form>
+                <input type="submit" class="btn btnMenu btn-dark" name="submit" value="Quit">
             </td>
         </tr>
     </table>

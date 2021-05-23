@@ -5,6 +5,7 @@ namespace App\Controllers;
 
 
 use App\Models\MistakeLogModel;
+use App\Models\SongModel;
 use App\Models\UserInfoModel;
 use App\Models\UserModel;
 
@@ -30,8 +31,13 @@ class Administrator extends BaseController
         }
     }
 
-    public function echoView($page){
-        echo view("pages/$page");
+    public function getSongInfo()
+    {
+        $songModel = new SongModel();
+        $id = $this->request->getVar("idS");
+        $song = $songModel->find($id);
+        $songString = $song->idS . "," . $song->name . "," . $song->artist;
+        echo $songString;
     }
 
     public function deleteAccount(){
