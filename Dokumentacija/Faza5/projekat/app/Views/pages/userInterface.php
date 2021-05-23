@@ -5,6 +5,12 @@
                 $("#insertable").html(data);
             });
         });
+
+        $("#leaderboards").click(function (){
+            $.post("<?=base_url('Moderator/echoView/leaderboards')?>", function(data){
+                $(".center").html(data);
+            });
+        });
     });
 </script>
 
@@ -31,9 +37,9 @@
         </tr>
         <tr>
             <td>
-                <form method="post" action="#">
-                    <input class="btn btn-dark" type="submit" value="Leaderboards">
-                </form>
+
+                    <input class="btn btn-dark" type="submit" id="leaderboards" value="Leaderboards">
+                
             </td>
         </tr>
         <tr>
