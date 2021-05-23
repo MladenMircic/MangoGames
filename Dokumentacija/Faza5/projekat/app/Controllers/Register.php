@@ -49,6 +49,8 @@ class Register extends BaseController
     public function pickGenres(){
         $genreModel=new GenreModel();
         $data['genres'] =$genreModel->findAll();
+        foreach ($data['genres'] as $genre)
+            $genre->name = ucfirst($genre->name);
         $this->showView('pickGenres',$data);
 
     }
@@ -57,11 +59,11 @@ class Register extends BaseController
         $userInfo=new UserInfoModel();
         $userInfo->insert([
             "username" => $this->session->get("username"),
-            "genre"=> $this->request->getVar('g1')
+            "genre" => $this->request->getVar('g1')
         ]);
         $userInfo->insert([
             "username" => $this->session->get("username"),
-            "genre"=>  $this->request->getVar('g2')
+            "genre" =>  $this->request->getVar('g2')
         ]);
         return redirect()->to(base_url("User"));
     }

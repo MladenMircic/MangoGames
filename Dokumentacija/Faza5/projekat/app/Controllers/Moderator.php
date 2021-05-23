@@ -24,9 +24,6 @@ class Moderator extends BaseController
     public function insertDelete(){
         $this->showView("insertDelete", []);
     }
-
-
-
     public function getPlaylists(){
         $playlistModel=new PlaylistModel();
         $playlists=$playlistModel->findAll();
@@ -36,8 +33,7 @@ class Moderator extends BaseController
 
         }
     }
-
-
+  
     public function getGenres(){
         $genreModel=new GenreModel();
         $genres=$genreModel->findAll();
@@ -58,8 +54,7 @@ class Moderator extends BaseController
             echo ($name);
         }
 
-}
-
+    }
     public function insertSong(){
 
         $songModel=new SongModel();
