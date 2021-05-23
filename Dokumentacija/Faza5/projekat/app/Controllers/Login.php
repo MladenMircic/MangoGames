@@ -23,7 +23,7 @@ class Login extends BaseController
             'username' => 'trim|required',
             'password' => 'trim|required'
         ])){
-            return $this->showView(['errors' => $this->validator->getErrors()]);
+            return $this->showView('login', ['errors' => $this->validator->getErrors()]);
         }
 
         $userModel = new UserModel();
@@ -31,15 +31,15 @@ class Login extends BaseController
 
         if($user == null)
         {
-            return $this->showView(['errors' => ['username' => "Wrong username"]]);
+            return $this->showView('login', ['errors' => ['username' => "Wrong username"]]);
         }
         if($user->password != $this->request->getVar('password'))
         {
-            return $this->showView(['errors' => ['password' => "Wrong password"]]);
+            return $this->showView('login', ['errors' => ['password' => "Wrong password"]]);
         }
 
         if($user->type == "Administrator"){
-            return redirect()->to(site_url("Administratora"));
+            return redirect()->to(site_url("Administrator"));
         }
         $this->session->set("username", $this->request->getVar('username'));
         return redirect()->to(base_url("User"));

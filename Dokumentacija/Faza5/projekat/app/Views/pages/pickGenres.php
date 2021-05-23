@@ -1,20 +1,17 @@
-
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="popover"]').popover();
+    });
+</script>
 <br>
 <h4>Choose two genres</h4>
-
 <table class="genres-table table">
     <tr>
         <?php
             foreach ($genres as $genre) {
                 $path = base_url("images/{$genre->name}.png");
                 echo  "<td class='borderless'>
-            <div class='dropdown'>
-                <img src='{$path}' id='{$genre->name}' class=' dropdown-toggle' data-toggle='dropdown'>
-    
-                <div class='dropdown-menu ' >
-                    <div class='dropdown-item'>{$genre->name}</div>
-                </div>
-            </div>
+                    <img src='{$path}' id='{$genre->name}' class='toMove' data-container='body' data-toggle='popover' data-trigger='hover' data-placement='bottom' data-content='{$genre->name}'>
                 </td>";
             }
         ?>

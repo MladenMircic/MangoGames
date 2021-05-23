@@ -8,7 +8,6 @@
         <script src= "https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.1/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
         <script src="<?= base_url('js/pickGenres.js') ?>"></script>
-        <script src="<?= base_url('js/Modifications.js') ?>"></script>
     </head>
     <body>
         <div class="container">

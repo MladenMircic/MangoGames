@@ -3,8 +3,9 @@
 
 namespace App\Models;
 
+use CodeIgniter\Model;
 
-class PlaylistModel extends \CodeIgniter\Model
+class PlaylistModel extends Model
 {
     protected $table      = 'playlist';
     protected $primaryKey = 'idP';

@@ -5,7 +5,7 @@ namespace App\Models;
 use CodeIgniter\Model;
 
 
-class UserInfoModel extends \CodeIgniter\Model
+class UserInfoModel extends Model
 {
     protected $table      = 'user_info';
     protected $primaryKey = 'id';
