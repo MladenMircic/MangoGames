@@ -1,6 +1,5 @@
 <script>
     $(document).ready(function(){
-        alert("USAO");
         $("#confirmOperation").click(function () {
             let ops = document.getElementsByClassName("operation");
             let types = document.getElementsByClassName("type");

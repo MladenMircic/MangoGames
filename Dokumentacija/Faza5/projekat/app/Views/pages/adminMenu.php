@@ -36,43 +36,49 @@
                 $(".center").html(data);
             })
         });
+
+        $("#quit").click(function () {
+            $.post("<?= base_url("Moderator/echoView/quit") ?>", function (data) {
+                $(".center").html(data);
+            });
+        });
     });
 </script>
 
     <table class="table tableAdminMenu">
         <tr >
             <td class="borderless">
-                <input type="submit" class="btn btnMenu btn-dark" name="submit" value="Leaderboards">
+                <input type="submit" class="btn btnMenu btn-dark btnTransition" name="submit" value="Leaderboards">
             </td>
         </tr>
         <tr>
             <td class="borderless">
-                <input type="submit" class="btn btnMenu btn-dark" name="submit" value="Update">
+                <input type="submit" class="btn btnMenu btn-dark btnTransition" name="submit" value="Update">
             </td>
         </tr>
         <tr>
             <td class="borderless">
-                <input type="submit" class="btn btnMenu btn-dark" name="submit" value="Mistake Log" id="mistakeLog">
+                <input type="submit" class="btn btnMenu btn-dark btnTransition" name="submit" value="Mistake Log" id="mistakeLog">
             </td>
         </tr>
         <tr>
             <td class="borderless">
-                <input type="submit" class="btn btnMenu btn-dark" name="submit" value="Change Log">
+                <input type="submit" class="btn btnMenu btn-dark btnTransition" name="submit" value="Change Log">
             </td>
         </tr>
         <tr>
             <td class="borderless">
-                <input type="submit" class="btn btnMenu btn-dark" name="submit" value="Delete Account" id="delete">
+                <input type="submit" class="btn btnMenu btn-dark btnTransition" name="submit" value="Delete Account" id="delete">
             </td>
         </tr>
         <tr>
             <td class="borderless">
-                <input type="submit" class="btn btnMenu btn-dark" name="submit" value="Register Moderator" id = "registerMod">
+                <input type="submit" class="btn btnMenu btn-dark btnTransition" name="submit" value="Register Moderator" id = "registerMod">
             </td>
         </tr>
         <tr>
             <td class="borderless">
-                <input type="submit" class="btn btnMenu btn-dark" name="submit" value="Quit" id="quit">
+                <input type="submit" class="btn btnMenu btn-dark btnTransition" name="submit" value="Quit" id="quit">
             </td>
         </tr>
     </table>

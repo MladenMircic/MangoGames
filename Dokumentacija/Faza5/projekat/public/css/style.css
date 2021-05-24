@@ -91,7 +91,7 @@ input.btnTransition {
     transition: width 500ms;
 }
 
-input.btnRegister:hover {
+input.btnTransition:hover{
     width: 80%;
 }
 

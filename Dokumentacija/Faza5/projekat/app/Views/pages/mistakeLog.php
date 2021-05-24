@@ -1,9 +1,17 @@
 <script>
     $(document).ready(function (){
         $("#back").click(function(){
-            $.get("<?= base_url("Administrator/echoView/adminMenu") ?>", function (data2) {
-                $(".center").html(data2);
-            });
+            let user = "<?= session()->get('type'); ?>";
+            if(user == "mod"){
+                $.post("<?= base_url("Moderator/echoView/modMenu") ?>", function (data) {
+                    $(".center").html(data);
+                });
+            }
+            else if(user == "admin"){
+                $.post("<?= base_url("Administrator/echoView/adminMenu") ?>", function (data) {
+                    $(".center").html(data);
+                });
+            }
         });
 
         $("#info").click(function () {

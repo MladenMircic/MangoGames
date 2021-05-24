@@ -31,28 +31,34 @@
                 });
             });
         });
+
+        $("#quit").click(function () {
+            $.post("<?= base_url("Moderator/echoView/quit") ?>", function (data) {
+                $(".center").html(data);
+            });
+        });
     });
 </script>
 
 <table class="table modMenu" style="margin-top: 20px; text-align: center">
     <tr>
         <td>
-            <input class="btn btn-dark" type="submit" value="Leaderboards">
+            <input class="btn btn-dark btnTransition" type="submit" value="Leaderboards">
         </td>
     </tr>
     <tr>
         <td>
-            <input class="btn btn-dark" type="submit" id="update" value="Update">
+            <input class="btn btn-dark btnTransition" type="submit" id="update" value="Update">
         </td>
     </tr>
     <tr>
         <td>
-            <input class="btn btn-dark" type="submit" value="Mistakes Log" id="mistakeLog">
+            <input class="btn btn-dark btnTransition" type="submit" value="Mistakes Log" id="mistakeLog">
         </td>
     </tr>
     <tr>
         <td>
-            <input class="btn btn-dark" type="submit" value="Quit" id="quit">
+            <input class="btn btn-dark btnTransition" type="submit" value="Quit" id="quit">
         </td>
     </tr>
 </table>
