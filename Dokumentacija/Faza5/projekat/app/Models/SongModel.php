@@ -11,6 +11,7 @@ class SongModel extends Model
     protected $primaryKey = 'idS';
     protected $returnType = 'object';
     protected $useAutoIncrement = true;
+    protected $useSoftDeletes = false;
 
     protected $allowedFields = ['idS','name', 'artist', 'path', 'idP'];
 }

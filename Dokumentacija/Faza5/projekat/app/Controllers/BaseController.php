@@ -62,7 +62,6 @@ class BaseController extends Controller
             $data = $this->{$additionalData}();
         if(isset($data))
 	        echo view("pages/$page", $data);
-        else
-            echo view("pages/$page");
+        else echo view("pages/$page");
     }
 }
