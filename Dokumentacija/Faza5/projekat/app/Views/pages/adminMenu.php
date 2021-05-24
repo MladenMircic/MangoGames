@@ -56,9 +56,7 @@
         </tr>
         <tr>
             <td class="borderless">
-                <form method="post" action= "<?= site_url("Administrator/showView/deleteAccount")?>">
-                    <input type="submit" class="btn btnMenu btn-dark" name="submit" value="Delete Account">
-                </form>
+                <input type="submit" class="btn btnMenu btn-dark" name="submit" value="Delete Account">
             </td>
         </tr>
         <tr>
