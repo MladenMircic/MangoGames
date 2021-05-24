@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\UserModel;
 use CodeIgniter\Controller;
 use CodeIgniter\HTTP\CLIRequest;
 use CodeIgniter\HTTP\IncomingRequest;
@@ -63,5 +64,11 @@ class BaseController extends Controller
         if(isset($data))
 	        echo view("pages/$page", $data);
         else echo view("pages/$page");
+    }
+
+    public function logout()
+    {
+        $this->session->destroy();
+        return redirect()->to(base_url("Login"));
     }
 }
