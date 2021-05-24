@@ -53,10 +53,10 @@ class Administrator extends BaseController
             }
 
             $users->delete($toDelete->username);
-            $this->showView("adminMenu", []);
+            echo "";
         }
         else{
-            $this->showView("deleteAccount", ['errors' => ['accountToDelete' => 'Invalid username']]);
+            echo "Invalid username";
         }
     }
 
