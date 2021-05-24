@@ -22,6 +22,7 @@
                 $(".center").html(data);
             });
         });
+
     });
 </script>
 
@@ -34,9 +35,7 @@
         </tr>
         <tr>
             <td>
-                <form method="post" action="#">
-                    <input class="btn btn-dark" type="submit" value="Genres & playlists">
-                </form>
+                <input class="btn btn-dark" type="submit" value="Genres & playlists">
             </td>
         </tr>
         <tr>
@@ -46,16 +45,12 @@
         </tr>
         <tr>
             <td>
-
-                    <input class="btn btn-dark" type="submit" id="leaderboards" value="Leaderboards">
-                
+                <input class="btn btn-dark" type="submit" id="leaderboards" value="Leaderboards">
             </td>
         </tr>
         <tr>
             <td>
-                <form method="post" action="#">
-                    <input class="btn btn-dark" type="submit" value="Quit">
-                </form>
+                <input class="btn btn-dark" type="submit" value="Quit" id="quit">
             </td>
         </tr>
     </table>

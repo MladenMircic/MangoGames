@@ -72,7 +72,7 @@
         </tr>
         <tr>
             <td class="borderless">
-                <input type="submit" class="btn btnMenu btn-dark" name="submit" value="Quit">
+                <input type="submit" class="btn btnMenu btn-dark" name="submit" value="Quit" id="quit">
             </td>
         </tr>
     </table>

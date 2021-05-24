@@ -25,7 +25,7 @@
         });
     });
 </script>
-<table class="table" style="text-align: center;">
+<table class="table deleteTable" style="text-align: center;">
     <tr id="error">
 
     </tr>
@@ -42,10 +42,10 @@
     </tr>
     <tr>
         <td class="borderless">
-            <input class="btn btn-dark" type="button" id="deleteAcc" value="Delete">
+            <input class="btn btn-dark" type="button" id="deleteAcc" value="Delete" style="width: 50%">
         </td>
         <td class="borderless">
-            <input class="btn btn-dark" type="button" id="goBack" value="Finish">
+            <input class="btn btn-dark" type="button" id="goBack" value="Finish" style="width: 50%">
         </td>
     </tr>
 </table>

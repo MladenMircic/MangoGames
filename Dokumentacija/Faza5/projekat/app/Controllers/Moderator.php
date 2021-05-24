@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\GenreModel;
 use App\Models\PlaylistModel;
 use App\Models\SongModel;
+use App\Models\MistakeLogModel;
 
 
 class Moderator extends BaseController
@@ -55,6 +56,17 @@ class Moderator extends BaseController
         }
 
     }
+
+    public function getMistakes()
+    {
+        $mistakeModel = new MistakeLogModel();
+        $mistakes = $mistakeModel->findAll();
+        foreach ($mistakes as $mistake){
+            $mistakeString = $mistake->idM . '/' . $mistake->idS . ',';
+            echo $mistakeString;
+        }
+    }
+
     public function insertSong(){
 
         $songModel=new SongModel();
