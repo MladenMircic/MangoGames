@@ -23,6 +23,11 @@
             });
         });
 
+        $("#quit").click(function () {
+            $.post("<?= base_url("Moderator/echoView/quit") ?>", function (data) {
+                $(".center").html(data);
+            });
+        });
     });
 </script>
 
@@ -30,27 +35,27 @@
     <table class="table userInterfaceForm">
         <tr>
             <td>
-                <input class="btn btn-dark" type="button" value="Search for opponents" id="selectGenre">
+                <input class="btn btn-dark btnTransition" type="button" value="Search for opponents" id="selectGenre">
             </td>
         </tr>
         <tr>
             <td>
-                <input class="btn btn-dark" type="submit" value="Genres & playlists">
+                <input class="btn btn-dark btnTransition" type="submit" value="Genres & playlists">
             </td>
         </tr>
         <tr>
             <td>
-                <input class="btn btn-dark" type="submit" value="Training" id="training">
+                <input class="btn btn-dark btnTransition" type="submit" value="Training" id="training">
             </td>
         </tr>
         <tr>
             <td>
-                <input class="btn btn-dark" type="submit" id="leaderboards" value="Leaderboards">
+                <input class="btn btn-dark btnTransition" type="submit" id="leaderboards" value="Leaderboards">
             </td>
         </tr>
         <tr>
             <td>
-                <input class="btn btn-dark" type="submit" value="Quit" id="quit">
+                <input class="btn btn-dark btnTransition" type="submit" value="Quit" id="quit">
             </td>
         </tr>
     </table>

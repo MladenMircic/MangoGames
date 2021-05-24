@@ -8,15 +8,6 @@
         <script src= "https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.1/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
         <script src="<?= base_url('js/pickGenres.js') ?>"></script>
-        <script>
-            $(document).ready(function () {
-                $("#quit").click(function () {
-                    $.post("<?= base_url("Moderator/echoView/quit") ?>", function (data) {
-                        $(".center").html(data);
-                    });
-                });
-            });
-        </script>
     </head>
     <body>
         <div class="container">
