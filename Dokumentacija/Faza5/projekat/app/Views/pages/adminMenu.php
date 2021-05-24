@@ -30,6 +30,12 @@
                 $(".center").html(data);
             });
         });
+
+        $("#delete").click(function () {
+            $.post("<?= base_url("Administrator/echoView/deleteAccount") ?>", function (data) {
+                $(".center").html(data);
+            })
+        });
     });
 </script>
 
@@ -56,7 +62,7 @@
         </tr>
         <tr>
             <td class="borderless">
-                <input type="submit" class="btn btnMenu btn-dark" name="submit" value="Delete Account">
+                <input type="submit" class="btn btnMenu btn-dark" name="submit" value="Delete Account" id="delete">
             </td>
         </tr>
         <tr>
