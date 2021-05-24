@@ -32,17 +32,25 @@
             if (operation == "insert" && type == "song") {
                 $("#change").load("<?=site_url('Moderator/echoView/insertSong')?>");
             }
-            if((operation=="delete" && type=="song")){
+            else if((operation=="delete" && type=="song")){
                 $("#change").load("<?=site_url('Moderator/echoView/deleteSong')?>");
             }
-            if((operation=="insert" && type=="playlist")){
+            else if((operation=="insert" && type=="playlist")){
                 $("#change").load("<?=site_url('Moderator/echoView/insertPlaylist')?>");
             }
-            if((operation=="delete" && type=="playlist")){
+            else if((operation=="delete" && type=="playlist")){
                 $("#change").load("<?=site_url('Moderator/echoView/deletePlaylist')?>");
             }
-
+            else {
+                $("#change").empty().append("<br><br><h4>You must choose operation and type </h4>");
+            }
         }
+
+        $("#menu").click(function(){
+            $.post("<?=base_url('Moderator/echoView/modMenu')?>", function(data){
+                $(".center").html(data);
+            });
+        });
 
     });
 
