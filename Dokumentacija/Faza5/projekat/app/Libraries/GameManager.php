@@ -10,6 +10,8 @@ class GameManager implements MessageComponentInterface {
     protected $users;
     protected $inGame;
 
+    protected $first = false;
+
     protected $search;
 
     public function __construct() {
@@ -74,6 +76,10 @@ class GameManager implements MessageComponentInterface {
 
     public function onOpen(ConnectionInterface $conn) {
         // Store the new connection to send messages to later
+        if ($this->first == false) {
+            $this->first = true;
+            $this->match();
+        }
         $this->clients->attach($conn);
         $querystring = $conn->httpRequest->getUri()->getQuery();
         parse_str($querystring,$queryarray);
