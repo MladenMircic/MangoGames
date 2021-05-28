@@ -3,11 +3,15 @@
     let currentGenreImage = 9;
     let guessed = false;
     let songToBePlayed;
+    let tokensAcquired = 0;
+    let usedSongs = [];
+    let logo;
 
     function getSongsFromDatabase() {
         $.get("<?= base_url('Gameplay/pickSongs/true'); ?>", function (data) {
             let songData = JSON.parse(data);
             songToBePlayed = songData.songToBePlayed;
+            usedSongs.push(songToBePlayed.artist + " - " + songToBePlayed.name);
             let options = $(".userInterfaceForm").find(".guess");
             for (let i = 0; i < 4; i++) {
                 options[i] = $(options[i]);
@@ -60,12 +64,13 @@
                     setTimeout(function () {
                         let vol = 1;
                         let fadeOutInterval = setInterval(function () {
-                            if (vol > 0) {
+                            if (vol > 0.1) {
                                 vol -= 0.1;
                                 audio.volume = vol.toFixed(2);
                             } else
                                 clearInterval(fadeOutInterval);
                         }, 200);
+
                         if (guessed === false)
                             colorButtons();
                         setTimeout(function () {
@@ -77,8 +82,22 @@
                                     $(".guess").toggle(1000);
                                     getSongsFromDatabase();
                                 }
+                                else {
+                                    logo.toggleClass("logo logoForGame");
+                                    $(".header-content")
+                                                    .empty()
+                                                    .append(logo)
+                                                    .css("justify-content", "center");
+                                    localStorage.setItem("usedSongs", usedSongs);
+                                    $.post("<?= base_url('Gameplay/saveUserTokens') ?>", {
+                                        tokens: tokensAcquired
+                                    });
+                                }
+
                             }, 2000);
+
                         }, 2000);
+
                     }, 5000, audio)
                 }
             }
@@ -87,10 +106,25 @@
     }
 
     $(document).ready(function () {
+        logo = $($(".header-content").children(".logo")).toggleClass("logo logoForGame");
+        $(".userWelcome").append(logo);
+
+
+        let tokenSection = $("<div></div>").addClass("token-section")
+                                    .append($("<div></div>").append("0").attr("id", "tokens"))
+                                    .append($("<img>").attr("src", "<?= base_url('images/token.png') ?>").css({"width": "15%", "height": "25%"}));
+        $(".header-content")
+                    .prepend($("<div></div>").append("<?= session()->get('username') ?>").css("margin-right", "30px"))
+                    .append(tokenSection)
+                    .css({"font-size": "20px", "font-weight": "bold", "justify-content": "space-between"});
+
         getSongsFromDatabase();
 
-
         $(".guess").click(function () {
+            if ($(this).val() === songToBePlayed.name) {
+                tokensAcquired += 10;
+                $("#tokens").html(tokensAcquired);
+            }
             $(this).css("border", "5px solid black");
             guessed = true;
             colorButtons();

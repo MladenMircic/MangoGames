@@ -13,7 +13,9 @@
         <div class="container">
             <div class="row">
                 <div class="col-6 offset-3 header">
-                    <img src="<?= base_url('images/SongClickerLogo.png') ?>" class="logo">
+                    <div class="header-content">
+                        <img src="<?= base_url('images/SongClickerLogo.png') ?>" class="logo">
+                    </div>
                 </div>
             </div>
             <div class="row">

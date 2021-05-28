@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\SongModel;
+use App\Models\UserInfoModel;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
@@ -52,5 +53,17 @@ class Gameplay extends BaseController
             return $data;
         else
             return json_encode($data);
+    }
+
+    public function saveUserTokens() {
+        $userInfoModel = new UserInfoModel();
+        $userInfo = $userInfoModel
+                                ->where("username", $this->session->get("username"))
+                                ->where("genre", $this->session->get("chosenGenre"))
+                                ->findAll();
+        $userInfoModel
+                ->where("username", $this->session->get("username"))
+                ->where("genre", $this->session->get("chosenGenre"))
+                ->update(null, ["tokens" => $userInfo[0]->tokens + $this->request->getVar("tokens")]);
     }
 }
