@@ -91,7 +91,7 @@ input.btnTransition {
     transition: width 500ms;
 }
 
-input.btnRegister:hover {
+input.btnTransition:hover{
     width: 80%;
 }
 
@@ -205,3 +205,4 @@ table.center {
     border-top: 5px solid blue;
     border-bottom: 5px solid yellow;
 }
+

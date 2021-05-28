@@ -38,10 +38,15 @@ class Login extends BaseController
             return $this->showView('login', ['errors' => ['password' => "Wrong password"]]);
         }
 
-        if($user->type == "Administrator"){
+        $this->session->set("username", $this->request->getVar('username'));
+        $this->session->set("type", $user->type);
+
+        if($user->type == "admin"){
             return redirect()->to(site_url("Administrator"));
         }
-        $this->session->set("username", $this->request->getVar('username'));
+        if($user->type == "mod") {
+            return redirect()->to(site_url("Moderator"));
+        }
         return redirect()->to(base_url("User"));
     }
 
