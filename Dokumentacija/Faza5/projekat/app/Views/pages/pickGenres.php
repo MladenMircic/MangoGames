@@ -9,9 +9,10 @@
     <tr>
         <?php
             foreach ($genres as $genre) {
+                $id = strtolower($genre->name);
                 $path = base_url("images/{$genre->name}.png");
                 echo  "<td class='borderless'>
-                    <img src='{$path}' id='{$genre->name}' class='toMove' data-container='body' data-toggle='popover' data-trigger='hover' data-placement='bottom' data-content='{$genre->name}'>
+                    <img src='{$path}' id='{$id}' class='toMove' data-container='body' data-toggle='popover' data-trigger='hover' data-placement='bottom' data-content='{$genre->name}'>
                 </td>";
             }
         ?>

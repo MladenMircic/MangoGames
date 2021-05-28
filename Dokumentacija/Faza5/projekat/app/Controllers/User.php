@@ -18,6 +18,11 @@ class User extends BaseController
       $this->showView('userInterface', "true", []);
     }
 
+    public function setChosenGenre() {
+        $this->session->set("chosenGenre", $this->request->getVar("chosenGenre"));
+        return [];
+    }
+
     public function goToTraining() {
         $this->session->set("chosenGenre", $this->request->getVar("chosenGenre"));
         return redirect()->to(base_url("Gameplay"));
