@@ -28,12 +28,6 @@ class User extends BaseController
         return redirect()->to(base_url("Gameplay"));
     }
 
-    public function logout()
-    {
-        $this->session->destroy();
-        return redirect()->to(site_url('Login'));
-    }
-
     public function selectAvailableGenresForUser()
     {
         $userInfoModel = new UserInfoModel();

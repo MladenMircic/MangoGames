@@ -2,7 +2,7 @@
     $(document).ready(function (){
         $("#mistakeLog").click(function(){
             $.get("<?= base_url("Administrator/echoView/mistakeLog") ?>", function (data) {
-                $("#insertable").html(data);
+                $(".center").html(data);
                 $.get("<?= base_url("Administrator/getMistakes") ?>", function (data1){
 
                     let mistakes = [];
@@ -22,61 +22,64 @@
 
                         $(".mistakeLogTable").append(row);
                     }
-
                 });
+            });
+        });
+        $("#registerMod").click(function () {
+            $.post("<?= base_url("Administrator/echoView/registerModerator") ?>", function (data) {
+                $(".center").html(data);
+            });
+        });
+
+        $("#delete").click(function () {
+            $.post("<?= base_url("Administrator/echoView/deleteAccount") ?>", function (data) {
+                $(".center").html(data);
+            })
+        });
+
+        $("#quit").click(function () {
+            $.post("<?= base_url("Moderator/echoView/quit") ?>", function (data) {
+                $(".center").html(data);
             });
         });
     });
 </script>
 
-<div id="insertable">
     <table class="table tableAdminMenu">
         <tr >
             <td class="borderless">
-                <form method="post" action= "<?= site_url("Administrator/Leaderboards")?>">
-                    <input type="submit" class="btn btnMenu btn-dark" name="submit" value="Leaderboards">
-                </form>
+                <input type="submit" class="btn btnMenu btn-dark btnTransition" name="submit" value="Leaderboards">
             </td>
         </tr>
         <tr>
             <td class="borderless">
-                <form method="post" action= "<?= site_url("Administrator/update")?>">
-                    <input type="submit" class="btn btnMenu btn-dark" name="submit" value="Update">
-                </form>
+                <input type="submit" class="btn btnMenu btn-dark btnTransition" name="submit" value="Update">
             </td>
         </tr>
         <tr>
             <td class="borderless">
-                <input type="submit" class="btn btnMenu btn-dark" name="submit" value="Mistake Log" id="mistakeLog">
+                <input type="submit" class="btn btnMenu btn-dark btnTransition" name="submit" value="Mistake Log" id="mistakeLog">
             </td>
         </tr>
         <tr>
             <td class="borderless">
-                <form method="post" action= "<?= site_url("Administrator/changeLog")?>">
-                    <input type="submit" class="btn btnMenu btn-dark" name="submit" value="Change Log">
-                </form>
+                <input type="submit" class="btn btnMenu btn-dark btnTransition" name="submit" value="Change Log">
             </td>
         </tr>
         <tr>
             <td class="borderless">
-                <form method="post" action= "<?= site_url("Administrator/showView/deleteAccount")?>">
-                    <input type="submit" class="btn btnMenu btn-dark" name="submit" value="Delete Account">
-                </form>
+                <input type="submit" class="btn btnMenu btn-dark btnTransition" name="submit" value="Delete Account" id="delete">
             </td>
         </tr>
         <tr>
             <td class="borderless">
-                <form method="post" action= "<?= site_url("Administrator/registerModerator")?>">
-                    <input type="submit" class="btn btnMenu btn-dark" name="submit" value="Register Moderator">
-                </form>
+                <input type="submit" class="btn btnMenu btn-dark btnTransition" name="submit" value="Register Moderator" id = "registerMod">
             </td>
         </tr>
         <tr>
             <td class="borderless">
-                <form method="post" action= "<?= site_url("")?>">
-                    <input type="submit" class="btn btnMenu btn-dark" name="submit" value="Quit">
-                </form>
+                <input type="submit" class="btn btnMenu btn-dark btnTransition" name="submit" value="Quit" id="quit">
             </td>
         </tr>
     </table>
-</div>
+

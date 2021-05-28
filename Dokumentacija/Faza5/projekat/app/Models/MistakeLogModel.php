@@ -11,6 +11,7 @@ class MistakeLogModel extends Model
     protected $table = 'mistake_log';
     protected $primaryKey = 'idM';
     protected $returnType = 'object';
+    protected $useAutoIncrement = true;
 
     protected $allowedFields = ['idM', 'idS'];
 

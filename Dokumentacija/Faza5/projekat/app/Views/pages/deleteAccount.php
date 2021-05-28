@@ -1,13 +1,33 @@
+<script>
+    $(document).ready(function () {
+        $("#deleteAcc").click(function () {
+            $.post("<?= base_url("Administrator/deleteAccount") ?>", {
+                "accountToDelete" : $("#toDelete").val()
+            }, function (data) {
+                $("#error").empty();
+                if(data != ""){
+                    let col = $("<td></td>").append(data);
+                    col.attr("style", "color : red").attr("colspan", "2").addClass("borderless");
+                    $("#error").append(col);
+                }
+                else{
+                    let col1 = $("<td></td>").append("You successfully deleted an account!");
+                    col1.attr("style", "color : green").attr("colspan", "2").addClass("borderless");
+                    $("#error").append(col1);
+                }
+            });
+        });
 
-<form method="post" action="<?=site_url('Administrator/deleteAccount') ?>">
-<table class="table" style="text-align: center;">
-    <tr>
-        <td colspan="2" class="borderless" style="color: red">
-            <?php
-                if (!empty($errors['accountToDelete']))
-                    echo $errors['accountToDelete'];
-            ?>
-        </td>
+        $("#goBack").click(function () {
+            $.post("<?= base_url("Administrator/echoView/adminMenu") ?>", function (data) {
+                $(".center").html(data);
+            });
+        });
+    });
+</script>
+<table class="table deleteTable" style="text-align: center;">
+    <tr id="error">
+
     </tr>
     <tr>
         <td colspan="2" class="borderless" >
@@ -17,13 +37,15 @@
     <tr>
         <td colspan="2" class="borderless" style="font-weight: bold;">
             Username:
-            <input type="text" name="accountToDelete">
+            <input type="text" name="accountToDelete" id="toDelete">
         </td>
     </tr>
     <tr>
-        <td colspan="2" class="borderless">
-            <input class="btn btn-dark" type="submit">
+        <td class="borderless">
+            <input class="btn btn-dark" type="button" id="deleteAcc" value="Delete" style="width: 50%">
+        </td>
+        <td class="borderless">
+            <input class="btn btn-dark" type="button" id="goBack" value="Finish" style="width: 50%">
         </td>
     </tr>
 </table>
-</form>
