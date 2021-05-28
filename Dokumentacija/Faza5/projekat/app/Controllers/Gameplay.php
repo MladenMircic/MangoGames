@@ -3,10 +3,22 @@
 namespace App\Controllers;
 
 use App\Models\SongModel;
+use CodeIgniter\HTTP\RequestInterface;
+use CodeIgniter\HTTP\ResponseInterface;
+use Psr\Log\LoggerInterface;
 
 class Gameplay extends BaseController
 {
     protected $songs;
+
+    public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
+    {
+        // Do Not Edit This Line
+        parent::initController($request, $response, $logger);
+
+        $songModel = new SongModel();
+        $this->songs = $songModel->findAll();
+    }
 
     public function showView($page, $welcome, $data = []) {
         $data['middlePart'] = view("pages/$page", $data);
@@ -17,15 +29,10 @@ class Gameplay extends BaseController
 
     public function index()
     {
-        $songModel = new SongModel();
-        $this->songs = $songModel->findAll();
-//        foreach($this->songs as $song)
-//            echo $song->name . "<br>";
-        $data = $this->pickSongs();
-        $this->showView('game', 'false', $data);
+        $this->showView('game', 'false');
     }
 
-    public function pickSongs() {
+    public function pickSongs($toJson = false) {
         $data = [];
         $used = [];
         $i = 0;
@@ -40,6 +47,10 @@ class Gameplay extends BaseController
             $used []= $currentSongNumber;
             $i++;
         }
-        return $data;
+        shuffle($data['songs']);
+        if ($toJson == false)
+            return $data;
+        else
+            return json_encode($data);
     }
 }

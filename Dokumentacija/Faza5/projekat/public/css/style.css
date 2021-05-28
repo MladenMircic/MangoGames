@@ -205,3 +205,21 @@ table.center {
     border-top: 5px solid blue;
     border-bottom: 5px solid yellow;
 }
+
+div.imagesForGame {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+img.genreImageForGame {
+    width: 50px;
+    height: 50px;
+    transition: opacity 5s;
+}
+
+.hiddenGenreImageForGame {
+    opacity: 0;
+}
