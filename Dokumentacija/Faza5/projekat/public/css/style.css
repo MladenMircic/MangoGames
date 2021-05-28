@@ -3,31 +3,42 @@ body {
 }
 
 div.header {
-    text-align: center;
-    background-color: #fb9739;
+    background-color: rgba(251, 151, 57, 0.95);
     height: 180px;
     margin-top: 100px;
     border-top: black solid 5px;
     border-left: black solid 5px;
     border-right: black solid 5px;
-    opacity: 95%;
+}
+
+div.header-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+div.token-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
 }
 
 div.center {
     text-align: center;
-    background-color: #fb9739;
+    background-color: rgba(251, 151, 57, 0.95);
     border-left: black solid 5px;
     border-right: black solid 5px;
-    opacity: 95%;
 }
 
 div.footer {
-    background-color: #fb9739;
+    background-color: rgba(251, 151, 57, 0.95);
     height: 200px;
     border-left: black solid 5px;
     border-right: black solid 5px;
     border-bottom: black solid 5px;
-    opacity: 95%;
 }
 
 div.teamLogo {
@@ -44,6 +55,10 @@ div.teamLogo img {
 div.optional {
     border-left: none;
     border-right: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 div.userWelcome {
@@ -59,6 +74,14 @@ div.userWelcome {
 img.logo {
     height: 120%;
     margin-top: -20px;
+}
+
+img.logoForGame {
+    width: 180%;
+    height: 100%;
+    position: relative;
+    left: -80px;
+    top: 20px;
 }
 
 table.registerForm, table.loginForm, table.userInterfaceForm, table.tableQuit {
@@ -206,3 +229,20 @@ table.center {
     border-bottom: 5px solid yellow;
 }
 
+div.imagesForGame {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+img.genreImageForGame {
+    width: 50px;
+    height: 50px;
+    transition: opacity 5s;
+}
+
+.hiddenGenreImageForGame {
+    opacity: 0;
+}
