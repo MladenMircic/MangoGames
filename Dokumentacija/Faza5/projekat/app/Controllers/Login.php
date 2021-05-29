@@ -5,16 +5,14 @@ use App\Models\UserModel;
 
 class Login extends BaseController
 {
-    public function showView($page, $data)
-    {
-        $data['middlePart'] = view("pages/$page", $data);
-        $data['footerPart'] = view("pages/loginFooter", $data);
-        echo view("patterns/default_page_pattern.php", $data);
-    }
-
     public function index()
     {
-        $this->showView('login', []);
+        $this->showView('login');
+    }
+
+    protected function showAdditionalData()
+    {
+        return ['footerPart' => view("pages/loginFooter")];
     }
 
     public function checkUserCredentials()
@@ -42,10 +40,10 @@ class Login extends BaseController
         $this->session->set("type", $user->type);
 
         if($user->type == "admin"){
-            return redirect()->to(site_url("Administrator"));
+            return redirect()->to(base_url("Administrator"));
         }
         if($user->type == "mod") {
-            return redirect()->to(site_url("Moderator"));
+            return redirect()->to(base_url("Moderator"));
         }
         return redirect()->to(base_url("User"));
     }

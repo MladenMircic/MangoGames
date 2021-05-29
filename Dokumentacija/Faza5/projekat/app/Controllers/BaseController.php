@@ -57,6 +57,18 @@ class BaseController extends Controller
 		$this->session = \Config\Services::session();
 	}
 
+    public function showView($page, $data = []) {
+	    $rawData = $this->showAdditionalData();
+	    foreach($rawData as $key => $value)
+            $data[$key] = $value;
+        $data['middlePart'] = view("pages/$page", $data);
+        echo view("patterns/default_page_pattern", $data);
+    }
+
+    protected function showAdditionalData() {
+	    return [];
+    }
+
 	public function echoView($page, $additionalData = null)
     {
         if ($additionalData != null)
@@ -69,6 +81,6 @@ class BaseController extends Controller
     public function logout()
     {
         $this->session->destroy();
-        return redirect()->to(base_url("Login"));
+        return redirect()->to(base_url("Login?wantToExit=true"));
     }
 }

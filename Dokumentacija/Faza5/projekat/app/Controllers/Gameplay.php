@@ -21,16 +21,9 @@ class Gameplay extends BaseController
         $this->songs = $songModel->findAll();
     }
 
-    public function showView($page, $welcome, $data = []) {
-        $data['middlePart'] = view("pages/$page", $data);
-        if($welcome == "true")
-            $data['welcomeMessage'] = "Welcome,<br> <b>{$this->session->get('username')}</b>";
-        echo view("patterns/default_page_pattern", $data);
-    }
-
     public function index()
     {
-        $this->showView('game', 'false');
+        $this->showView('game');
     }
 
     public function pickSongs($toJson = false) {

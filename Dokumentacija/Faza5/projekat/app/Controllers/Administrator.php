@@ -12,13 +12,14 @@ use phpDocumentor\Reflection\Type;
 
 class Administrator extends BaseController
 {
-    public function showView($page, $data = []){
-        $data['middlePart']= view("pages/$page", $data);
-        echo view('patterns/default_page_pattern', $data);
-    }
 
     public function index(){
-        $this->showView("adminMenu", []);
+        $this->showView("adminMenu");
+    }
+
+    protected function showAdditionalData()
+    {
+        return ['welcomeMessage' => "Welcome, {$this->session->get('username')} <br> <div style='color: purple'>Administrator</div>"];
     }
 
 

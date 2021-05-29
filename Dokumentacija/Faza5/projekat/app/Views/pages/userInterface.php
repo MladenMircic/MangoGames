@@ -18,13 +18,13 @@
         });
 
         $("#leaderboards").click(function (){
-            $.post("<?=base_url('Moderator/echoView/leaderboards')?>", function(data){
+            $.post("<?=base_url('User/echoView/leaderboards')?>", function(data){
                 $(".center").html(data);
             });
         });
 
         $("#quit").click(function () {
-            $.post("<?= base_url("Moderator/echoView/quit") ?>", function (data) {
+            $.post("<?= base_url("User/echoView/quit") ?>", function (data) {
                 $(".center").html(data);
             });
         });

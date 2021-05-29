@@ -10,21 +10,20 @@ use App\Models\MistakeLogModel;
 
 class Moderator extends BaseController
 {
-    public function showView($page, $data)
-    {
-        $data['middlePart'] = view("pages/$page", $data);
-        $data['welcomeMessage'] = "Welcome, {$this->session->get('username')} <br> <div style='color: blue'>Moderator</div>";
-        echo view('patterns/default_page_pattern', $data);
-    }
 
     public function index()
     {
-        $this->showView('modMenu', []);
+        $this->showView('modMenu');
     }
 
-    public function insertDelete(){
+    protected function showAdditionalData() {
+        return ['welcomeMessage' => "Welcome, {$this->session->get('username')} <br> <div style='color: blue'>Moderator</div>"];
+    }
+
+    public function insertDelete() {
         $this->showView("insertDelete", []);
     }
+
     public function getPlaylists(){
         $playlistModel=new PlaylistModel();
         $playlists=$playlistModel->findAll();
@@ -44,8 +43,8 @@ class Moderator extends BaseController
         }
     }
     public function getSongs(){
-           $songModel=new SongModel();
-           $playlistModel=new PlaylistModel();
+        $songModel=new SongModel();
+        $playlistModel=new PlaylistModel();
         $multipleWhere = ['genre' => $this->request->getVar('genre'), 'difficulty' => $this->request->getVar('difficulty'), 'number'=>$this->request->getVar('number')];
 
         $pl= $playlistModel->where($multipleWhere)->findAll();
@@ -81,6 +80,7 @@ class Moderator extends BaseController
             "idP"=> $pl[0]->idP
         ]);
     }
+
     public function deleteSong(){
         $songModel=new SongModel();
         $songModel->delete($this->request->getVar('idS'));
@@ -99,7 +99,6 @@ class Moderator extends BaseController
         foreach ($pls as $pl){
             array_push($arr , $pl->number);
         }
-
 
         if(count($arr)==0)
             $maxNum=1;

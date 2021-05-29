@@ -64,12 +64,14 @@
                     setTimeout(function () {
                         let vol = 1;
                         let fadeOutInterval = setInterval(function () {
-                            if (vol > 0.1) {
+                            if (vol > 0) {
                                 vol -= 0.1;
-                                audio.volume = vol.toFixed(2);
-                            } else
+                                audio.volume = vol.toFixed(1);
+                            } else {
                                 clearInterval(fadeOutInterval);
-                        }, 200);
+                                audio.pause();
+                            }
+                        }, 100);
 
                         if (guessed === false)
                             colorButtons();

@@ -7,16 +7,14 @@ use App\Models\UserModel;
 
 class User extends BaseController
 {
-    public function showView($page, $welcome, $data = []){
-        $data['middlePart'] = view("pages/$page", $data);
-        if($welcome == "true")
-            $data['welcomeMessage'] = "Welcome,<br> <b>{$this->session->get('username')}</b>";
-        echo view("patterns/default_page_pattern", $data);
-    }
 
     public function index()
     {
-      $this->showView('userInterface', "true", []);
+      $this->showView('userInterface', []);
+    }
+
+    protected function showAdditionalData() {
+        return ['welcomeMessage' => "Welcome,<br> <b>{$this->session->get('username')}</b>"];
     }
 
     public function setChosenGenre() {
