@@ -3,20 +3,17 @@
 namespace App\Controllers;
 
 use App\Models\UserInfoModel;
-use App\Models\UserModel;
 
 class User extends BaseController
 {
-    public function showView($page, $welcome, $data = []){
-        $data['middlePart'] = view("pages/$page", $data);
-        if($welcome == "true")
-            $data['welcomeMessage'] = "Welcome,<br> <b>{$this->session->get('username')}</b>";
-        echo view("patterns/default_page_pattern", $data);
-    }
 
     public function index()
     {
-      $this->showView('userInterface', "true", []);
+      $this->showView('userInterface', []);
+    }
+
+    protected function showAdditionalData() {
+        return ['welcomeMessage' => "Welcome,<br> <b>{$this->session->get('username')}</b>"];
     }
 
     public function setChosenGenre() {
@@ -26,7 +23,7 @@ class User extends BaseController
 
     public function goToTraining() {
         $this->session->set("chosenGenre", $this->request->getVar("chosenGenre"));
-        return redirect()->to(base_url("Gameplay"));
+        return redirect()->to(base_url("Training"));
     }
 
     public function selectAvailableGenresForUser()
@@ -36,14 +33,14 @@ class User extends BaseController
         return ['userInfo' => $userInfo];
     }
 
-    public function getMyGenres(){
+    public function getMyGenres() {
         $userInfoModel=new UserInfoModel();
         $infos=$userInfoModel->where('username',$this->session->get('username'))->findAll();
         foreach ($infos as $info){
-            echo $info->genre.",";
+            echo $info->genre . ",";
         }
     }
-    public function getPointsAndTokens(){
+    public function getPointsAndTokens() {
         $userInfoModel=new UserInfoModel();
         if($this->request->getVar("genre")=="allGenres"){
             $infos = $userInfoModel->where('username', $this->session->get('username'))->findAll();
@@ -53,7 +50,7 @@ class User extends BaseController
                 $points+=$info->points;
                 $tokens+=$info->tokens;
             }
-            echo $points . "," .$tokens;
+            echo $points . "," . $tokens;
         }
         else {
             $infos = $userInfoModel->where('username', $this->session->get('username'))->
@@ -62,29 +59,29 @@ class User extends BaseController
         }
     }
 
-    public function getGenrePoints(){
+    public function getGenrePoints() {
         $userInfoModel=new UserInfoModel();
 
         if($this->request->getVar("genre")=="allGenres"){
             $arr=[];
             $infos=$userInfoModel->findAll();
+
             foreach($infos as $info){
                 if(array_key_exists($info->username, $arr))
                     $arr[$info->username]+=$info->points;
                 else
                     $arr[$info->username]=$info->points;
             }
-            foreach($arr as $key=>$a){
-                echo $key."/".$a.",";
 
-            }
+            foreach($arr as $key => $value)
+                echo $key . "/" . $value . ",";
         }
-        else{
+        else {
             $infos=$userInfoModel->where('genre', $this->request->getVar("genre"))->findAll();
-            foreach ($infos as $info){
+            foreach ($infos as $info)
                 echo $info->username."/".$info->points.",";
-            }
         }
+
         echo $this->session->get('username');
     }
 }

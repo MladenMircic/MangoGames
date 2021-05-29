@@ -1,24 +1,22 @@
 <script>
     $(document).ready(function (){
         $("#back").click(function(){
-            let user = "<?= session()->get('type'); ?>";
-            if(user == "mod"){
-                $.post("<?= base_url("Moderator/echoView/modMenu") ?>", function (data) {
-                    $(".center").html(data);
-                });
-            }
-            else if(user == "admin"){
-                $.post("<?= base_url("Administrator/echoView/adminMenu") ?>", function (data) {
-                    $(".center").html(data);
-                });
-            }
+            $.post("<?php
+                if (session()->get("type") == "mod") echo base_url('Moderator/echoView/modMenu');
+                else echo base_url("Administrator/echoView/adminMenu") ?>", function (data) {
+                $(".center").html(data);
+            });
         });
 
         $("#info").click(function () {
             let ids = $("#ids").val();
-            $.post("<?= base_url("Administrator/echoView/songInfo") ?>", function (data) {
+            $.post("<?php
+                if (session()->get("type") == "mod") echo base_url('Moderator/echoView/songInfo');
+                else echo base_url("Administrator/echoView/songInfo") ?>", function (data) {
                 $(".center").html(data);
-                $.post("<?= base_url("Administrator/getSongInfo") ?>",{
+                $.post("<?php
+                    if (session()->get("type") == "mod") echo base_url('Moderator/getSongInfo');
+                    else echo base_url("Administrator/getSongInfo") ?>",{
                     "idS" : ids
                 }, function (data1) {
                     let songInfo = [];

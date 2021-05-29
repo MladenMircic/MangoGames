@@ -3,20 +3,34 @@
 namespace App\Controllers;
 use App\Models\UserModel;
 
+/**
+ * Class Login - For logging in every type of registered user
+ * @package App\Controllers
+ */
 class Login extends BaseController
 {
-    public function showView($page, $data)
-    {
-        $data['middlePart'] = view("pages/$page", $data);
-        $data['footerPart'] = view("pages/loginFooter", $data);
-        echo view("patterns/default_page_pattern.php", $data);
-    }
-
+    /**
+     * A method to show login page
+     */
     public function index()
     {
-        $this->showView('login', []);
+        $this->showView('login');
     }
 
+    /**
+     * An optional method which a class can implement if additional data is required by the showView method
+     * @return array
+     */
+    protected function showAdditionalData()
+    {
+        return ['footerPart' => view("pages/loginFooter")];
+    }
+
+    /**
+     * A method that checks user credentials, return errors if there are problems or redirect to
+     * appropriate user type controller
+     * @return \CodeIgniter\HTTP\RedirectResponse|void
+     */
     public function checkUserCredentials()
     {
         if(!$this->validate([
@@ -26,6 +40,9 @@ class Login extends BaseController
             return $this->showView('login', ['errors' => $this->validator->getErrors()]);
         }
 
+        /**
+         * A user model representing all types of users from database
+         */
         $userModel = new UserModel();
         $user = $userModel->find($this->request->getVar('username'));
 
@@ -42,10 +59,10 @@ class Login extends BaseController
         $this->session->set("type", $user->type);
 
         if($user->type == "admin"){
-            return redirect()->to(site_url("Administrator"));
+            return redirect()->to(base_url("Administrator"));
         }
         if($user->type == "mod") {
-            return redirect()->to(site_url("Moderator"));
+            return redirect()->to(base_url("Moderator"));
         }
         return redirect()->to(base_url("User"));
     }

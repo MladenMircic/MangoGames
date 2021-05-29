@@ -1,5 +1,4 @@
-
-<form method="post"  action = "<?php echo site_url("Login/checkUserCredentials")?>">
+<form method="post"  action = "<?= base_url("Login/checkUserCredentials") ?>">
     <table class="table loginForm">
         <tr>
             <td colspan="2" style="color: red; border-top:none">

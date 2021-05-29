@@ -16,9 +16,7 @@
                     $("#genres").append(option);
 
                 }
-
             });
-
         }
 
         $("#genres").on("change", function (){
@@ -58,7 +56,7 @@
                    return  b.split("/")[1]- a.split("/")[1];
                });
                //let div=$("<div></div>").attr("style", 'border: solid #721817');
-               $("#leaderboard").empty().append("<tr style='border-bottom:  solid #721817'><th>Rank</th><th>Username</th> <th>Points</th></tr>");
+               $("#leaderboard").empty().append("<tr style='border-bottom: solid #721817'><th>Rank</th><th>Username</th> <th>Points</th></tr>");
                //$("#leaderboard").empty().append(div);
                for(let i=0;i<users.length;i++){
                    let arr=users[i].split("/");

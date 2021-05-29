@@ -111,11 +111,12 @@ input.btnRegister {
 }
 
 input.btnTransition {
-    transition: width 500ms;
+    transition: width 500ms, background-color 500ms;
 }
 
 input.btnTransition:hover{
     width: 80%;
+    background-color: #721817;
 }
 
 .tableAdminMenu {
@@ -215,18 +216,18 @@ table.center {
     justify-content: space-evenly;
 }
 
-.genreChoices img {
-    transition: border-left-width 500ms,
-            border-bottom-width 400ms,
-            border-top-width 300ms,
-            border-right-width 100ms;
+.nesto {
+    transition: border-left-width 200ms,
+            border-bottom-width 200ms,
+            border-top-width 200ms,
+            border-right-width 200ms;
 }
 
 .selectedGenre {
-    border-left: 5px solid red;
-    border-right: 5px solid green;
-    border-top: 5px solid blue;
-    border-bottom: 5px solid yellow;
+    border-left: 5px solid #9c1616;
+    border-right: 5px solid #303333;
+    border-top: 5px solid #303333;
+    border-bottom: 5px solid #9c1616;
 }
 
 div.imagesForGame {
