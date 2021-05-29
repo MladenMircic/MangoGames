@@ -11,7 +11,7 @@
         $.get("<?= base_url('Gameplay/pickSongs/true'); ?>", function (data) {
             let songData = JSON.parse(data);
             songToBePlayed = songData.songToBePlayed;
-            usedSongs.push(songToBePlayed.artist + " - " + songToBePlayed.name);
+            usedSongs.push(songToBePlayed.artist + ":" + songToBePlayed.name);
             let options = $(".userInterfaceForm").find(".guess");
             for (let i = 0; i < 4; i++) {
                 options[i] = $(options[i]);

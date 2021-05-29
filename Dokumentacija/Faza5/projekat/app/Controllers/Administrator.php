@@ -10,21 +10,37 @@ use App\Models\UserInfoModel;
 use App\Models\UserModel;
 use phpDocumentor\Reflection\Type;
 
+/**
+ * Class Administrator - Represents all the functionalities that an administrator has
+ * @package App\Controllers
+ */
 class Administrator extends BaseController
 {
 
+    /**
+     * A method to show main administrator page
+     */
     public function index(){
         $this->showView("adminMenu");
     }
 
+    /**
+     * An optional method which a class can implement if additional data is required by the showView method
+     * @return array
+     */
     protected function showAdditionalData()
     {
         return ['welcomeMessage' => "Welcome, {$this->session->get('username')} <br> <div style='color: purple'>Administrator</div>"];
     }
 
-
+    /**
+     * A method that returns to the administrator all the mistakes reported by the users
+     */
     public function getMistakes()
     {
+        /**
+         * A model that represents a table of mistakes from the database.
+         */
         $mistakeModel = new MistakeLogModel();
         $mistakes = $mistakeModel->findAll();
         foreach ($mistakes as $mistake){
