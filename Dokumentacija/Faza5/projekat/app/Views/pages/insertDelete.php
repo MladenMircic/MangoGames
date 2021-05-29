@@ -20,12 +20,12 @@
             operationAndType(operation,type);
 
         });
-        $("#menu").click(function (){
-            $.post("<?=base_url('Moderator/echoView/modMenu')?>", function(data){
-                $("#insertable").html(data);
-            });
-
-        });
+        //$("#menu").click(function (){
+        //    $.post("<?//=base_url('Moderator/echoView/modMenu')?>//", function(data){
+        //        $("#insertable").html(data);
+        //    });
+        //
+        //});
 
 
         function operationAndType(operation, type) {

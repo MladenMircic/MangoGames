@@ -55,7 +55,7 @@
                 }
                 $.post("<?=base_url('Moderator/deletePlaylist')?>", {
                     "idP": playlistId
-                }, function(data) {
+                }, function() {
                     $("#change").empty().append("<br><br><h3>Playlist deleted successfully</h3>");
 
                 });
