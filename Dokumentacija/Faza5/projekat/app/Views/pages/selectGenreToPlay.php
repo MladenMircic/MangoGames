@@ -28,13 +28,17 @@
         $("#confirmGenre").click(function () {
             if ($(this).parent().hasClass("center")) {
                 let myself = $(this);
-                $.get("<?= base_url("User/echoView/waitForPlayer") ?>", function (data) {
+                $.post("<?= base_url("User/echoView/waitForPlayer/setChosenGenre") ?>",{
+                    chosenGenre: selected
+                }, function (data) {
                     $("#insertable").html(data);
                     myself.remove();
                 });
             }
+
             if ($(this).parent().attr("id") === "confirmGenreForm")
                 $(this).parent().children("#chosenGenre").attr("value", selected);
+
         });
     });
 </script>
