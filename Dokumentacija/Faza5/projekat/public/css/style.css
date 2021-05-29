@@ -216,7 +216,7 @@ table.center {
     justify-content: space-evenly;
 }
 
-.genreChoices img {
+.nesto {
     transition: border-left-width 200ms,
             border-bottom-width 200ms,
             border-top-width 200ms,

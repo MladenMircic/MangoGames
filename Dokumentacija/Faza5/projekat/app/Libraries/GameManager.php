@@ -1,6 +1,7 @@
 <?php
 namespace App\Libraries;
 
+use App\Models\SongModel;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 use App\Models\UserInfoModel;
@@ -8,7 +9,9 @@ use App\Models\UserInfoModel;
 class GameManager implements MessageComponentInterface {
     protected $clients;
     protected $users;
-    protected $inGame;
+    protected $activeGames;
+
+    protected $currentGameId = 0;
 
     protected $search;
 
@@ -59,8 +62,11 @@ class GameManager implements MessageComponentInterface {
         if ($opponent != null) {
             $this->users[$conn->resourceId]['status'] = 'playing';
             $this->users[$opponent->resourceId]['status'] = 'playing';
-            $conn->send("pali");
-            $opponent->send("pali");
+            $data = $this->pickSongs();
+            $conn->send("startGame:" . $this->users[$opponent->resourceId]['username'] . ":" . $this->currentGameId);
+            $opponent->send("startGame:" . $this->users[$conn->resourceId]['username'] . ":" . $this->currentGameId);
+            $this->activeGames[$this->currentGameId] = ['player1' => $conn, 'player2' => $opponent];
+            $this->currentGameId++;
         }
         /*$timesToTry = 0;
         $temp = false;
@@ -70,6 +76,29 @@ class GameManager implements MessageComponentInterface {
         if ($temp == false) {
             $conn->send("nema drugih igraca");
         }*/
+    }
+
+    public function pickSongs() {
+
+        $songModel = new SongModel();
+        $this->songs = $songModel->findAll();
+
+        $data = [];
+        $used = [];
+        $i = 0;
+        $songToPlayIndex = rand(0, count($this->songs) - 1);
+        $data['songToBePlayed'] = $this->songs[$songToPlayIndex];
+        $data['songs'] []= $this->songs[$songToPlayIndex]->name;
+        while ($i < 3) {
+            $currentSongNumber = rand(0, count($this->songs) - 1);
+            if (in_array($currentSongNumber, $used) || $this->songs[$currentSongNumber]->name == $data['songToBePlayed']->name)
+                continue;
+            $data['songs'] []= $this->songs[$currentSongNumber]->name;
+            $used []= $currentSongNumber;
+            $i++;
+        }
+        shuffle($data['songs']);
+        return $data;
     }
 
     public function onOpen(ConnectionInterface $conn) {
@@ -84,14 +113,15 @@ class GameManager implements MessageComponentInterface {
     }
 
     public function onMessage(ConnectionInterface $from, $msg) {
-        $numRecv = count($this->clients) - 1;
-        echo sprintf('Connection %d sending message "%s" to %d other connection%s' . "\n"
-            , $from->resourceId, $msg, $numRecv, $numRecv == 1 ? '' : 's');
-
-        foreach ($this->clients as $client) {
-            if ($from !== $client) {
-                // The sender is not the receiver, send to each client connected
-                $client->send($msg);
+        $info = explode(":", $msg);
+        switch ($info[0]) {
+            case "answered": {
+                $gameId = intval($info[1]);
+                if ($this->activeGames[$gameId]['player1'] == $from)
+                    $this->activeGames[$gameId]['player2']->send("answered:" . $info[2]);
+                else
+                    $this->activeGames[$gameId]['player1']->send("answered:" . $info[2]);
+                break;
             }
         }
     }

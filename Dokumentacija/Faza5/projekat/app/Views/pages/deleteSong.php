@@ -3,7 +3,9 @@
         deleteSong();
 
         function deleteSong() {
-            $.post("<?=base_url("Moderator/getPlaylists")?>", function (data) {
+            $.post("<?php
+                if (session()->get("type") == "mod") echo base_url('Moderator/getPlaylists');
+                else echo base_url("Administrator/getPlaylists") ?>", function (data) {
                 let playlists = data.split(",");
                 let arr = [];
 
@@ -42,14 +44,16 @@
         }
 
         $("#playlists").on("change", function () {
-            if($("#playlistDefault").prop("selected")==true){
+            if($("#playlistDefault").prop("selected") === true){
                 $("#songs").empty().append("<option id='songDefault' selected>Song</option>");
             }
             else {
                 let optionSelected = $("option:selected", this);
                 let pl = optionSelected.attr("id");
                 let arr = pl.split("/");
-                $.post("<?=base_url('Moderator/getSongs')?>", {
+                $.post("<?php
+                    if (session()->get("type") == "mod") echo base_url('Moderator/getSongs');
+                    else echo base_url("Administrator/getSongs") ?>", {
                     "genre": arr[0],
                     "difficulty": arr[1],
                     "number": arr[2]
@@ -72,10 +76,10 @@
 
         $("#deleteSong").click(function(){
             $("#error").empty();
-            if($("#playlistDefault").prop("selected")==true){
+            if($("#playlistDefault").prop("selected") === true){
                 $("#error").append("You must choose playlist");
             }
-            else if($("#songDefault").prop("selected")==true){
+            else if($("#songDefault").prop("selected") === true){
                 $("#error").append("You must choose song");
             }
             else{
@@ -87,7 +91,9 @@
                         break;
                     }
                 }
-                $.post("<?=base_url('Moderator/deleteSong')?>", {
+                $.post("<?php
+                    if (session()->get("type") == "mod") echo base_url('Moderator/deleteSong');
+                    else echo base_url("Administrator/deleteSong") ?>", {
                     "idS": songId
                 }, function(data) {
                     $("#change").empty().append("<br><br><h3>Song deleted successfully</h3>");

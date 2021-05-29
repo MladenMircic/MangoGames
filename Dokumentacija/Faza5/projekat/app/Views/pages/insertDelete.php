@@ -22,23 +22,33 @@
         });
 
         $("#menu").click(function(){
-            $.post("<?=base_url('Moderator/echoView/modMenu')?>", function(data){
+            $.post("<?php
+                if (session()->get("type") == "mod") echo base_url('Moderator/echoView/modMenu');
+                else echo base_url("Administrator/echoView/adminMenu") ?>", function(data){
                 $(".center").html(data);
             });
         });
 
         function operationAndType(operation, type) {
             if (operation === "insert" && type === "song") {
-                $("#change").load("<?=site_url('Moderator/echoView/insertSong')?>");
+                $("#change").load("<?php
+                    if (session()->get("type") == "mod") echo base_url('Moderator/echoView/insertSong');
+                    else echo base_url("Administrator/echoView/insertSong") ?>");
             }
             else if((operation === "delete" && type === "song")){
-                $("#change").load("<?=site_url('Moderator/echoView/deleteSong')?>");
+                $("#change").load("<?php
+                    if (session()->get("type") == "mod") echo base_url('Moderator/echoView/deleteSong');
+                    else echo base_url("Administrator/echoView/deleteSong") ?>");
             }
             else if((operation === "insert" && type === "playlist")){
-                $("#change").load("<?=site_url('Moderator/echoView/insertPlaylist')?>");
+                $("#change").load("<?php
+                    if (session()->get("type") == "mod") echo base_url('Moderator/echoView/insertPlaylist');
+                    else echo base_url("Administrator/echoView/insertPlaylist") ?>");
             }
             else if((operation === "delete" && type === "playlist")){
-                $("#change").load("<?=site_url('Moderator/echoView/deletePlaylist')?>");
+                $("#change").load("<?php
+                    if (session()->get("type") == "mod") echo base_url('Moderator/echoView/deletePlaylist');
+                    else echo base_url("Administrator/echoView/deletePlaylist") ?>");
             }
             else {
                 $("#change").empty().append("<br><br><h4>You must choose operation and type </h4>");

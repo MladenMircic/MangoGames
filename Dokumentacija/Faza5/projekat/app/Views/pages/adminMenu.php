@@ -1,11 +1,11 @@
 <script>
     $(document).ready(function (){
-        $("#mistakeLog").click(function(){
+
+        $("#mistakeLog").click(function() {
             $.get("<?= base_url("Administrator/echoView/mistakeLog") ?>", function (data) {
                 $(".center").html(data);
-                $.get("<?= base_url("Administrator/getMistakes") ?>", function (data1){
+                $.get("<?= base_url("Administrator/getMistakes") ?>", function (data1) {
 
-                    let mistakes = [];
                     mistakes = data1.split(',');
                     for (let i=0; i<mistakes.length -1 ;i++)
                     {
@@ -25,6 +25,19 @@
                 });
             });
         });
+
+        $("#leaderboards").click(function () {
+            $.post("<?= base_url("Administrator/echoView/leaderboards") ?>", function (data) {
+                $(".center").html(data);
+            });
+        });
+
+        $("#update").click(function () {
+            $.post("<?= base_url("Administrator/echoView/insertDelete") ?>", function (data) {
+                $(".center").html(data);
+            });
+        });
+
         $("#registerMod").click(function () {
             $.post("<?= base_url("Administrator/echoView/registerModerator") ?>", function (data) {
                 $(".center").html(data);
@@ -38,7 +51,7 @@
         });
 
         $("#quit").click(function () {
-            $.post("<?= base_url("Moderator/echoView/quit") ?>", function (data) {
+            $.post("<?= base_url("Administrator/echoView/quit") ?>", function (data) {
                 $(".center").html(data);
             });
         });
@@ -48,12 +61,12 @@
     <table class="table tableAdminMenu">
         <tr >
             <td class="borderless">
-                <input type="submit" class="btn btnMenu btn-dark btnTransition" name="submit" value="Leaderboards">
+                <input type="submit" class="btn btnMenu btn-dark btnTransition" name="submit" value="Leaderboards" id="leaderboards">
             </td>
         </tr>
         <tr>
             <td class="borderless">
-                <input type="submit" class="btn btnMenu btn-dark btnTransition" name="submit" value="Update">
+                <input type="submit" class="btn btnMenu btn-dark btnTransition" name="submit" value="Update" id="update">
             </td>
         </tr>
         <tr>

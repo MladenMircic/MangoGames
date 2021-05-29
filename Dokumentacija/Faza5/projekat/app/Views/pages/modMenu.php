@@ -13,7 +13,7 @@
 
                     let mistakes;
                     mistakes = data1.split(',');
-                    for (let i=0; i<mistakes.length -1 ;i++)
+                    for (let i = 0; i < mistakes.length - 1; i++)
                     {
                         let mistake = [];
                         mistake = mistakes[i].split('/');

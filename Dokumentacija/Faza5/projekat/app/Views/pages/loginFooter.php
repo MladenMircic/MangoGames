@@ -2,6 +2,6 @@
 <div class="loginFooter">
     Don't have an account?
     <br>
-    <?php echo anchor(site_url("Register"), "Register") ?>
+    <?php echo anchor(base_url("Register"), "Register") ?>
 </div>
 

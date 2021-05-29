@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Models\PlaylistModel;
+use App\Models\SongModel;
 use CodeIgniter\Controller;
 use CodeIgniter\HTTP\CLIRequest;
 use CodeIgniter\HTTP\IncomingRequest;

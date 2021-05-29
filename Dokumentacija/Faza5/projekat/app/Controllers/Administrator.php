@@ -14,7 +14,7 @@ use phpDocumentor\Reflection\Type;
  * Class Administrator - Represents all the functionalities that an administrator has
  * @package App\Controllers
  */
-class Administrator extends BaseController
+class Administrator extends PrivilegedUser
 {
 
     /**
