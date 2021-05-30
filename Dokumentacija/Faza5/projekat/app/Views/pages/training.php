@@ -7,46 +7,54 @@
 
             let cnt=0;
             let isHovering=false;
-            let allreadyUnlocked = false;
+            let genres = new Map();
+            setMap();
+            function setMap() {
+                let genreimages = $(".genres-table").find(".toMove");
+                for(let i = 0; i < genreimages.length; i++){
+                    let data = $(genreimages[i]).attr("data-content").split(" ");
+                    genres.set(data[0], {"isLocked" : data[2]});
+                }
+            }
+
 
             $(".toMove").click(function() {
+                let data = $(this).attr("data-content").split(" ");
                 if (isHovering == false) {
                     if ($(this).hasClass("chosen") == false && $(this).hasClass("unchosen") == false && cnt<1) {
                         //this is chosen first time - both classes are false
                         cnt++;
                         $(this).toggleClass("chosen");
-                        let data = $(this).attr("data-content").split(" ");
+
                         if(data[2] == "unlocked"){
                             $("#train").attr("disabled", false);
-                            allreadyUnlocked = true;
                         }
                         else {
                             $("#unlock").attr("disabled", false);
-                            allreadyUnlocked = false;
                             $(this).attr("data-content", data[0] + " - " + "unlock");
                         }
 
                     } else if ($(this).hasClass("chosen") == true) {
                         //this is unchosen
                         cnt--;
-                        let data = $(this).attr("data-content").split(" ");
-                        if (!allreadyUnlocked) {
+                        if (genres.get(data[0]).isLocked == "locked") {
                             $(this).attr("data-content", data[0] + " - " + "locked");
                             $("#unlock").attr("disabled", true);
                         }
-                        $("#train").attr("disabled", true);
+                        else
+                            $("#train").attr("disabled", true);
                         $(this).toggleClass("chosen");
                         $(this).toggleClass("unchosen");
                     }
-                    else if ($(this).hasClass("unchosen") == true) {
+                    else if ($(this).hasClass("unchosen") == true && cnt<1) {
                         //this is chosen
-                        let data = $(this).attr("data-content").split(" ");
 
-                        if (!allreadyUnlocked) {
+                        if (genres.get(data[0]).isLocked == "locked") {
                             $("#unlock").attr("disabled", false);
                             $(this).attr("data-content", data[0] + " - " + "unlock");
                         }
-                        $("#train").attr("disabled", false);
+                        else
+                            $("#train").attr("disabled", false);
                         $(this).toggleClass("chosen");
                         $(this).toggleClass("unchosen");
                         cnt++;

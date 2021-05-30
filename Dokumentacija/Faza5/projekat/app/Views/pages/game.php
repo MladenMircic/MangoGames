@@ -1,3 +1,4 @@
+
 <script>
     let songDuration;
     let currentGenreImage = 9;
@@ -149,22 +150,22 @@
 <table class="table userInterfaceForm">
     <tr>
         <td>
-            <input class='btn btn-dark guess' type='button' value=''>
+            <input type="button" class="btn btn-dark">
         </td>
     </tr>
     <tr>
         <td>
-            <input class='btn btn-dark guess' type='button' value=''>
+            <input type="button" class="btn btn-dark">
         </td>
     </tr>
     <tr>
         <td>
-            <input class='btn btn-dark guess' type='button' value=''>
+            <input type="button" class="btn btn-dark">
         </td>
     </tr>
     <tr>
         <td>
-            <input class='btn btn-dark guess' type='button' value=''>
+            <input type="button" class="btn btn-dark">
         </td>
     </tr>
 </table>
