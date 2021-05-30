@@ -16,9 +16,7 @@
                     $("#genres").append(option);
 
                 }
-
             });
-
         }
 
         $("#genres").on("change", function (){

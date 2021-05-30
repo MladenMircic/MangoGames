@@ -1,6 +1,7 @@
 <?php
 namespace App\Libraries;
 
+use App\Models\SongModel;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 use App\Models\UserInfoModel;
@@ -8,7 +9,9 @@ use App\Models\UserInfoModel;
 class GameManager implements MessageComponentInterface {
     protected $clients;
     protected $users;
-    protected $inGame;
+    protected $activeGames;
+
+    protected $currentGameId = 0;
 
     protected $search;
 
@@ -59,8 +62,15 @@ class GameManager implements MessageComponentInterface {
         if ($opponent != null) {
             $this->users[$conn->resourceId]['status'] = 'playing';
             $this->users[$opponent->resourceId]['status'] = 'playing';
-            $conn->send("pali");
-            $opponent->send("pali");
+            $songModel = new SongModel();
+            $this->activeGames[$this->currentGameId]['songs'] = $songModel->findAll();
+            $pickedSongs = $this->pickSongs($this->activeGames[$this->currentGameId]['songs']);
+            $conn->send("startGame|" . $this->users[$opponent->resourceId]['username'] . "|" . $this->currentGameId . "|" . json_encode($pickedSongs));
+            $opponent->send("startGame|" . $this->users[$conn->resourceId]['username'] . "|" . $this->currentGameId . "|" . json_encode($pickedSongs));
+            $this->activeGames[$this->currentGameId]['player1'] = $conn;
+            $this->activeGames[$this->currentGameId]['player2'] = $opponent;
+            $this->activeGames[$this->currentGameId]['endOfRound'] = 0;
+            $this->currentGameId++;
         }
         /*$timesToTry = 0;
         $temp = false;
@@ -70,6 +80,26 @@ class GameManager implements MessageComponentInterface {
         if ($temp == false) {
             $conn->send("nema drugih igraca");
         }*/
+    }
+
+    public function pickSongs($songs) {
+        $data = [];
+        $used = [];
+        $i = 0;
+        $songToPlayIndex = rand(0, count($songs) - 1);
+        $data['songToBePlayed'] = $songs[$songToPlayIndex];
+        $data['songs'] []= $songs[$songToPlayIndex]->name;
+        while ($i < 3) {
+            $currentSongNumber = rand(0, count($songs) - 1);
+            if (in_array($currentSongNumber, $used) || $songs[$currentSongNumber]->name == $data['songToBePlayed']->name)
+                continue;
+            $data['songs'] []= $songs[$currentSongNumber]->name;
+            $used []= $currentSongNumber;
+            $i++;
+        }
+        shuffle($data['songs']);
+        $data['randomTime'] = (double)rand(0, 100) / 100;
+        return $data;
     }
 
     public function onOpen(ConnectionInterface $conn) {
@@ -84,14 +114,24 @@ class GameManager implements MessageComponentInterface {
     }
 
     public function onMessage(ConnectionInterface $from, $msg) {
-        $numRecv = count($this->clients) - 1;
-        echo sprintf('Connection %d sending message "%s" to %d other connection%s' . "\n"
-            , $from->resourceId, $msg, $numRecv, $numRecv == 1 ? '' : 's');
-
-        foreach ($this->clients as $client) {
-            if ($from !== $client) {
-                // The sender is not the receiver, send to each client connected
-                $client->send($msg);
+        $info = explode("|", $msg);
+        $gameId = intval($info[1]);
+        switch ($info[0]) {
+            case "answered": {
+                if ($this->activeGames[$gameId]['player1'] == $from)
+                    $this->activeGames[$gameId]['player2']->send("answered|" . $info[2] . "|" . $info[3]);
+                else
+                    $this->activeGames[$gameId]['player1']->send("answered|" . $info[2] . "|" . $info[3]);
+                break;
+            }
+            case "endOfRound": {
+                $this->activeGames[$gameId]['endOfRound']++;
+                if ($this->activeGames[$gameId]['endOfRound'] == 2) {
+                    $this->activeGames[$gameId]['endOfRound'] = 0;
+                    $pickedSongs = $this->pickSongs($this->activeGames[$gameId]['songs']);
+                    $this->activeGames[$gameId]['player1']->send("newRound|" . json_encode($pickedSongs));
+                    $this->activeGames[$gameId]['player2']->send("newRound|" . json_encode($pickedSongs));
+                }
             }
         }
     }

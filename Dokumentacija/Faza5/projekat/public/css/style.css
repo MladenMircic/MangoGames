@@ -216,7 +216,7 @@ table.center {
     justify-content: space-evenly;
 }
 
-.genreChoices img {
+.nesto {
     transition: border-left-width 200ms,
             border-bottom-width 200ms,
             border-top-width 200ms,
@@ -248,7 +248,27 @@ img.genreImageForGame {
     opacity: 0;
 }
 
-.listOfSongs, .infoPart{
+
+.listOfSongs, .infoPart {
     text-align: center;
     padding-top: 40px;
+}
+.myAnswerParent::before {
+    content: attr(time-before);
+    white-space: pre;
+}
+
+.myAnswerParent::after {
+    content: attr(time-after);
+    white-space: pre;
+}
+
+.opponentAnswerParent::before {
+    content: attr(time-before);
+    white-space: pre;
+}
+
+.opponentAnswerParent::after {
+    content: attr(time-after);
+    white-space: pre;
 }

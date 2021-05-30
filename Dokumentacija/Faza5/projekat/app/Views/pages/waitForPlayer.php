@@ -1,21 +1,22 @@
 <script>
     $(document).ready(function () {
-        let conn = new WebSocket('ws://localhost:8081?username=<?= session()->get('username') ?>&chosenGenre=<?= session()->get('chosenGenre') ?>');
-        conn.onopen = function(e) {
+        window.conn = new WebSocket('ws://localhost:8081?username=<?= session()->get('username') ?>&chosenGenre=<?= session()->get('chosenGenre') ?>');
+
+        window.conn.onopen = function(e) {
         };
-        conn.onmessage = function(e) {
-            if (e.data === "pali") {
-                $.post("<?= base_url("User/echoView/game") ?>", function (data) {
-                    $("#insertable").html(data);
-                })
-            }
-            else if (e.data === "nema drugih igraca") {
-                alert(e.data);
-            }
+
+        window.conn.onmessage = function(e) {
+            let messageReceived = e.data.split("|");
+            localStorage.setItem("opponent", messageReceived[1]);
+            localStorage.setItem("gameId", messageReceived[2]);
+            window.songs = messageReceived[3];
+            $.post("<?= base_url("User/echoView/multiplayerGame") ?>", function (data) {
+                $("#insertable").html(data);
+            });
         }
 
         $("#toUserMenu").click(function () {
-            conn.close();
+            window.conn.close();
             $.get("<?= base_url("User/echoView/userInterface") ?>", function (data) {
                 $(".center").html(data);
             })
