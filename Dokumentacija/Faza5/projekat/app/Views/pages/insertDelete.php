@@ -21,7 +21,7 @@
 
         });
 
-        $("#menu").click(function(){
+        $("#return").click(function(){
             $.post("<?php
                 if (session()->get("type") == "mod") echo base_url('Moderator/echoView/modMenu');
                 else echo base_url("Administrator/echoView/adminMenu") ?>", function(data){
@@ -57,7 +57,7 @@
     });
 </script>
 
-<table class="center table">
+<table style="text-align: center" class="table">
     <tr>
         <td class=" borderless">
             <select class="form-select formWidth form-select-lg mb-3" aria-label=".form-select-lg example">
@@ -83,8 +83,9 @@
 <div id="change">
 
 </div>
-<br> <br>
-<input type="button" class="btn btn-dark" id="menu" value="Return to menu">
+<br>
+<br>
+<input type="button" class="btn btn-dark" id="return" value="Return to menu">
 
 
 

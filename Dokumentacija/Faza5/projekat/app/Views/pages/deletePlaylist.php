@@ -2,9 +2,7 @@
     $(document).ready(function(){
         deletePlaylist();
         function deletePlaylist(){
-            $.get("<?php
-                if (session()->get("type") == "mod") echo base_url('Moderator/getPlaylists');
-                else echo base_url("Administrator/getPlaylists") ?>", function(data){
+            $.get("<?=base_url("PrivilegedUser/getPlaylists") ?>", function(data){
                 let playlists=data.split(",");
                 let arr=[];
 
@@ -55,11 +53,9 @@
                         break;
                     }
                 }
-                $.post("<?php
-                    if (session()->get("type") == "mod") echo base_url('Moderator/deletePlaylist');
-                    else echo base_url("Administrator/deletePlaylist") ?>", {
+                $.post("<?=base_url("PrivilegedUser/deletePlaylist") ?>", {
                     "idP": playlistId
-                }, function(data) {
+                }, function() {
                     $("#change").empty().append("<br><br><h3>Playlist deleted successfully</h3>");
 
                 });

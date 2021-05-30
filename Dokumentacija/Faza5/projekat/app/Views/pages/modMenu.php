@@ -37,13 +37,18 @@
                 $(".center").html(data);
             });
         });
+        $("#leaderboards").click(function () {
+            $.post("<?= base_url("Moderator/echoView/leaderboardsPrivileged") ?>", function (data) {
+                $(".center").html(data);
+            });
+        });
     });
 </script>
 
 <table class="table modMenu" style="margin-top: 20px; text-align: center">
     <tr>
         <td>
-            <input class="btn btn-dark btnTransition" type="submit" value="Leaderboards">
+            <input class="btn btn-dark btnTransition" type="submit" id="leaderboards" value="Leaderboards">
         </td>
     </tr>
     <tr>
