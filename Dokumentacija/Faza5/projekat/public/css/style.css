@@ -247,3 +247,23 @@ img.genreImageForGame {
 .hiddenGenreImageForGame {
     opacity: 0;
 }
+
+.myAnswerParent::before {
+    content: attr(time-before);
+    white-space: pre;
+}
+
+.myAnswerParent::after {
+    content: attr(time-after);
+    white-space: pre;
+}
+
+.opponentAnswerParent::before {
+    content: attr(time-before);
+    white-space: pre;
+}
+
+.opponentAnswerParent::after {
+    content: attr(time-after);
+    white-space: pre;
+}

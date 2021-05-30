@@ -1,4 +1,6 @@
 <script>
+    const timerFill = "       ";
+
     let songDuration;
     let currentGenreImage = 9;
     let guessed = false;
@@ -8,26 +10,27 @@
     let logo;
     let myTime;
     let myTimer;
+    let songData;
+    let selected = false;
+    let opponentTime = -1;
 
     let gameId = localStorage.getItem("gameId");
     let opponentUsername = localStorage.getItem("opponent");
 
-    function getSongsFromDatabase() {
-        $.get("<?= base_url('Training/pickSongs/true'); ?>", function (data) {
-            let songData = JSON.parse(data);
-            songToBePlayed = songData.songToBePlayed;
-            usedSongs.push(songToBePlayed.artist + ":" + songToBePlayed.name);
-            let options = $(".userInterfaceForm").find(".guess");
-            for (let i = 0; i < 4; i++) {
-                options[i] = $(options[i]);
-                options[i].attr("value", songData.songs[i]);
-            }
-            playAudio();
-            myTime = 0;
-            myTimer = setInterval(function () {
-                myTime += 0.01;
-            }, 10)
-        });
+    function LoadSongsAndPlayAudio() {
+        songData = JSON.parse(window.songs);
+        songToBePlayed = songData.songToBePlayed;
+        usedSongs.push(songToBePlayed.artist + ":" + songToBePlayed.name);
+        let options = $(".userInterfaceForm").find(".guess");
+        for (let i = 0; i < 4; i++) {
+            options[i] = $(options[i]);
+            options[i].attr("value", songData.songs[i]);
+        }
+        myTime = 0;
+        myTimer = setInterval(function () {
+            myTime += 0.01;
+        }, 10)
+        playAudio();
     }
 
     function colorButtons() {
@@ -42,10 +45,38 @@
         }
     }
 
+    function borderAndTimeBothAnswers() {
+        let options = $(".userInterfaceForm").find(".guess");
+        for (let i = 0; i < 4; i++) {
+            options[i] = $(options[i]);
+            if (options[i].hasClass("myAnswer") && options[i].hasClass("opponentAnswer")) {
+                options[i].css(
+                    {
+                        "border-left": "5px solid blue",
+                        "border-bottom": "5px solid blue",
+                        "border-top": "5px solid red",
+                        "border-right": "5px solid red"
+                    });
+            }
+            else if (options[i].hasClass("opponentAnswer"))
+                options[i].css("border", "5px solid red");
+        }
+
+        if (opponentTime !== -1) {
+            if ($(".myAnswerParent").hasClass("opponentAnswerParent"))
+                $(".myAnswerParent").attr("time-after", opponentTime.toFixed(2));
+            else {
+                $(".opponentAnswerParent").attr("time-before", timerFill);
+                $(".opponentAnswerParent").attr("time-after", opponentTime.toFixed(2));
+            }
+        }
+    }
+
     function utilizeButtons() {
         let options = $(".userInterfaceForm").find(".guess");
         for (let i = 0; i < 4; i++) {
             options[i] = $(options[i]);
+            options[i].removeClass("opponentAnswer myAnswer");
             options[i].toggleClass("btn-dark").prop("disabled", false);
             if (options[i].val() === songToBePlayed.name)
                 options[i].toggleClass("btn-success");
@@ -53,6 +84,10 @@
                 options[i].toggleClass("btn-danger");
             options[i].css("border", "none");
         }
+    }
+
+    function viewOpponentTime() {
+
     }
 
     function playAudio() {
@@ -66,35 +101,47 @@
                 audio.load();
                 audio.onloadedmetadata = function () {
                     songDuration = audio.duration;
-                    audio.currentTime = Math.random() * (songDuration - 5);
+                    audio.currentTime = songData.randomTime * (songDuration - 5);
                     audio.play();
                     $("#" + currentGenreImage).addClass("hiddenGenreImageForGame");
                     currentGenreImage--;
                     setTimeout(function () {
                         clearInterval(myTimer);
+
                         let vol = 1;
                         let fadeOutInterval = setInterval(function () {
-                            if (vol > 0) {
+                            if (vol > 0.1) {
                                 vol -= 0.1;
                                 audio.volume = vol.toFixed(1);
                             } else {
                                 clearInterval(fadeOutInterval);
                                 audio.pause();
                             }
-                        }, 100);
+                        }, 10);
 
-                        if (guessed === false)
-                            colorButtons();
+                        colorButtons();
+                        borderAndTimeBothAnswers();
                         setTimeout(function () {
+                            $(".myAnswerParent")
+                                                .attr("time-before", "")
+                                                .attr("time-after", "")
+                                                .removeClass("myAnswerParent");
+                            $(".opponentAnswerParent")
+                                                .attr("time-before", "")
+                                                .attr("time-after", "")
+                                                .removeClass("opponentAnswerParent");
+
                             $(".guess").toggle(1000);
                             setTimeout(function () {
                                 if (currentGenreImage >= 0) {
                                     guessed = false;
                                     utilizeButtons();
-                                    window.myself.toggleClass("selectedGenre").html("<?= session()->get("username") ?>");
-                                    window.opponent.html(opponentUsername);
+                                    window.myself.removeClass("selectedGenre");
+                                    window.opponent.removeClass("selectedGenre");
+                                    window.conn.send("endOfRound|" + gameId);
                                     $(".guess").toggle(1000);
-                                    getSongsFromDatabase();
+                                    selected = false;
+                                    opponentTime = -1;
                                 }
                                 else {
                                     logo.toggleClass("logo logoForGame");
@@ -120,34 +167,56 @@
     }
 
     $(document).ready(function () {
-        window.myself = $("<div></div>").addClass("nesto").append("<?= session()->get('username') ?>").css("margin-right", "30px");
-        window.opponent = $("<div></div>").append(opponentUsername).css("margin-right", "30px");
+
+        window.conn.onmessage = function (e) {
+            let messageReceived = e.data.split("|");
+            switch (messageReceived[0]) {
+                case "answered": {
+                    opponentTime = parseFloat(messageReceived[1]);
+                    $("#" + messageReceived[2]).addClass("opponentAnswer");
+                    $($("#" + messageReceived[2]).parent()).addClass("opponentAnswerParent");
+                    opponent.addClass("selectedGenre");
+                    break;
+                }
+                case "newRound": {
+                    window.songs = messageReceived[1];
+                    LoadSongsAndPlayAudio();
+                    break;
+                }
+            }
+        }
+
+        window.myself = $("<div></div>").addClass("nesto").append("<?= session()->get('username') ?>").css({"margin-right": "30px", "color": "blue"});
+        window.opponent = $("<div></div>").append(opponentUsername).css({"margin-right": "30px", "color": "red"});
         logo = $($(".header-content").children(".logo")).toggleClass("logo logoForGame");
         $(".userWelcome").html(logo);
 
-
-        //let tokenSection = $("<div></div>").addClass("token-section")
-        //    .append($("<div></div>").append("0").attr("id", "tokens"))
-        //    .append($("<img>").attr("src", "<?//= base_url('images/token.png') ?>//").css({"width": "15%", "height": "25%"}));
         $(".header-content")
             .prepend(window.myself)
             .append(window.opponent)
             .css({"font-size": "20px", "font-weight": "bold", "justify-content": "space-between"});
 
         localStorage.clear();
-        getSongsFromDatabase();
+        LoadSongsAndPlayAudio();
 
         $(".guess").click(function () {
-            clearInterval(myTimer);
-            window.myself.toggleClass("selectedGenre");
-            window.conn.send("answered:" + gameId + ":" + myTime.toFixed(2));
-            if ($(this).val() === songToBePlayed.name) {
-                tokensAcquired += 10;
-                $("#tokens").html(tokensAcquired);
+            if (selected === false) {
+                selected = true
+                clearInterval(myTimer);
+
+                $($(this).parent()).addClass("myAnswerParent");
+                $(".myAnswerParent")
+                    .attr("time-before", myTime.toFixed(2))
+                    .attr("time-after", timerFill);
+
+                window.myself.addClass("selectedGenre");
+                window.conn.send("answered|" + gameId + "|" + myTime.toFixed(2) + "|" + $(this).attr("id"));
+                if ($(this).val() === songToBePlayed.name) {
+                    tokensAcquired += 10;
+                    $("#tokens").html(tokensAcquired);
+                }
+                $(this).addClass("myAnswer").css("border", "5px solid blue");
             }
-            $(this).css("border", "5px solid black");
-            guessed = true;
-            colorButtons();
         });
     });
 </script>
@@ -164,22 +233,22 @@
 <table class="table userInterfaceForm">
     <tr>
         <td>
-            <input class='btn btn-dark guess' type='button' value=''>
+            <input id="answer1" class='btn btn-dark guess' type='button' value=''>
         </td>
     </tr>
     <tr>
         <td>
-            <input class='btn btn-dark guess' type='button' value=''>
+            <input id="answer2" class='btn btn-dark guess' type='button' value=''>
         </td>
     </tr>
     <tr>
         <td>
-            <input class='btn btn-dark guess' type='button' value=''>
+            <input id="answer3" class='btn btn-dark guess' type='button' value=''>
         </td>
     </tr>
     <tr>
         <td>
-            <input class='btn btn-dark guess' type='button' value=''>
+            <input id="answer4" class='btn btn-dark guess' type='button' value=''>
         </td>
     </tr>
 </table>

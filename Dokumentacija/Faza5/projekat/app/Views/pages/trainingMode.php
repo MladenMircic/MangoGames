@@ -56,6 +56,7 @@
                 audio = new Audio(URL.createObjectURL(this.response));
                 audio.load();
                 audio.onloadedmetadata = function () {
+                    window.conn.send("endOfRound|" + gameId);
                     songDuration = audio.duration;
                     audio.currentTime = Math.random() * (songDuration - 5);
                     audio.play();
