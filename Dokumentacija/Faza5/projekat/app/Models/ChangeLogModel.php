@@ -13,6 +13,6 @@ class ChangeLogModel extends Model
     protected $returnType = 'object';
     protected $useAutoIncrement = true;
 
-    protected $allowedFields = ['idC', 'operation', 'moderatorUsername'];
+    protected $allowedFields = ['idC', 'operation', 'moderatorUsername', 'dateTime'];
 
 }

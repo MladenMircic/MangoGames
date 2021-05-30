@@ -2,7 +2,7 @@
     $(document).ready(function (){
         insertSong();
         function insertSong(){
-            $.post("<?= site_url('Moderator/getPlaylists')?>", function(data){
+            $.post("<?= site_url('PrivilegedUser/getPlaylists')?>", function(data){
                 let playlists=data.split(",");
                 let arr=[];
 
@@ -67,7 +67,7 @@
                 }
                 let plArr=pl.split("/");
                 let location="music/"+plArr[0]+ "/"+plArr[1]+"-"+plArr[2]+"/"+performer+" - "+name+".mp4";
-                $.post("<?=base_url('Moderator/insertSong')?>",{
+                $.post("<?=base_url('PrivilegedUser/insertSong')?>",{
                     'name': name,
                     'performer': performer,
                     'genre': plArr[0],

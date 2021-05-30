@@ -2,7 +2,7 @@
     $(document).ready(function(){
         insertPlaylist();
         function insertPlaylist(){
-            $.post("<?= site_url('Moderator/getGenres')?>", function(data) {
+            $.post("<?= site_url('PrivilegedUser/getGenres')?>", function(data) {
                 let genres = data.split(",");
                 genres.pop();
                 for(let i=0;i<genres.length;i++){
@@ -44,7 +44,7 @@
                     }
                 }
 
-                $.post("<?= site_url('Moderator/insertPlaylist')?>", {
+                $.post("<?= base_url('PrivilegedUser/insertPlaylist')?>", {
                     "genre": genre,
                     "level": level
                 }, function (data) {

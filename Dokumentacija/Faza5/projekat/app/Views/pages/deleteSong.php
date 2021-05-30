@@ -3,9 +3,7 @@
         deleteSong();
 
         function deleteSong() {
-            $.post("<?php
-                if (session()->get("type") == "mod") echo base_url('Moderator/getPlaylists');
-                else echo base_url("Administrator/getPlaylists") ?>", function (data) {
+            $.post("<?=base_url("PrivilegedUser/getPlaylists") ?>", function (data) {
                 let playlists = data.split(",");
                 let arr = [];
 
@@ -51,9 +49,7 @@
                 let optionSelected = $("option:selected", this);
                 let pl = optionSelected.attr("id");
                 let arr = pl.split("/");
-                $.post("<?php
-                    if (session()->get("type") == "mod") echo base_url('Moderator/getSongs');
-                    else echo base_url("Administrator/getSongs") ?>", {
+                $.post("<?=base_url("PrivilegedUser/getSongs") ?>", {
                     "genre": arr[0],
                     "difficulty": arr[1],
                     "number": arr[2]
@@ -91,9 +87,7 @@
                         break;
                     }
                 }
-                $.post("<?php
-                    if (session()->get("type") == "mod") echo base_url('Moderator/deleteSong');
-                    else echo base_url("Administrator/deleteSong") ?>", {
+                $.post("<?=base_url("PrivilegedUser/deleteSong") ?>", {
                     "idS": songId
                 }, function(data) {
                     $("#change").empty().append("<br><br><h3>Song deleted successfully</h3>");

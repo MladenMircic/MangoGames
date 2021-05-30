@@ -2,10 +2,14 @@
 
 namespace App\Controllers;
 
+use App\Models\ChangeLogModel;
 use App\Models\PlaylistModel;
 use App\Models\SongModel;
+use App\Models\GenreModel;
+use App\Models\UserInfoModel;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
+use CodeIgniter\Model;
 use Psr\Log\LoggerInterface;
 
 class PrivilegedUser extends BaseController
@@ -90,7 +94,6 @@ class PrivilegedUser extends BaseController
             array_push($arr , $pl->number);
         }
 
-
         if(count($arr)==0)
             $maxNum=1;
         else $maxNum=max($arr)+1;
@@ -103,6 +106,7 @@ class PrivilegedUser extends BaseController
             ucfirst($this->request->getVar('level'))." ".strVal($maxNum);
         $this->insertToChangeLog($message);
     }
+
     public function insertToChangeLog($message){
         $changeLogModel=new ChangeLogModel();
         $changeLogModel->insert([
@@ -110,4 +114,22 @@ class PrivilegedUser extends BaseController
             "moderatorUsername"=>$this->session->get('username')
         ]);
     }
+
+    public function getAllGenres() {
+        $genreModel=new GenreModel();
+        $genres=$genreModel->findAll();
+        foreach ($genres as $genre){
+            echo $genre->name . ",";
+        }
+    }
+    public function getGenres(){
+        $genreModel=new GenreModel();
+        $genres=$genreModel->findAll();
+        foreach ($genres as $genre){
+            $name=$genre->name.",";
+            echo $name;
+        }
+    }
+
+
 }

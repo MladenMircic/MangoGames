@@ -59,29 +59,5 @@ class User extends BaseController
         }
     }
 
-    public function getGenrePoints() {
-        $userInfoModel=new UserInfoModel();
 
-        if($this->request->getVar("genre")=="allGenres"){
-            $arr=[];
-            $infos=$userInfoModel->findAll();
-
-            foreach($infos as $info){
-                if(array_key_exists($info->username, $arr))
-                    $arr[$info->username]+=$info->points;
-                else
-                    $arr[$info->username]=$info->points;
-            }
-
-            foreach($arr as $key => $value)
-                echo $key . "/" . $value . ",";
-        }
-        else {
-            $infos=$userInfoModel->where('genre', $this->request->getVar("genre"))->findAll();
-            foreach ($infos as $info)
-                echo $info->username."/".$info->points.",";
-        }
-
-        echo $this->session->get('username');
-    }
 }
