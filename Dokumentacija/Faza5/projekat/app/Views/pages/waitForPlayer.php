@@ -6,21 +6,13 @@
         };
 
         window.conn.onmessage = function(e) {
-            let messageReceived = e.data.split(":");
-            switch (messageReceived[0]) {
-                case "startGame": {
-                    localStorage.setItem("opponent", messageReceived[1]);
-                    localStorage.setItem("gameId", messageReceived[2]);
-                    $.post("<?= base_url("User/echoView/multiplayerGame") ?>", function (data) {
-                        $("#insertable").html(data);
-                    });
-                    break;
-                }
-                case "answered": {
-                    window.opponent.append("<br>answered " + messageReceived[1]);
-                    break;
-                }
-            }
+            let messageReceived = e.data.split("|");
+            localStorage.setItem("opponent", messageReceived[1]);
+            localStorage.setItem("gameId", messageReceived[2]);
+            window.songs = messageReceived[3];
+            $.post("<?= base_url("User/echoView/multiplayerGame") ?>", function (data) {
+                $("#insertable").html(data);
+            });
         }
 
         $("#toUserMenu").click(function () {
