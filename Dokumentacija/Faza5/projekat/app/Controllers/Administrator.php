@@ -100,7 +100,7 @@ class Administrator extends PrivilegedUser
         $changeLogModel=new ChangeLogModel();
         $logs=$changeLogModel->findAll();
         foreach ($logs as $log){
-            echo $log->moderatorUsername.",". $log->operation.",".$log->dateTime."/";
+            echo $log->username.",". $log->operation.",".$log->dateTime."/";
         }
     }
 }
