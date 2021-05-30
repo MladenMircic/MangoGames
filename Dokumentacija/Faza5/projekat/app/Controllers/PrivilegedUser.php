@@ -113,6 +113,13 @@ class PrivilegedUser extends BaseController
             "operation"=> $message,
             "username"=>$this->session->get('username')
         ]);
+        $all=$changeLogModel->findAll();
+        if(count($all)>50){
+            $toDelete=$changeLogModel->findAll(10);
+            foreach ($toDelete as $del){
+                $changeLogModel->delete($del->idC);
+            }
+        }
     }
 
     public function getAllGenres() {
