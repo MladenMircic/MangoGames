@@ -247,3 +247,8 @@ img.genreImageForGame {
 .hiddenGenreImageForGame {
     opacity: 0;
 }
+
+.listOfSongs, .infoPart{
+    text-align: center;
+    padding-top: 40px;
+}

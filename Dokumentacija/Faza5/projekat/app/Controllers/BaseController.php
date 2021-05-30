@@ -8,6 +8,7 @@ use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
+use App\Models\SongModel;
 
 /**
  * Class BaseController
@@ -81,5 +82,14 @@ class BaseController extends Controller
     {
         $this->session->destroy();
         return redirect()->to(base_url("Login?wantToExit=true"));
+    }
+
+    public function getSongInfo()
+    {
+        $songModel = new SongModel();
+        $id = $this->request->getVar("idS");
+        $song = $songModel->find($id);
+        $songString = $song->idS . "," . $song->name . "," . $song->artist . "," . $song->path;
+        echo $songString;
     }
 }

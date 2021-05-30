@@ -4,6 +4,8 @@ namespace App\Controllers;
 
 use App\Models\UserInfoModel;
 use App\Models\UserModel;
+use App\Models\GenreModel;
+use CodeIgniter\Model;
 
 class User extends BaseController
 {
@@ -84,5 +86,34 @@ class User extends BaseController
             }
         }
         echo $this->session->get('username');
+    }
+
+    public function getGenres(){
+        $genreModel = new GenreModel();
+        $userInfo = new UserInfoModel();
+        $user = $this->session->get("username");
+
+        $infos = $userInfo->where("username", $user)->findAll();
+        $genres = $genreModel->findAll();
+
+        $toSend = [];
+
+        foreach ($genres as $genre){
+            $flag = false;
+            foreach($infos as $info){
+                if($info->genre == $genre->name){
+                    $flag = true;
+                    break;
+                }
+            }
+            if($flag == true){
+                $toSend[$genre->name] = "unlocked";
+            }
+            else{
+                $toSend[$genre->name] = "locked";
+            }
+        }
+
+        return ["genres" => $toSend];
     }
 }

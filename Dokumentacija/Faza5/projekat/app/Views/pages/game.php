@@ -64,7 +64,7 @@
                     setTimeout(function () {
                         let vol = 1;
                         let fadeOutInterval = setInterval(function () {
-                            if (vol > 0) {
+                            if (vol > 0.1) {
                                 vol -= 0.1;
                                 audio.volume = vol.toFixed(1);
                             } else {
@@ -93,6 +93,9 @@
                                     localStorage.setItem("usedSongs", usedSongs);
                                     $.post("<?= base_url('Gameplay/saveUserTokens') ?>", {
                                         tokens: tokensAcquired
+                                    });
+                                    $.post("<?= base_url('Gameplay/echoView/songList') ?>", function (data) {
+                                        $(".center").html(data);
                                     });
                                 }
 
