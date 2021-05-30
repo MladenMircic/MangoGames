@@ -111,7 +111,7 @@ class PrivilegedUser extends BaseController
         $changeLogModel=new ChangeLogModel();
         $changeLogModel->insert([
             "operation"=> $message,
-            "moderatorUsername"=>$this->session->get('username')
+            "username"=>$this->session->get('username')
         ]);
     }
 

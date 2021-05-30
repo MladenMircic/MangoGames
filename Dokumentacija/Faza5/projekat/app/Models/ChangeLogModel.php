@@ -8,11 +8,11 @@ use CodeIgniter\Model;
 
 class ChangeLogModel extends Model
 {
-    protected $table = 'moderator_change_log';
+    protected $table = 'change_log';
     protected $primaryKey = 'idC';
     protected $returnType = 'object';
     protected $useAutoIncrement = true;
 
-    protected $allowedFields = ['idC', 'operation', 'moderatorUsername', 'dateTime'];
+    protected $allowedFields = ['idC', 'operation', 'username', 'dateTime'];
 
 }
