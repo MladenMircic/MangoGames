@@ -50,15 +50,6 @@ class Administrator extends PrivilegedUser
         }
     }
 
-    public function getSongInfo()
-    {
-        $songModel = new SongModel();
-        $id = $this->request->getVar("idS");
-        $song = $songModel->find($id);
-        $songString = $song->idS . "," . $song->name . "," . $song->artist;
-        echo $songString;
-    }
-
     public function deleteAccount(){
         $users = new UserModel();
         $toDelete =$users->find($this->request->getVar('accountToDelete'));

@@ -87,6 +87,15 @@ class BaseController extends Controller
         return redirect()->to(base_url("Login?wantToExit=true"));
     }
 
+    public function getSongInfo()
+    {
+        $songModel = new SongModel();
+        $id = $this->request->getVar("idS");
+        $song = $songModel->find($id);
+        $songString = $song->idS . "," . $song->name . "," . $song->artist . "," . $song->path;
+        echo $songString;
+    }
+
     public function getGenrePoints() {
         $userInfoModel=new UserInfoModel();
 

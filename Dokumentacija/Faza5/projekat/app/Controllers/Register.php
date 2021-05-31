@@ -64,7 +64,6 @@ class Register extends BaseController
         foreach ($data['genres'] as $genre)
             $genre->name = ucfirst($genre->name);
         $this->showView('pickGenres',$data);
-
     }
 
     /**

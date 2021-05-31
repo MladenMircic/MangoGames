@@ -249,6 +249,11 @@ img.genreImageForGame {
     opacity: 0;
 }
 
+
+.listOfSongs, .infoPart {
+    text-align: center;
+    padding-top: 40px;
+}
 .myAnswerParent::before {
     content: attr(time-before);
     white-space: pre;
@@ -267,4 +272,14 @@ img.genreImageForGame {
 .opponentAnswerParent::after {
     content: attr(time-after);
     white-space: pre;
+}
+
+#toUnlock{
+    margin-top: -13px;
+}
+
+.numberOfGuesses{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
 }

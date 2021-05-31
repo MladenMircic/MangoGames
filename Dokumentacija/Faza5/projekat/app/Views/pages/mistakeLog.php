@@ -1,5 +1,8 @@
 <script>
     $(document).ready(function (){
+        // let request;
+        // let audio;
+
         $("#back").click(function(){
             $.post("<?php
                 if (session()->get("type") == "mod") echo base_url('Moderator/echoView/modMenu');
@@ -19,6 +22,7 @@
                     else echo base_url("Administrator/getSongInfo") ?>",{
                     "idS" : ids
                 }, function (data1) {
+
                     let songInfo = [];
                     songInfo = data1.split(",");
                     let row1 = $("<tr></tr>");
@@ -48,25 +52,41 @@
                     $(".songInfoTable").append(row1);
                     $(".songInfoTable").append(row2);
                     $(".songInfoTable").append(row3);
+
+                    window.request = new XMLHttpRequest();
+                    window.request.open("GET", "<?= base_url("/") ?>" + "/" + songInfo[3], true);
+                    window.request.responseType = "blob";
+                    window.request.onload = function() {
+                        if (this.status == 200) {
+                            window.audio = new Audio(URL.createObjectURL(this.response));
+                            window.audio.load();
+
+                        }
+                    }
+                    request.send();
                 });
             });
         });
     });
 </script>
 
-<br>
-<br>
-<div class="scroll offset-sm-3 col-sm-6">
-    <table class="table mistakeLogTable" style="text-align: right">
 
-    </table>
+<div class="insertable">
+    <br>
+    <br>
+    <div class="scroll offset-sm-3 col-sm-6">
+        <table class="table mistakeLogTable" style="text-align: right">
+
+        </table>
+    </div>
+    <div class="songInfo">
+        <br>
+        Song ID:
+        <input type="text" style="margin-left: 10px" id="ids">
+        <input class="btn btn-dark btn-sm" type="button" style="margin-left: 10px" value="Get song info" id="info">
+        <br>
+        <br>
+        <input type="button" class="btn btn-sm btn-dark" value="Back" id="back">
+    </div>
 </div>
-<div class="songInfo">
-    <br>
-    Song ID:
-    <input type="text" style="margin-left: 10px" id="ids">
-    <input class="btn btn-dark btn-sm" type="button" style="margin-left: 10px" value="Get song info" id="info">
-    <br>
-    <br>
-    <input type="button" class="btn btn-sm btn-dark" value="Back" id="back">
-</div>
+
