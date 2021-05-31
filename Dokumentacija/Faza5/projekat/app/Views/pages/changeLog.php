@@ -28,10 +28,10 @@
 
 </script>
 <br>
-<h3>Moderators Changes Log:</h3>
+<h3>Changes Log:</h3>
 <br>
 <div>
-    <div style="margin:auto;  background-color: rgba(251,151,57,0); width : 500px; border: none" class="scroll">
+    <div style="margin:auto;  background-color: rgba(251,151,57,0); width : 90%; border: none" class="scroll">
         <table style="text-align: left; border:solid 3px dimgrey; background-color:rgba(114,24,23,0.80) " class= "table table-dark table-sm table-bordered" id="changeLog">
 
         </table>
