@@ -105,7 +105,8 @@
                                         $.post("<?= base_url('Training/echoView/songList') ?>", function (data) {
                                             localStorage.setItem("numberOfGuesses", numberOfCorrectGuesses);
                                             $(".center").html(data);
-                                            $.post("<?= base_url("Training/saveNewUserInfo") ?>");
+                                            if(mode == "unlock")
+                                                $.post("<?= base_url("Training/saveNewUserInfo") ?>");
                                         });
                                     }
 

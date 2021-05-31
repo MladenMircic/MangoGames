@@ -61,4 +61,7 @@
             </thead>
         </tr>
     </table>
+    <form method="get" action="<?= base_url("User") ?>">
+        <input type="submit" value="Return to menu" class="btnRegister btn-dark btn btnTransition">
+    </form>
 </div>
