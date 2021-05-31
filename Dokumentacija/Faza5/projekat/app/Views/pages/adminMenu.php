@@ -4,7 +4,7 @@
         $("#mistakeLog").click(function() {
             $.get("<?= base_url("Administrator/echoView/mistakeLog") ?>", function (data) {
                 $(".center").html(data);
-                $.get("<?= base_url("Administrator/getMistakes") ?>", function (data1) {
+                $.get("<?= base_url("PrivilegedUser/getMistakes") ?>", function (data1) {
 
                     mistakes = data1.split(',');
                     for (let i=0; i<mistakes.length -1 ;i++)

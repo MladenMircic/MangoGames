@@ -138,5 +138,19 @@ class PrivilegedUser extends BaseController
         }
     }
 
-
+    /**
+     * A method that returns to the administrator all the mistakes reported by the users
+     */
+    public function getMistakes()
+    {
+        /**
+         * A model that represents a table of mistakes from the database.
+         */
+        $mistakeModel = new MistakeLogModel();
+        $mistakes = $mistakeModel->findAll();
+        foreach ($mistakes as $mistake){
+            $mistakeString = $mistake->idM . '/' . $mistake->idS . ',';
+            echo $mistakeString;
+        }
+    }
 }
