@@ -138,6 +138,25 @@ class PrivilegedUser extends BaseController
         }
     }
 
+
+    public function updateSong(){
+
+        $songModel=new SongModel();
+        $songToBeChanged=$songModel->find($this->request->getVar('songId'));
+        $message="changed song ".$songToBeChanged->artist." - ".$songToBeChanged->name." to ";
+        if($this->request->getVar('toChange')=="name"){
+            $toChange="name";
+            $message.=$songToBeChanged->artist." - ".$this->request->getVar('name');
+        }
+        else {
+            $toChange = "artist";
+            $message.=$this->request->getVar('name')." - ".$songToBeChanged->name;
+        }
+        $songModel->where("idS",$this->request->getVar('songId'))->update(null,[$toChange=>$this->request->getVar('name')]);
+        $this->insertToChangeLog($message);
+    }
+
+
     /**
      * A method that returns to the administrator all the mistakes reported by the users
      */
@@ -153,4 +172,5 @@ class PrivilegedUser extends BaseController
             echo $mistakeString;
         }
     }
+
 }
