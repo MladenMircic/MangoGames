@@ -79,6 +79,10 @@
                     isHovering = false;
                 }
             });
+
+            $("#train").click(function () {
+                $.post("<?= base_url("User/goToTraining") ?>");
+            });
         })
     })
 </script>
