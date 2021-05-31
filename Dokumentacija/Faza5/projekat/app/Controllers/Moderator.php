@@ -30,16 +30,5 @@ class Moderator extends PrivilegedUser
     protected function showAdditionalData() {
         return ['welcomeMessage' => "Welcome, {$this->session->get('username')} <br> <div style='color: blue'>Moderator</div>"];
     }
-  
 
-
-    public function getMistakes()
-    {
-        $mistakeModel = new MistakeLogModel();
-        $mistakes = $mistakeModel->findAll();
-        foreach ($mistakes as $mistake){
-            $mistakeString = $mistake->idM . '/' . $mistake->idS . ',';
-            echo $mistakeString;
-        }
-    }
 }

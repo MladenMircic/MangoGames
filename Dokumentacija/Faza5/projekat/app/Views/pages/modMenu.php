@@ -9,7 +9,7 @@
         $("#mistakeLog").click(function(){
             $.get("<?= base_url("Moderator/echoView/mistakeLog") ?>", function (data) {
                 $(".center").html(data);
-                $.get("<?= base_url("Moderator/getMistakes") ?>", function (data1){
+                $.get("<?= base_url("PrivilegedUser/getMistakes") ?>", function (data1){
 
                     let mistakes;
                     mistakes = data1.split(',');

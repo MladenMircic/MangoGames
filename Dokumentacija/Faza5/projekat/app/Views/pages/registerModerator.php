@@ -39,6 +39,12 @@
                 }
             );
         });
+
+        $("#back").click(function () {
+            $.post("<?= base_url("Administrator/echoView/adminMenu") ?>", function (data) {
+                $(".center").html(data);
+            })
+        });
     });
 </script>
 
@@ -71,4 +77,5 @@
             </td>
         </tr>
     </table>
+    <input type="button" class="btn btnRegister btn-dark" value="Return to menu" id="back">
 </div>
