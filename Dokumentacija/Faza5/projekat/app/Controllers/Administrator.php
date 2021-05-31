@@ -4,6 +4,7 @@
 namespace App\Controllers;
 
 
+use App\Models\ChangeLogModel;
 use App\Models\MistakeLogModel;
 use App\Models\SongModel;
 use App\Models\UserInfoModel;
@@ -85,5 +86,12 @@ class Administrator extends PrivilegedUser
             'type' => "moderator"
         ]);
         echo "";
+    }
+    public function getChangeLog(){
+        $changeLogModel=new ChangeLogModel();
+        $logs=$changeLogModel->findAll();
+        foreach ($logs as $log){
+            echo $log->username.",". $log->operation.",".$log->dateTime."/";
+        }
     }
 }

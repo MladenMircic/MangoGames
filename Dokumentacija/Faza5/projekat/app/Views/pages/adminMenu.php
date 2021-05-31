@@ -27,7 +27,7 @@
         });
 
         $("#leaderboards").click(function () {
-            $.post("<?= base_url("Administrator/echoView/leaderboards") ?>", function (data) {
+            $.post("<?= base_url("Administrator/echoView/leaderboardsPrivileged") ?>", function (data) {
                 $(".center").html(data);
             });
         });
@@ -55,6 +55,11 @@
                 $(".center").html(data);
             });
         });
+        $("#changeLog").click(function () {
+            $.post("<?= base_url("Administrator/echoView/changeLog") ?>", function (data) {
+                $(".center").html(data);
+            });
+        });
     });
 </script>
 
@@ -76,7 +81,7 @@
         </tr>
         <tr>
             <td class="borderless">
-                <input type="submit" class="btn btnMenu btn-dark btnTransition" name="submit" value="Change Log">
+                <input type="submit" class="btn btnMenu btn-dark btnTransition" name="submit" value="Change Log" id="changeLog">
             </td>
         </tr>
         <tr>
