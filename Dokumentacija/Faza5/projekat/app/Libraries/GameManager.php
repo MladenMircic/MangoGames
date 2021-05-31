@@ -54,7 +54,10 @@ class GameManager implements MessageComponentInterface {
     public function match(ConnectionInterface $conn) {
         $opponent = null;
         foreach($this->clients as $client) {
-            if ($this->users[$client->resourceId]['status'] == 'inQueue' && $conn != $client) {
+            if ($this->users[$client->resourceId]['status'] == 'inQueue' &&
+                $conn != $client &&
+                $this->users[$conn->resourceId]['chosenGenre'] == $this->users[$client->resourceId]['chosenGenre'])
+            {
                 $opponent = $client;
                 break;
             }
@@ -69,6 +72,7 @@ class GameManager implements MessageComponentInterface {
             $opponent->send("startGame|" . $this->users[$conn->resourceId]['username'] . "|" . $this->currentGameId . "|" . json_encode($pickedSongs));
             $this->activeGames[$this->currentGameId]['player1'] = $conn;
             $this->activeGames[$this->currentGameId]['player2'] = $opponent;
+            $this->activeGames[$this->currentGameId]['currentRound'] = 0;
             $this->activeGames[$this->currentGameId]['endOfRound'] = 0;
             $this->currentGameId++;
         }
@@ -118,25 +122,95 @@ class GameManager implements MessageComponentInterface {
         $gameId = intval($info[1]);
         switch ($info[0]) {
             case "answered": {
-                if ($this->activeGames[$gameId]['player1'] == $from)
+                if ($this->activeGames[$gameId]['player1'] == $from) {
+                    $this->activeGames[$gameId]['answer1'] = [$info[4], $info[2]];
                     $this->activeGames[$gameId]['player2']->send("answered|" . $info[2] . "|" . $info[3]);
-                else
+                }
+                else {
+                    $this->activeGames[$gameId]['answer2'] = [$info[4], $info[2]];
                     $this->activeGames[$gameId]['player1']->send("answered|" . $info[2] . "|" . $info[3]);
+                }
                 break;
             }
             case "endOfRound": {
                 $this->activeGames[$gameId]['endOfRound']++;
                 if ($this->activeGames[$gameId]['endOfRound'] == 2) {
                     $this->activeGames[$gameId]['endOfRound'] = 0;
+                    $this->activeGames[$gameId]['currentRound']++;
                     $pickedSongs = $this->pickSongs($this->activeGames[$gameId]['songs']);
-                    $this->activeGames[$gameId]['player1']->send("newRound|" . json_encode($pickedSongs));
-                    $this->activeGames[$gameId]['player2']->send("newRound|" . json_encode($pickedSongs));
+                    $points1 = $points2 = 0;
+                    if (isset($this->activeGames[$gameId]['answer1']) && isset($this->activeGames[$gameId]['answer2'])) {
+                        if ($this->activeGames[$gameId]['answer1'][0] == 1 && $this->activeGames[$gameId]['answer2'][0] == 1)
+                        {
+                            if ($this->activeGames[$gameId]['answer1'][1] == $this->activeGames[$gameId]['answer2'][1]) {
+                                $points1 = 4;
+                                $points2 = 4;
+                            }
+                            else if ($this->activeGames[$gameId]['answer1'][1] < $this->activeGames[$gameId]['answer2'][1]) {
+                                $points1 = 4;
+                                $points2 = 2;
+                            }
+                            else {
+                                $points1 = 2;
+                                $points2 = 4;
+                            }
+                        }
+                        else if ($this->activeGames[$gameId]['answer1'][0] == 1 && $this->activeGames[$gameId]['answer2'][0] == 0) {
+                            $points1 = 4;
+                            $points2 = -1;
+                        }
+                        else if ($this->activeGames[$gameId]['answer1'][0] == 0 && $this->activeGames[$gameId]['answer2'][0] == 1) {
+                            $points1 = -1;
+                            $points2 = 4;
+                        }
+                    }
+                    else if (isset($this->activeGames[$gameId]['answer1'])) {
+                        if ($this->activeGames[$gameId]['answer1'][0] == 1)
+                            $points1 = 4;
+                        else
+                            $points1 = -1;
+                    }
+                    else if (isset($this->activeGames[$gameId]['answer2'])) {
+                        if ($this->activeGames[$gameId]['answer2'][0] == 1)
+                            $points2 = 4;
+                        else
+                            $points2 = -1;
+                    }
+
+                    $this->activeGames[$gameId]['player1']->send("newRound|" . json_encode($pickedSongs) . "|" . $points1 . "|" . $points2);
+                    $this->activeGames[$gameId]['player2']->send("newRound|" . json_encode($pickedSongs) . "|" . $points2 . "|" . $points1);
+                    unset($this->activeGames[$gameId]['answer1']);
+                    unset($this->activeGames[$gameId]['answer2']);
                 }
+                break;
             }
         }
     }
 
     public function onClose(ConnectionInterface $conn) {
+        foreach ($this->activeGames as $activeGame) {
+            if (($activeGame['player1'] == $conn || $activeGame['player2'] == $conn) &&
+                $activeGame['currentRound'] >= 9) {
+                $gameToDelete = &$activeGame;
+                break;
+            }
+            if ($activeGame['player1'] == $conn) {
+                $activeGame['player2']->send("playerLeft");
+                $gameToDelete = &$activeGame;
+                break;
+            }
+            else if ($activeGame['player2'] == $conn) {
+                $activeGame['player1']->send("playerLeft");
+                $gameToDelete = &$activeGame;
+                break;
+            }
+        }
+
+        if (isset($gameToDelete))
+            unset($gameToDelete);
+
+        unset($this->users[$conn->resourceId]);
+
         // The connection is closed, remove it, as we can no longer send it messages
         $this->clients->detach($conn);
 

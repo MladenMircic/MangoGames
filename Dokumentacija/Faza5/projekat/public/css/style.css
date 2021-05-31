@@ -239,9 +239,9 @@ div.imagesForGame {
 }
 
 img.genreImageForGame {
-    width: 50px;
-    height: 50px;
-    transition: opacity 5s;
+    width: 10%;
+    height: 10%;
+    transition: opacity 1s;
 }
 
 .hiddenGenreImageForGame {
@@ -266,4 +266,12 @@ img.genreImageForGame {
 .opponentAnswerParent::after {
     content: attr(time-after);
     white-space: pre;
+}
+
+#results {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    font-size: 26px;
+    font-weight: bold;
 }

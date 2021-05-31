@@ -1,9 +1,6 @@
 <script>
     $(document).ready(function () {
-        window.conn = new WebSocket('ws://localhost:8081?username=<?= session()->get('username') ?>&chosenGenre=<?= session()->get('chosenGenre') ?>');
-
-        window.conn.onopen = function(e) {
-        };
+        window.conn = new WebSocket('ws://192.168.3.198:8081?username=<?= session()->get('username') ?>&chosenGenre=<?= session()->get('chosenGenre') ?>');
 
         window.conn.onmessage = function(e) {
             let messageReceived = e.data.split("|");

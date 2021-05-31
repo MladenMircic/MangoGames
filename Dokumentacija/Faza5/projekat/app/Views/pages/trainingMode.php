@@ -56,7 +56,6 @@
                 audio = new Audio(URL.createObjectURL(this.response));
                 audio.load();
                 audio.onloadedmetadata = function () {
-                    window.conn.send("endOfRound|" + gameId);
                     songDuration = audio.duration;
                     audio.currentTime = Math.random() * (songDuration - 5);
                     audio.play();
@@ -113,7 +112,8 @@
         $(".userWelcome").append(logo);
 
 
-        let tokenSection = $("<div></div>").addClass("token-section")
+        let tokenSection = $("<div></div>")
+                                    .addClass("token-section")
                                     .append($("<div></div>").append("0").attr("id", "tokens"))
                                     .append($("<img>").attr("src", "<?= base_url('images/token.png') ?>").css({"width": "15%", "height": "25%"}));
         $(".header-content")

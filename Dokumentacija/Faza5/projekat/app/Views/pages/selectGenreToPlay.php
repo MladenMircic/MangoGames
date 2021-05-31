@@ -42,7 +42,6 @@
         });
     });
 </script>
-
 <br>
 <h4>Choose a genre to compete in</h4>
 <br>
