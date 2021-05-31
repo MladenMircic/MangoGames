@@ -26,6 +26,7 @@ class User extends BaseController
 
     public function goToTraining() {
         $this->session->set("chosenGenre", $this->request->getVar("chosenGenre"));
+        $this->session->set("mode", $this->request->getVar("mode"));
         return redirect()->to(base_url("Training"));
     }
 

@@ -273,3 +273,13 @@ img.genreImageForGame {
     content: attr(time-after);
     white-space: pre;
 }
+
+#toUnlock{
+    margin-top: -13px;
+}
+
+.numberOfGuesses{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}

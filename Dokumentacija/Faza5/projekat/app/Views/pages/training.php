@@ -79,11 +79,18 @@
                     isHovering = false;
                 }
             });
-
-            $("#train").click(function () {
-                $.post("<?= base_url("User/goToTraining") ?>");
-            });
         })
+        $("#train").click(function () {
+            let chosenGenre = $(".chosen").attr("data-content").split(" ");
+            $("#chosenGenre").attr("value", chosenGenre[0]);
+            $("#mode").attr("value", "train");
+        });
+
+        $("#unlock").click(function () {
+            let chosenGenre = $(".chosen").attr("data-content").split(" ");
+            $("#chosenGenre").attr("value", chosenGenre[0]);
+            $("#mode").attr("value", "unlock");
+        });
     })
 </script>
 
@@ -98,7 +105,11 @@
     </table>
 </div>
 <br>
-<input type="button" value = "Unlock" id="unlock" class="btn btn-dark btnRegister btnTransition" disabled = true>
 <br>
 <br>
-<input type="button" value = "Train" id="train" class="btn btn-dark btnRegister btnTransition" disabled = true>
+<form method="post" action="<?= base_url("User/goToTraining") ?>">
+    <input type="submit" value = "Train" id="train" class="btn btn-dark btnRegister btnTransition" disabled = true>
+    <input type="submit" value = "Unlock" id="unlock" class="btn btn-dark btnRegister btnTransition" disabled = true>
+    <input type="hidden" name="chosenGenre" value="" id="chosenGenre">
+    <input type="hidden" name="mode" value="" id="mode">
+</form>
