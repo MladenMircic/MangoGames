@@ -128,7 +128,7 @@ input.btnTransition:hover{
     width:50%;
 }
 
-.genres-table {
+.genres-table , .yourGenresTable{
     text-align: center;
 }
 
@@ -278,7 +278,7 @@ img.genreImageForGame {
     margin-top: -13px;
 }
 
-.numberOfGuesses{
+.numberOfGuesses, .buttonsConfirm{
     display: flex;
     flex-direction: row;
     justify-content: space-around;
