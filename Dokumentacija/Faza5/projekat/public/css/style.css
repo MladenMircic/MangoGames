@@ -192,6 +192,7 @@ div.scroll {
     background-color: gray;
 }
 
+
 table.center {
     text-align: center;
 }
@@ -248,6 +249,11 @@ img.genreImageForGame {
     opacity: 0;
 }
 
+
+.listOfSongs, .infoPart {
+    text-align: center;
+    padding-top: 40px;
+}
 .myAnswerParent::before {
     content: attr(time-before);
     white-space: pre;
@@ -268,10 +274,21 @@ img.genreImageForGame {
     white-space: pre;
 }
 
+
 #results {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     font-size: 26px;
     font-weight: bold;
+}
+
+#toUnlock {
+    margin-top: -13px;
+}
+
+.numberOfGuesses {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
 }

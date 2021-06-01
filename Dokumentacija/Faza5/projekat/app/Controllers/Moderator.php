@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\ChangeLogModel;
 use App\Models\GenreModel;
 use App\Models\PlaylistModel;
 use App\Models\SongModel;
@@ -29,23 +30,5 @@ class Moderator extends PrivilegedUser
     protected function showAdditionalData() {
         return ['welcomeMessage' => "Welcome, {$this->session->get('username')} <br> <div style='color: blue'>Moderator</div>"];
     }
-  
-    public function getGenres(){
-        $genreModel=new GenreModel();
-        $genres=$genreModel->findAll();
-        foreach ($genres as $genre){
-            $name=$genre->name.",";
-            echo $name;
-        }
-    }
 
-    public function getMistakes()
-    {
-        $mistakeModel = new MistakeLogModel();
-        $mistakes = $mistakeModel->findAll();
-        foreach ($mistakes as $mistake){
-            $mistakeString = $mistake->idM . '/' . $mistake->idS . ',';
-            echo $mistakeString;
-        }
-    }
 }

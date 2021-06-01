@@ -20,8 +20,16 @@
             operationAndType(operation,type);
 
         });
+        $("#operation").on("change", function (){
+            //alert("promena");
+            let optionSelected = $("option:selected", this);
+            if(optionSelected.attr("id")==="update")
+                $("#pl").hide();
+            else
+                $("#pl").show();
+        });
 
-        $("#menu").click(function(){
+        $("#return").click(function(){
             $.post("<?php
                 if (session()->get("type") == "mod") echo base_url('Moderator/echoView/modMenu');
                 else echo base_url("Administrator/echoView/adminMenu") ?>", function(data){
@@ -50,6 +58,11 @@
                     if (session()->get("type") == "mod") echo base_url('Moderator/echoView/deletePlaylist');
                     else echo base_url("Administrator/echoView/deletePlaylist") ?>");
             }
+            else if((operation==="update" && type==="song")){
+                $("#change").load("<?php
+                    if (session()->get("type") == "mod") echo base_url('Moderator/echoView/updateSong');
+                    else echo base_url("Administrator/echoView/updateSong") ?>");
+            }
             else {
                 $("#change").empty().append("<br><br><h4>You must choose operation and type </h4>");
             }
@@ -57,20 +70,21 @@
     });
 </script>
 
-<table class="center table">
+<table style="text-align: center" class="table">
     <tr>
         <td class=" borderless">
-            <select class="form-select formWidth form-select-lg mb-3" aria-label=".form-select-lg example">
+            <select id="operation" class="form-select formWidth form-select-lg mb-3" aria-label=".form-select-lg example">
                 <option selected>Choose operation</option>
                 <option class="operation" value="insert">Insert</option>
                 <option class="operation" value="delete">Delete</option>
+                <option id="update" class="operation" value="update">Update</option>
             </select>
         </td>
 
         <td class=" borderless">
             <select class="form-select formWidth form-select-lg mb-3" aria-label=".form-select-lg example">
                 <option selected>Choose type</option>
-                <option class="type" value="playlist">Playlist</option>
+                <option id="pl" class="type" value="playlist">Playlist</option>
                 <option class="type" value="song">Song</option>
             </select>
         </td>
@@ -83,8 +97,9 @@
 <div id="change">
 
 </div>
-<br> <br>
-<input type="button" class="btn btn-dark" id="menu" value="Return to menu">
+<br>
+<br>
+<input type="button" class="btn btn-dark" id="return" value="Return to menu">
 
 
 

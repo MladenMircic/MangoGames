@@ -4,11 +4,13 @@ namespace App\Controllers;
 
 use App\Models\PlaylistModel;
 use App\Models\SongModel;
+use App\Models\UserInfoModel;
 use CodeIgniter\Controller;
 use CodeIgniter\HTTP\CLIRequest;
 use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
+use CodeIgniter\Model;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -83,5 +85,40 @@ class BaseController extends Controller
     {
         $this->session->destroy();
         return redirect()->to(base_url("Login?wantToExit=true"));
+    }
+
+    public function getSongInfo()
+    {
+        $songModel = new SongModel();
+        $id = $this->request->getVar("idS");
+        $song = $songModel->find($id);
+        $songString = $song->idS . "," . $song->name . "," . $song->artist . "," . $song->path;
+        echo $songString;
+    }
+
+    public function getGenrePoints() {
+        $userInfoModel=new UserInfoModel();
+
+        if($this->request->getVar("genre")=="allGenres"){
+            $arr=[];
+            $infos=$userInfoModel->findAll();
+
+            foreach($infos as $info){
+                if(array_key_exists($info->username, $arr))
+                    $arr[$info->username]+=$info->points;
+                else
+                    $arr[$info->username]=$info->points;
+            }
+
+            foreach($arr as $key => $value)
+                echo $key . "/" . $value . ",";
+        }
+        else {
+            $infos=$userInfoModel->where('genre', $this->request->getVar("genre"))->findAll();
+            foreach ($infos as $info)
+                echo $info->username."/".$info->points.",";
+        }
+
+        echo $this->session->get('username');
     }
 }

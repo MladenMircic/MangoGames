@@ -1,8 +1,8 @@
 <script>
-    $(document).ready(function () {
-        deleteSong();
+    $(document).ready(function (){
+        showSongs();
 
-        function deleteSong() {
+        function showSongs() {
             $.post("<?=base_url("PrivilegedUser/getPlaylists") ?>", function (data) {
                 let playlists = data.split(",");
                 let arr = [];
@@ -40,8 +40,13 @@
 
             });
         }
-
+       $("#songs").on("change", function (){
+           $("#text1").empty();
+           $(".toHide").prop("hidden", true);
+       });
         $("#playlists").on("change", function () {
+            $("#text1").empty();
+            $(".toHide").prop("hidden", true);
             if($("#playlistDefault").prop("selected") === true){
                 $("#songs").empty().append("<option id='songDefault' selected>Song</option>");
             }
@@ -69,38 +74,45 @@
                 });
             }
         });
-
-        $("#deleteSong").click(function(){
-            $("#error").empty();
-            if($("#playlistDefault").prop("selected") === true){
-                $("#error").append("You must choose playlist");
-            }
-            else if($("#songDefault").prop("selected") === true){
-                $("#error").append("You must choose song");
+        $(".btnEdit").click(function (){
+            localStorage.setItem("toChange", this.id);
+            let selectedSong= $("option:selected", $("#songs"));
+            let selectedPlaylist= $("option:selected", $("#playlists"));
+            if(selectedSong.attr("id")==="songDefault" || selectedPlaylist.attr("id")==="playlistDefault"){
+                $("#text1").append("<h4>You must choose song</h4>");
             }
             else{
-                let songs = document.getElementsByClassName("optSong");
-                let songId="";
-                for(let i=0;i<songs.length;i++) {
-                    if (songs[i].selected) {
-                        songId = songs[i].id;
-                        break;
-                    }
-                }
-                $.post("<?=base_url("PrivilegedUser/deleteSong") ?>", {
-                    "idS": songId
-                }, function(data) {
-                    $("#change").empty().append("<br><br><h3>Song deleted successfully</h3>");
+                $("#text1").empty();
+                $("#text").empty().append("Enter new "+ this.id + " name:").prop("hidden", false);
+                $("#newName").prop("hidden", false);
+                $("#newName").val("");
+                $("#updateOk").prop("hidden", false).prop("disabled", true).addClass("btn btn-dark btn-sm");
 
-
-                });
             }
         });
+        $("#newName").on("input",function (){
+            if (this.value===""){
+                $("#updateOk").prop("disabled", true);
+            }
+            else
+                $("#updateOk").prop("disabled", false);
+        });
+
+        $("#updateOk").click(function(){
+            let songId=$("option:selected", $("#songs")).attr("id");
+            $.post("<?=base_url("PrivilegedUser/updateSong") ?>", {
+                "toChange":localStorage.getItem("toChange"),
+                "songId": songId,
+                "name": $("#newName").val()
+            },function (data){
+                $("#text1").empty().append("Change made successfully");
+                $(".toHide").prop("hidden", true);
+            });
+        });
+
     });
 </script>
-<div id="error" class="red">
 
-</div>
 <table class="table" >
     <tr>
         <td>Playlist:</td>
@@ -120,4 +132,32 @@
         </td>
     </tr>
 </table>
-<input type="button" id="deleteSong" class="btn btn-dark" value="Delete song">
+
+<table class="table " style="text-align: center;">
+    <tr>
+        <td class="borderless">
+            <input class="btn btn-sm btn-dark btnEdit" id="name" type="button" value="Edit name">
+        </td>
+        <td class="borderless">
+            <input class="btn btn-sm btn-dark btnEdit" id="performer" type="button" value="Edit performer">
+        </td>
+    </tr>
+</table>
+<div id="text1"></div>
+<table class="table">
+    <tr>
+        <td class="borderless">
+            <div class="toHide" id="text"></div>
+        </td>
+        <td class="borderless">
+            <input class="toHide" type="text" hidden id="newName">
+        </td>
+        <td class="borderless">
+            <input class="toHide" type="button" id="updateOk" class="btn btn-sm btn-dark" value="Ok" hidden>
+        </td>
+    </tr>
+</table>
+
+
+
+

@@ -9,7 +9,7 @@
         $("#mistakeLog").click(function(){
             $.get("<?= base_url("Moderator/echoView/mistakeLog") ?>", function (data) {
                 $(".center").html(data);
-                $.get("<?= base_url("Moderator/getMistakes") ?>", function (data1){
+                $.get("<?= base_url("PrivilegedUser/getMistakes") ?>", function (data1){
 
                     let mistakes;
                     mistakes = data1.split(',');
@@ -37,13 +37,18 @@
                 $(".center").html(data);
             });
         });
+        $("#leaderboards").click(function () {
+            $.post("<?= base_url("Moderator/echoView/leaderboardsPrivileged") ?>", function (data) {
+                $(".center").html(data);
+            });
+        });
     });
 </script>
 
 <table class="table modMenu" style="margin-top: 20px; text-align: center">
     <tr>
         <td>
-            <input class="btn btn-dark btnTransition" type="submit" value="Leaderboards">
+            <input class="btn btn-dark btnTransition" type="submit" id="leaderboards" value="Leaderboards">
         </td>
     </tr>
     <tr>

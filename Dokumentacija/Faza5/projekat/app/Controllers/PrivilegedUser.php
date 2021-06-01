@@ -2,10 +2,14 @@
 
 namespace App\Controllers;
 
+use App\Models\ChangeLogModel;
 use App\Models\PlaylistModel;
 use App\Models\SongModel;
+use App\Models\GenreModel;
+use App\Models\UserInfoModel;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
+use CodeIgniter\Model;
 use Psr\Log\LoggerInterface;
 
 class PrivilegedUser extends BaseController
@@ -25,15 +29,29 @@ class PrivilegedUser extends BaseController
             echo ($name);
         }
     }
-
-    public function deletePlaylist() {
+    public function playlistToString($idP){
         $playlistModel=new PlaylistModel();
-        $playlistModel->delete($this->request->getVar('idP'));
+        $player=$playlistModel->find($idP);
+        return ucfirst($player->genre)." ".ucfirst($player->difficulty)." ".ucfirst($player->number);
     }
 
-    public function deleteSong() {
+
+    public function deletePlaylist(){
+        $playlistModel=new PlaylistModel();
+
+        $message="deleted playlist ".$this->playlistToString($this->request->getVar('idP'));
+        $this->insertToChangeLog($message);
+        $playlistModel->delete($this->request->getVar('idP'));
+
+    }
+
+    public function deleteSong(){
         $songModel=new SongModel();
+        $song=$songModel->find($this->request->getVar('idS'));
         $songModel->delete($this->request->getVar('idS'));
+        $message="deleted song ".$song->name." - ".$song->artist.
+            " from playlist ".$this->playlistToString($song->idP);
+        $this->insertToChangeLog($message);
     }
 
     public function getSongs(){
@@ -62,26 +80,97 @@ class PrivilegedUser extends BaseController
             "path"=> $this->request->getVar('location'),
             "idP"=> $pl[0]->idP
         ]);
+        $message="inserted song ".$this->request->getVar('name')." - ".$this->request->getVar('performer').
+        " in playlist ".$this->playlistToString($pl[0]->idP);
+        $this->insertToChangeLog($message);
     }
 
     public function insertPlaylist(){
         $playlistModel=new PlaylistModel();
-        $pls=$playlistModel
-                            ->where("genre", $this->request->getVar('genre'))
-                            ->where("difficulty", $this->request->getVar('level'))
-                            ->findAll();
+        $pls=$playlistModel->where("genre", $this->request->getVar('genre'))->
+            where("difficulty", $this->request->getVar('level'))->findAll();
         $arr=array();
-
-        foreach ($pls as $pl)
+        foreach ($pls as $pl){
             array_push($arr , $pl->number);
+        }
 
-        if(count($arr)==0) $maxNum=1;
+        if(count($arr)==0)
+            $maxNum=1;
         else $maxNum=max($arr)+1;
-
         $playlistModel->insert([
             "difficulty" => $this->request->getVar('level'),
-            "genre" =>  $this->request->getVar('genre'),
+            "genre"=>  $this->request->getVar('genre'),
             "number"=> $maxNum
         ]);
+        $message="added playlist ".ucfirst($this->request->getVar('genre'))." ".
+            ucfirst($this->request->getVar('level'))." ".strVal($maxNum);
+        $this->insertToChangeLog($message);
     }
+
+    public function insertToChangeLog($message){
+        $changeLogModel=new ChangeLogModel();
+        $changeLogModel->insert([
+            "operation"=> $message,
+            "username"=>$this->session->get('username')
+        ]);
+        $all=$changeLogModel->findAll();
+        if(count($all)>50){
+            $toDelete=$changeLogModel->findAll(10);
+            foreach ($toDelete as $del){
+                $changeLogModel->delete($del->idC);
+            }
+        }
+    }
+
+    public function getAllGenres() {
+        $genreModel=new GenreModel();
+        $genres=$genreModel->findAll();
+        foreach ($genres as $genre){
+            echo $genre->name . ",";
+        }
+    }
+    public function getGenres(){
+        $genreModel=new GenreModel();
+        $genres=$genreModel->findAll();
+        foreach ($genres as $genre){
+            $name=$genre->name.",";
+            echo $name;
+        }
+    }
+
+
+    public function updateSong(){
+
+        $songModel=new SongModel();
+        $songToBeChanged=$songModel->find($this->request->getVar('songId'));
+        $message="changed song ".$songToBeChanged->artist." - ".$songToBeChanged->name." to ";
+        if($this->request->getVar('toChange')=="name"){
+            $toChange="name";
+            $message.=$songToBeChanged->artist." - ".$this->request->getVar('name');
+        }
+        else {
+            $toChange = "artist";
+            $message.=$this->request->getVar('name')." - ".$songToBeChanged->name;
+        }
+        $songModel->where("idS",$this->request->getVar('songId'))->update(null,[$toChange=>$this->request->getVar('name')]);
+        $this->insertToChangeLog($message);
+    }
+
+
+    /**
+     * A method that returns to the administrator all the mistakes reported by the users
+     */
+    public function getMistakes()
+    {
+        /**
+         * A model that represents a table of mistakes from the database.
+         */
+        $mistakeModel = new MistakeLogModel();
+        $mistakes = $mistakeModel->findAll();
+        foreach ($mistakes as $mistake){
+            $mistakeString = $mistake->idM . '/' . $mistake->idS . ',';
+            echo $mistakeString;
+        }
+    }
+
 }

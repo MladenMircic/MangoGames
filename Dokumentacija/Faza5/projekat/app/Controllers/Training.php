@@ -6,6 +6,7 @@ use App\Models\SongModel;
 use App\Models\UserInfoModel;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
+use CodeIgniter\Model;
 use Psr\Log\LoggerInterface;
 
 class Training extends BaseController
@@ -58,5 +59,15 @@ class Training extends BaseController
                 ->where("username", $this->session->get("username"))
                 ->where("genre", $this->session->get("chosenGenre"))
                 ->update(null, ["tokens" => $userInfo[0]->tokens + $this->request->getVar("tokens")]);
+    }
+
+    public function saveNewUserInfo(){
+        $userInfoModel = new UserInfoModel();
+        $userInfoModel->insert([
+            "username" => $this->session->get("username"),
+            "genre" => $this->session->get("chosenGenre"),
+            "points" => 0,
+            "tokens" => 0
+        ]);
     }
 }

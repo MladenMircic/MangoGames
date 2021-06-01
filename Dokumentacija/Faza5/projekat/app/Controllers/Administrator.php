@@ -4,6 +4,7 @@
 namespace App\Controllers;
 
 
+use App\Models\ChangeLogModel;
 use App\Models\MistakeLogModel;
 use App\Models\SongModel;
 use App\Models\UserInfoModel;
@@ -33,30 +34,7 @@ class Administrator extends PrivilegedUser
         return ['welcomeMessage' => "Welcome, {$this->session->get('username')} <br> <div style='color: purple'>Administrator</div>"];
     }
 
-    /**
-     * A method that returns to the administrator all the mistakes reported by the users
-     */
-    public function getMistakes()
-    {
-        /**
-         * A model that represents a table of mistakes from the database.
-         */
-        $mistakeModel = new MistakeLogModel();
-        $mistakes = $mistakeModel->findAll();
-        foreach ($mistakes as $mistake){
-            $mistakeString = $mistake->idM . '/' . $mistake->idS . ',';
-            echo $mistakeString;
-        }
-    }
 
-    public function getSongInfo()
-    {
-        $songModel = new SongModel();
-        $id = $this->request->getVar("idS");
-        $song = $songModel->find($id);
-        $songString = $song->idS . "," . $song->name . "," . $song->artist;
-        echo $songString;
-    }
 
     public function deleteAccount(){
         $users = new UserModel();
@@ -94,5 +72,12 @@ class Administrator extends PrivilegedUser
             'type' => "moderator"
         ]);
         echo "";
+    }
+    public function getChangeLog(){
+        $changeLogModel=new ChangeLogModel();
+        $logs=$changeLogModel->findAll();
+        foreach ($logs as $log){
+            echo $log->username.",". $log->operation.",".$log->dateTime."/";
+        }
     }
 }

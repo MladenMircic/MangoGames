@@ -114,7 +114,7 @@
 <br>
 <h3>Leaderboards:</h3>
 <div>
-    <div style="margin:auto; background-color: #fb9739; border: none" class="scroll">
+    <div style="margin:auto; background-color: rgba(251,151,57,0.0); border: none" class="scroll">
         <table style="text-align: center" class=" table table-dark table-sm"  id="leaderboard">
         </table>
     </div>
