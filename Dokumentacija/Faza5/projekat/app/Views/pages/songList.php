@@ -40,6 +40,7 @@
                         $(".tableSongList").append(tr);
                 }
             }
+            localStorage.clear();
         }
 
     });

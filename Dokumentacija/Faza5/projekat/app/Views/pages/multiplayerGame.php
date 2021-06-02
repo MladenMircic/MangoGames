@@ -1,6 +1,5 @@
 <script>
     $(document).ready(function () {
-        $(".center").hide(0);
         const timerFill = "       ";
 
         let myself;
@@ -224,6 +223,7 @@
                     audio.pause();
                     $(".popover").remove();
                     logo.toggleClass("logo logoForGame");
+
                     $(".header-content")
                         .empty()
                         .append(logo)
@@ -231,6 +231,9 @@
                     $(".userWelcome").html("Welcome,<br> <b><?= session()->get('username') ?></b>");
                     $(".center").load("<?= base_url("User/echoView/userInterface") ?>");
                     break;
+                }
+                case "radi": {
+                    alert(e.data);
                 }
             }
         }

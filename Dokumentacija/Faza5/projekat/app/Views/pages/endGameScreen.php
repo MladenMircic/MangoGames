@@ -25,7 +25,6 @@
                             .append(opponent.points * 10);
 
         <?php session()->remove("chosenGenre") ?>
-        localStorage.clear();
 
         $("#toSongList").click(function () {
             $(".center").load("<?= base_url("User/echoView/songList") ?>");

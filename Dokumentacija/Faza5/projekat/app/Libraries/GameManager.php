@@ -2,6 +2,7 @@
 namespace App\Libraries;
 
 use App\Models\SongModel;
+use App\Models\UserPlaylistModel;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 use App\Models\UserInfoModel;
@@ -51,6 +52,54 @@ class GameManager implements MessageComponentInterface {
         }
     }*/
 
+    public function formBothHaveSongs($player1Playlists, $player2Playlists) {
+        $idPs1 = [];
+        $idPs2 = [];
+
+        foreach($player1Playlists as $playlist)
+            $idPs1 []= $playlist->idP;
+
+        foreach($player2Playlists as $playlist)
+            $idPs2 []= $playlist->idP;
+
+        $bothHavePlaylists = array_intersect($idPs1, $idPs2);
+
+        $songModel = new SongModel();
+
+        $songsBothHave = [];
+        foreach($bothHavePlaylists as $playlist)
+            $songsBothHave = array_merge($songsBothHave, $songModel->where("idP", $playlist)->findAll());
+
+        return $songsBothHave;
+    }
+
+    public function formOneHaveSongs($player1Playlists, $player2Playlists) {
+        $idPs1 = [];
+        $idPs2 = [];
+
+        foreach($player1Playlists as $playlist)
+            $idPs1 []= $playlist->idP;
+
+        foreach($player2Playlists as $playlist)
+            $idPs2 []= $playlist->idP;
+
+        $firstHavePlaylists = array_diff($idPs1, $idPs2);
+        $secondHavePlaylists = array_diff($idPs2, $idPs1);
+
+        $firstHaveSongs = [];
+        $secondHaveSongs = [];
+
+        $songModel = new SongModel();
+
+        foreach($firstHavePlaylists as $playlist)
+            $firstHaveSongs = array_merge($firstHaveSongs, $songModel->where("idP", $playlist)->findAll());
+
+        foreach($secondHavePlaylists as $playlist)
+            $secondHaveSongs = array_merge($secondHaveSongs, $songModel->where("idP", $playlist)->findAll());
+
+        return [0 => $firstHaveSongs, 1 => $secondHaveSongs];
+    }
+
     public function match(ConnectionInterface $conn) {
         $opponent = null;
         foreach($this->clients as $client) {
@@ -65,39 +114,67 @@ class GameManager implements MessageComponentInterface {
         if ($opponent != null) {
             $this->users[$conn->resourceId]['status'] = 'playing';
             $this->users[$opponent->resourceId]['status'] = 'playing';
-            $songModel = new SongModel();
-            $this->activeGames[$this->currentGameId]['songs'] = $songModel->findAll();
-            $pickedSongs = $this->pickSongs($this->activeGames[$this->currentGameId]['songs']);
-            $conn->send("startGame|" . $this->users[$opponent->resourceId]['username'] . "|" . $this->currentGameId . "|" . json_encode($pickedSongs));
-            $opponent->send("startGame|" . $this->users[$conn->resourceId]['username'] . "|" . $this->currentGameId . "|" . json_encode($pickedSongs));
+
+            $userInfoModel = new UserInfoModel();
+
+            $userInfo1 = $userInfoModel->where("username", $this->users[$conn->resourceId]['username'])
+                                      ->where("genre", $this->users[$conn->resourceId]['chosenGenre'])
+                                      ->first();
+
+            $userInfo2 = $userInfoModel->where("username", $this->users[$opponent->resourceId]['username'])
+                                       ->where("genre", $this->users[$opponent->resourceId]['chosenGenre'])
+                                       ->first();
+
+            $userPlaylistModel = new UserPlaylistModel();
+
+            $player1Playlists = $userPlaylistModel->where("idU", $userInfo1->idU)->findAll();
+            $player2Playlists = $userPlaylistModel->where("idU", $userInfo2->idU)->findAll();
+
+            $this->activeGames[$this->currentGameId]['bothHaveSongs'] = $this->formBothHaveSongs($player1Playlists, $player2Playlists);
+            $this->activeGames[$this->currentGameId]['oneHaveSongs'] = $this->formOneHaveSongs($player1Playlists, $player2Playlists);
             $this->activeGames[$this->currentGameId]['player1'] = $conn;
             $this->activeGames[$this->currentGameId]['player2'] = $opponent;
             $this->activeGames[$this->currentGameId]['currentRound'] = 0;
             $this->activeGames[$this->currentGameId]['endOfRound'] = 0;
+            $pickedSongs = $this->pickSongs($this->currentGameId);
+            $conn->send("startGame|" . $this->users[$opponent->resourceId]['username'] . "|" . $this->currentGameId . "|" . json_encode($pickedSongs));
+            $opponent->send("startGame|" . $this->users[$conn->resourceId]['username'] . "|" . $this->currentGameId . "|" . json_encode($pickedSongs));
             $this->currentGameId++;
         }
-        /*$timesToTry = 0;
-        $temp = false;
-        while ($timesToTry++ < 10) {
-
-        }
-        if ($temp == false) {
-            $conn->send("nema drugih igraca");
-        }*/
     }
 
-    public function pickSongs($songs) {
+    public function pickSongs($gameId) {
         $data = [];
+        $whichToPick = rand(0, 100);
+        $songToPlayIndex = rand(0, count($this->activeGames[$gameId]['bothHaveSongs']) - 1);
+        $data['songToBePlayed'] = $this->activeGames[$gameId]['bothHaveSongs'][$songToPlayIndex];
+        if ($whichToPick <= 60 || count($this->activeGames[$gameId]['oneHaveSongs'][0]) == 0 && count($this->activeGames[$gameId]['oneHaveSongs'][1]) == 0) {
+
+            array_splice($this->activeGames[$gameId]['bothHaveSongs'], $songToPlayIndex, 1);
+        }
+        else {
+            $fromWhichPlayer = rand(0, 100);
+            if ($fromWhichPlayer <= 50 && count($this->activeGames[$gameId]['oneHaveSongs'][0]) > 0) {
+                $songToPlayIndex = rand(0, count($this->activeGames[$gameId]['oneHaveSongs'][0]) - 1);
+                $data['songToBePlayed'] = $this->activeGames[$gameId]['oneHaveSongs'][0][$songToPlayIndex];
+                array_splice($this->activeGames[$gameId]['oneHaveSongs'][0], $songToPlayIndex, 1);
+            }
+            else if ($fromWhichPlayer > 50 && count($this->activeGames[$gameId]['oneHaveSongs'][1]) > 0){
+                $songToPlayIndex = rand(0, count($this->activeGames[$gameId]['oneHaveSongs'][1]) - 1);
+                $data['songToBePlayed'] = $this->activeGames[$gameId]['oneHaveSongs'][1][$songToPlayIndex];
+                array_splice($this->activeGames[$gameId]['oneHaveSongs'][1], $songToPlayIndex, 1);
+            }
+        }
+        $data['songs'] []= $data['songToBePlayed']->name;
+        $allSongs = array_merge($this->activeGames[$gameId]['bothHaveSongs'], $this->activeGames[$gameId]['oneHaveSongs'][0], $this->activeGames[$gameId]['oneHaveSongs'][1]);
+
         $used = [];
         $i = 0;
-        $songToPlayIndex = rand(0, count($songs) - 1);
-        $data['songToBePlayed'] = $songs[$songToPlayIndex];
-        $data['songs'] []= $songs[$songToPlayIndex]->name;
         while ($i < 3) {
-            $currentSongNumber = rand(0, count($songs) - 1);
-            if (in_array($currentSongNumber, $used) || $songs[$currentSongNumber]->name == $data['songToBePlayed']->name)
+            $currentSongNumber = rand(0, count($allSongs) - 1);
+            if (in_array($currentSongNumber, $used) || $allSongs[$currentSongNumber]->name == $data['songToBePlayed']->name)
                 continue;
-            $data['songs'] []= $songs[$currentSongNumber]->name;
+            $data['songs'] []= $allSongs[$currentSongNumber]->name;
             $used []= $currentSongNumber;
             $i++;
         }
@@ -170,7 +247,7 @@ class GameManager implements MessageComponentInterface {
                     }
                     else if (isset($this->activeGames[$gameId]['answer2'])) {
                         if ($this->activeGames[$gameId]['answer2'][0] == 1)
-                            $points1 = 4;
+                            $points2 = 4;
                         else
                             $points2 = -1;
                     }
@@ -189,7 +266,7 @@ class GameManager implements MessageComponentInterface {
                 if ($this->activeGames[$gameId]['endOfRound'] == 2) {
                     $this->activeGames[$gameId]['endOfRound'] = 0;
                     $this->activeGames[$gameId]['currentRound']++;
-                    $pickedSongs = $this->pickSongs($this->activeGames[$gameId]['songs']);
+                    $pickedSongs = $this->pickSongs($gameId);
                     unset($this->activeGames[$gameId]['answer1']);
                     unset($this->activeGames[$gameId]['answer2']);
                     unset($this->activeGames[$gameId]['points1']);
