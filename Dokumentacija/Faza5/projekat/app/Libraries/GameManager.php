@@ -132,19 +132,14 @@ class GameManager implements MessageComponentInterface {
                 }
                 break;
             }
-            case "endOfRound": {
-                $this->activeGames[$gameId]['endOfRound']++;
-                if ($this->activeGames[$gameId]['endOfRound'] == 2) {
-                    $this->activeGames[$gameId]['endOfRound'] = 0;
-                    $this->activeGames[$gameId]['currentRound']++;
-                    $pickedSongs = $this->pickSongs($this->activeGames[$gameId]['songs']);
+            case "sendPoints": {
+                if (!isset($this->activeGames[$gameId]['points1'])) {
                     $points1 = $points2 = 0;
                     if (isset($this->activeGames[$gameId]['answer1']) && isset($this->activeGames[$gameId]['answer2'])) {
                         if ($this->activeGames[$gameId]['answer1'][0] == 1 && $this->activeGames[$gameId]['answer2'][0] == 1)
                         {
                             if ($this->activeGames[$gameId]['answer1'][1] == $this->activeGames[$gameId]['answer2'][1]) {
-                                $points1 = 4;
-                                $points2 = 4;
+                                $points1 = $points2 = 4;
                             }
                             else if ($this->activeGames[$gameId]['answer1'][1] < $this->activeGames[$gameId]['answer2'][1]) {
                                 $points1 = 4;
@@ -163,6 +158,9 @@ class GameManager implements MessageComponentInterface {
                             $points1 = -1;
                             $points2 = 4;
                         }
+                        else {
+                            $points1 = $points2 = -1;
+                        }
                     }
                     else if (isset($this->activeGames[$gameId]['answer1'])) {
                         if ($this->activeGames[$gameId]['answer1'][0] == 1)
@@ -172,15 +170,32 @@ class GameManager implements MessageComponentInterface {
                     }
                     else if (isset($this->activeGames[$gameId]['answer2'])) {
                         if ($this->activeGames[$gameId]['answer2'][0] == 1)
-                            $points2 = 4;
+                            $points1 = 4;
                         else
                             $points2 = -1;
                     }
 
-                    $this->activeGames[$gameId]['player1']->send("newRound|" . json_encode($pickedSongs) . "|" . $points1 . "|" . $points2);
-                    $this->activeGames[$gameId]['player2']->send("newRound|" . json_encode($pickedSongs) . "|" . $points2 . "|" . $points1);
+                    $this->activeGames[$gameId]['points1'] = $points1;
+                    $this->activeGames[$gameId]['points2'] = $points2;
+                }
+                if ($this->activeGames[$gameId]['player1'] == $from)
+                    $from->send("points|" . $this->activeGames[$gameId]['points1'] . "|" . $this->activeGames[$gameId]['points2']);
+                else
+                    $from->send("points|" . $this->activeGames[$gameId]['points2'] . "|" . $this->activeGames[$gameId]['points1']);
+                break;
+            }
+            case "endOfRound": {
+                $this->activeGames[$gameId]['endOfRound']++;
+                if ($this->activeGames[$gameId]['endOfRound'] == 2) {
+                    $this->activeGames[$gameId]['endOfRound'] = 0;
+                    $this->activeGames[$gameId]['currentRound']++;
+                    $pickedSongs = $this->pickSongs($this->activeGames[$gameId]['songs']);
                     unset($this->activeGames[$gameId]['answer1']);
                     unset($this->activeGames[$gameId]['answer2']);
+                    unset($this->activeGames[$gameId]['points1']);
+                    unset($this->activeGames[$gameId]['points2']);
+                    $this->activeGames[$gameId]['player1']->send("newRound|" . json_encode($pickedSongs));
+                    $this->activeGames[$gameId]['player2']->send("newRound|" . json_encode($pickedSongs));
                 }
                 break;
             }

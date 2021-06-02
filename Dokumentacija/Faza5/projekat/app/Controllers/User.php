@@ -96,8 +96,6 @@ class User extends BaseController
                     ->where("username", $this->session->get("username"))
                     ->where("genre", $this->session->get("chosenGenre"))
                     ->update(null, ["tokens" => $userInfo[0]->tokens + $this->request->getVar("tokens")]);
-
-        session()->remove("chosenGenre");
     }
 
     public function showEnd() {

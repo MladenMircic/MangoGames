@@ -1,5 +1,6 @@
 <script>
     $(document).ready(function () {
+        $(".center").hide(0);
         const timerFill = "       ";
 
         let myself;
@@ -107,6 +108,16 @@
                         $("#" + currentGenreImage).addClass("hiddenGenreImageForGame");
                         currentGenreImage--;
                         setTimeout(function () {
+                            window.conn.send("sendPoints|" + gameId);
+                            if (myself.hasClass("selectedGenre")) {
+                                myself.addClass("deselectedGenre");
+                                myself.removeClass("selectedGenre");
+                            }
+                            if (opponent.hasClass("selectedGenre")) {
+                                opponent.addClass("deselectedGenre");
+                                opponent.removeClass("selectedGenre");
+                            }
+
                             clearInterval(myTimer);
 
                             let vol = 1;
@@ -137,23 +148,22 @@
                                     if (currentGenreImage >= 0) {
                                         guessed = false;
                                         utilizeButtons();
-                                        myself.removeClass("selectedGenre");
-                                        opponent.removeClass("selectedGenre");
+                                        myself.removeClass("deselectedGenre");
+                                        opponent.removeClass("deselectedGenre");
                                         window.conn.send("endOfRound|" + gameId);
                                         $(".guess").toggle(1000);
                                         selected = false;
                                         opponentTime = -1;
                                     }
                                     else {
-                                        window.conn.close(1000);
+                                        window.conn.close();
                                         logo.toggleClass("logo logoForGame");
                                         $(".header-content")
                                                             .empty()
                                                             .append(logo)
                                                             .css("justify-content", "center");
 
-                                        localStorage.setItem("usedSongs", usedSongs.toString())
-
+                                        localStorage.setItem("usedSongs", usedSongs.toString());
                                         localStorage.setItem("myself", JSON.stringify({
                                             username: "<?= session()->get("username") ?>",
                                             points: myPoints
@@ -172,7 +182,7 @@
 
                             }, 2000);
 
-                        }, 1000, audio)
+                        }, 5000, audio)
                     }
                 }
             }
@@ -189,20 +199,22 @@
                     opponent.addClass("selectedGenre");
                     break;
                 }
-                case "newRound": {
-                    myself.popover("show");
-                    let forMe = parseInt(messageReceived[2]);
-                    let forOpponent = parseInt(messageReceived[3]);
+                case "points": {
+                    let forMe = parseInt(messageReceived[1]);
+                    let forOpponent = parseInt(messageReceived[2]);
                     myPoints += forMe;
                     opponentPoints += forOpponent;
                     let signForMe = forMe > 0 ? "+" : "";
                     let signForOpponent = forOpponent > 0 ? "+" : "";
-                    myself.attr("data-content", signForMe + messageReceived[2]).popover("show");
-                    opponent.attr("data-content", signForOpponent + messageReceived[3]).popover("show");
+                    myself.attr("data-content", signForMe + messageReceived[1] + " pts").popover("show");
+                    opponent.attr("data-content", signForOpponent + messageReceived[2] + " pts").popover("show");
                     setTimeout(function () {
                         myself.popover("hide");
                         opponent.popover("hide");
                     }, 3000, myself, opponent);
+                    break;
+                }
+                case "newRound": {
                     window.songs = messageReceived[1];
                     LoadSongsAndPlayAudio();
                     break;
@@ -210,15 +222,14 @@
                 case "playerLeft": {
                     window.conn.close();
                     audio.pause();
+                    $(".popover").remove();
                     logo.toggleClass("logo logoForGame");
                     $(".header-content")
                         .empty()
                         .append(logo)
                         .css("justify-content", "center");
                     $(".userWelcome").html("Welcome,<br> <b><?= session()->get('username') ?></b>");
-                    $.post("<?= base_url("User/echoView/userInterface") ?>", function (data) {
-                        $(".center").html(data);
-                    });
+                    $(".center").load("<?= base_url("User/echoView/userInterface") ?>");
                     break;
                 }
             }
@@ -226,7 +237,8 @@
 
         myself = $("<div></div>")
                                 .append("<?= session()->get('username') ?>")
-                                .css({"margin-right": "30px", "color": "blue"})
+                                .css({"margin-right": "30px", "color": "blue", "padding": "1%"})
+                                .addClass("borderTransition")
                                 .attr("data-container", "body")
                                 .attr("data-toggle", "popover")
                                 .attr("data-placement", "bottom")
@@ -234,7 +246,8 @@
 
         opponent = $("<div></div>")
                                 .append(opponentUsername)
-                                .css({"margin-right": "30px", "color": "red"})
+                                .css({"margin-right": "30px", "color": "red", "padding": "1%"})
+                                .addClass("borderTransition")
                                 .attr("data-container", "body")
                                 .attr("data-toggle", "popover")
                                 .attr("data-placement", "bottom")

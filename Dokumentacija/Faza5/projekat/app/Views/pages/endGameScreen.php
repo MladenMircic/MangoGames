@@ -1,19 +1,40 @@
 <script>
     $(document).ready(function () {
+        $(".popover").remove();
         let myself = JSON.parse(localStorage.getItem("myself"));
         let opponent = JSON.parse(localStorage.getItem("opponent"));
 
         localStorage.removeItem("myself");
         localStorage.removeItem("opponent");
 
-        $("#myName").append(myself.username);
-        $("#opponentName").append(opponent.username);
+        $("#myName").append(myself.username).css("color", "blue");
+        $("#opponentName").append(opponent.username).css("color", "red");
 
         if (myself.points > opponent.points)
-            $("#winner1").append($("<img alt=''>").attr("src", "<?= base_url("images/winnerCup.png") ?>").css({"width": "100px", "height": "100px"}));
+            $("#winner1").append($("<img id='winnerImage' alt=''>").attr("src", "<?= base_url("images/winnerCup.png") ?>"));
         else
-            $("#winner2").append($("<img alt=''>").attr("src", "<?= base_url("images/winnerCup.png") ?>").css({"width": "100px", "height": "100px"}));
+            $("#winner2").append($("<img id='winnerImage' alt=''>").attr("src", "<?= base_url("images/winnerCup.png") ?>"));
 
+        $("#myPoints").append("Points: " + myself.points);
+        $("#opponentPoints").append("Points: " + opponent.points);
+
+        $("#myTokens").append($("<img alt=''>").attr("src", "<?= base_url("images/" . session()->get("chosenGenre") . "Token.png") ?>").css({"width": "50px", "height": "40px"}))
+                      .append(myself.points * 10);
+
+        $("#opponentTokens").append($("<img alt=''>").attr("src", "<?= base_url("images/" . session()->get("chosenGenre") . "Token.png") ?>").css({"width": "50px", "height": "40px"}))
+                            .append(opponent.points * 10);
+
+        <?php session()->remove("chosenGenre") ?>
+        localStorage.clear();
+
+        $("#toSongList").click(function () {
+            $(".center").load("<?= base_url("User/echoView/songList") ?>");
+        });
+
+        $("#back").click(function () {
+            $(".userWelcome").html("Welcome,<br> <b><?= session()->get('username') ?></b>");
+            $(".center").load("<?= base_url("User/echoView/userInterface") ?>");
+        });
     });
 </script>
 
@@ -48,11 +69,29 @@
         </td>
     </tr>
     <tr>
-        <td id="myPoints">
+        <td style="font-size: 20px; font-weight: bold; text-align: center; width: 50%" id="myPoints" class="borderless">
 
         </td>
-        <td id="opponentPoints">
+        <td style="font-size: 20px; font-weight: bold; text-align: center; width: 50%" id="opponentPoints" class="borderless">
 
+        </td>
+    </tr>
+    <tr>
+        <td style="font-size: 20px; font-weight: bold; text-align: center; width: 50%" id="myTokens" class="borderless">
+
+        </td>
+        <td style="font-size: 20px; font-weight: bold; text-align: center; width: 50%" id="opponentTokens" class="borderless">
+
+        </td>
+    </tr>
+    <tr>
+        <td style="text-align: center;" colspan="2" class="borderless">
+            <input id="toSongList" type="button" class="btn btn-dark" value="See all played songs">
+        </td>
+    </tr>
+    <tr>
+        <td style="text-align: center;" colspan="2" class="borderless">
+            <input id="back" type="button" class="btn btn-dark" value="Return to menu">
         </td>
     </tr>
 </table>
