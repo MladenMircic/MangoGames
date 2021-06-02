@@ -88,7 +88,23 @@ class User extends BaseController
         echo $this->session->get('username');
     }
 
-    public function getGenres(){
+    public function saveTokens() {
+        $userInfoModel = new UserInfoModel();
+        $userInfo = $userInfoModel
+                                ->where("username", $this->session->get("username"))
+                                ->where("genre", $this->session->get("chosenGenre"))
+                                ->findAll();
+        $userInfoModel
+                    ->where("username", $this->session->get("username"))
+                    ->where("genre", $this->session->get("chosenGenre"))
+                    ->update(null, ["tokens" => $userInfo[0]->tokens + $this->request->getVar("tokens")]);
+    }
+
+    public function showEnd() {
+        $this->showView('endGameScreen');
+    }
+
+    public function getGenres() {
         $genreModel = new GenreModel();
         $userInfo = new UserInfoModel();
         $user = $this->session->get("username");

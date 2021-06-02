@@ -63,7 +63,6 @@
 <br>
 <h4>Choose two genres</h4>
 <table class="genres-table table">
-
 </table>
 
 <form method="post" action=" <?= base_url("Register/confirmGenres") ?>">

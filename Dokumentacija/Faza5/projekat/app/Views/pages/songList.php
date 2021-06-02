@@ -6,7 +6,7 @@
 
         function listOutSongs(){
             let mode = "<?php echo session()->get("mode"); ?>";
-            if(mode == "unlock")
+            if(mode === "unlock")
                 {
                     $(".tableSongList").hide();
                     let correctGuesses = localStorage.getItem("numberOfGuesses");
@@ -40,7 +40,9 @@
                         $(".tableSongList").append(tr);
                 }
             }
+            localStorage.clear();
         }
+
     });
 </script>
 
