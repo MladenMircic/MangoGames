@@ -26,6 +26,12 @@
             else if($("#levelDefault").prop("selected")==true){
                 $("#error").append("You must choose level");
             }
+            else if($("#price").val()==""){
+                $("#error").append("You must enter a price");
+            }
+            else if(/^\d{1,5}$/.test($("#price").val())==false){
+                $("#error").append("Price must be a number");
+            }
             else {
                 let genres = document.getElementsByClassName("optGenre");
                 let genre = "";
@@ -46,7 +52,8 @@
 
                 $.post("<?= base_url('PrivilegedUser/insertPlaylist')?>", {
                     "genre": genre,
-                    "level": level
+                    "level": level,
+                    "price": $("#price").val()
                 }, function (data) {
                     $("#change").empty().append("<br><br><h3>Playlist inserted successfully</h3>");
                 });
@@ -75,6 +82,14 @@
                 <option class="optLevel" id="medium">Medium</option>
                 <option class="optLevel" id="hard" >Hard</option>
             </select>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Price:
+        </td>
+        <td>
+             <input type="text" id="price">
         </td>
     </tr>
 </table>
