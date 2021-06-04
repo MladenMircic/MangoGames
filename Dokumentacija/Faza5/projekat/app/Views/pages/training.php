@@ -91,6 +91,10 @@
             $("#chosenGenre").attr("value", chosenGenre[0]);
             $("#mode").attr("value", "unlock");
         });
+
+        $("#return").click(function () {
+            $(".center").load("<?= base_url("User/echoView/userInterface") ?>");
+        });
     })
 </script>
 
@@ -110,6 +114,7 @@
 <form method="post" action="<?= base_url("User/goToTraining") ?>">
     <input type="submit" value = "Train" id="train" class="btn btn-dark btnRegister btnTransition" disabled = true>
     <input type="submit" value = "Unlock" id="unlock" class="btn btn-dark btnRegister btnTransition" disabled = true>
+    <input type="button" value="Return to menu" id="return" class="btn btn-dark btnRegister btnTransition">
     <input type="hidden" name="chosenGenre" value="" id="chosenGenre">
     <input type="hidden" name="mode" value="" id="mode">
 </form>

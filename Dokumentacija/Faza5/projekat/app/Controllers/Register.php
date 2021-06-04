@@ -3,8 +3,10 @@
 namespace App\Controllers;
 
 use App\Models\GenreModel;
+use App\Models\PlaylistModel;
 use App\Models\UserInfoModel;
 use App\Models\UserModel;
+use App\Models\UserPlaylistModel;
 
 /**
  * Class Register - For registering player users in the database
@@ -75,15 +77,58 @@ class Register extends BaseController
         /**
          * A model that represents user progress in one genre
          */
-        $userInfo=new UserInfoModel();
-        $userInfo->insert([
+        $userInfoModel=new UserInfoModel();
+        $userInfoModel->insert([
             "username" => $this->session->get("username"),
             "genre" => $this->request->getVar('g1')
         ]);
-        $userInfo->insert([
+        $userInfoModel->insert([
             "username" => $this->session->get("username"),
             "genre" =>  $this->request->getVar('g2')
         ]);
+
+        $playlistModel = new PlaylistModel();
+        $playlistsGenre1 = $playlistModel
+                                        ->where("difficulty", "easy")
+                                        ->where("genre", $this->request->getVar('g1'))
+                                        ->findAll();
+
+        $playlistsGenre2 = $playlistModel
+                                        ->where("difficulty", "easy")
+                                        ->where("genre", $this->request->getVar('g2'))
+                                        ->findAll();
+
+        $playlistMin1 = $playlistsGenre1[0]->idP;
+        $playlistMin2 = $playlistsGenre2[0]->idP;
+        foreach ($playlistsGenre1 as $playlist) {
+            if ($playlist->idP < $playlistMin1)
+                $playlistMin1 = $playlist->idP;
+        }
+        foreach ($playlistsGenre2 as $playlist) {
+            if ($playlist->idP < $playlistMin2)
+                $playlistMin2 = $playlist->idP;
+        }
+
+        $user_info1 = $userInfoModel
+                                    ->where("username", $this->session->get("username"))
+                                    ->where("genre", $this->request->getVar('g1'))
+                                    ->first();
+
+        $user_info2 = $userInfoModel
+                                    ->where("username", $this->session->get("username"))
+                                    ->where("genre", $this->request->getVar('g2'))
+                                    ->first();
+
+        $userPlaylistModel = new UserPlaylistModel();
+        $userPlaylistModel->insert([
+            "idU" => $user_info1->idU,
+            "idP" => $playlistMin1
+        ]);
+        $userPlaylistModel->insert([
+            "idU" => $user_info2->idU,
+            "idP" => $playlistMin2
+        ]);
+
         return redirect()->to(base_url("User"));
     }
 }

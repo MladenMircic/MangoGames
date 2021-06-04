@@ -128,14 +128,13 @@
             {
                 let tokenSection = $("<div></div>").addClass("token-section")
                     .append($("<div></div>").append("0").attr("id", "tokens"))
-                    .append($("<img>").attr("src", "<?= base_url('images/token.png') ?>").css({"width": "15%", "height": "25%"}));
+                    .append($("<img>").attr("src", "<?= base_url("images/" . session()->get("chosenGenre") . "Token.png") ?>").css({"width": "15%", "height": "25%"}));
                 $(".header-content")
                     .prepend($("<div></div>").append("<?= session()->get('username') ?>").css("margin-right", "30px"))
                     .append(tokenSection)
                     .css({"font-size": "20px", "font-weight": "bold", "justify-content": "space-between"});
             }
             else{
-
                 let path = "<?php echo base_url("images/" . session()->get("chosenGenre") . ".png");?>";
                  $(".header-content")
                      .prepend($("<div></div>").append("<?= session()->get('username') ?>").css("margin-right", "30px"))

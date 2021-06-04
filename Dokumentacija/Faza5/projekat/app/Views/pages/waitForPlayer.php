@@ -2,24 +2,17 @@
     $(document).ready(function () {
         window.conn = new WebSocket('ws://localhost:8081?username=<?= session()->get('username') ?>&chosenGenre=<?= session()->get('chosenGenre') ?>');
 
-        window.conn.onopen = function(e) {
-        };
-
         window.conn.onmessage = function(e) {
             let messageReceived = e.data.split("|");
             localStorage.setItem("opponent", messageReceived[1]);
             localStorage.setItem("gameId", messageReceived[2]);
             window.songs = messageReceived[3];
-            $.post("<?= base_url("User/echoView/multiplayerGame") ?>", function (data) {
-                $("#insertable").html(data);
-            });
+            $("#insertable").load("<?= base_url("User/echoView/multiplayerGame") ?>");
         }
 
         $("#toUserMenu").click(function () {
             window.conn.close();
-            $.get("<?= base_url("User/echoView/userInterface") ?>", function (data) {
-                $(".center").html(data);
-            })
+            $(".center").load("<?= base_url("User/echoView/userInterface") ?>");
         });
     })
 </script>
@@ -32,4 +25,4 @@
 <br>
 <br>
 <br>
-<input id="toUserMenu" class="btn btn-dark btnTransition btnRegister" type="button" value="Back">
+<input id="toUserMenu" class="btn btn-dark btnTransition btnRegister" type="button" value="Return to menu">

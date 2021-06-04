@@ -2,9 +2,11 @@
 
 namespace App\Controllers;
 
+use App\Models\PlaylistModel;
 use App\Models\UserInfoModel;
 use App\Models\UserModel;
 use App\Models\GenreModel;
+use App\Models\UserPlaylistModel;
 use CodeIgniter\Model;
 
 class User extends BaseController
@@ -86,7 +88,23 @@ class User extends BaseController
         echo $this->session->get('username');
     }
 
-    public function getGenres(){
+    public function saveTokens() {
+        $userInfoModel = new UserInfoModel();
+        $userInfo = $userInfoModel
+                                ->where("username", $this->session->get("username"))
+                                ->where("genre", $this->session->get("chosenGenre"))
+                                ->findAll();
+        $userInfoModel
+                    ->where("username", $this->session->get("username"))
+                    ->where("genre", $this->session->get("chosenGenre"))
+                    ->update(null, ["tokens" => $userInfo[0]->tokens + $this->request->getVar("tokens")]);
+    }
+
+    public function showEnd() {
+        $this->showView('endGameScreen');
+    }
+
+    public function getGenres() {
         $genreModel = new GenreModel();
         $userInfo = new UserInfoModel();
         $user = $this->session->get("username");
@@ -113,5 +131,72 @@ class User extends BaseController
         }
 
         return ["genres" => $toSend];
+    }
+
+    public function getPlaylists(){
+
+        $genre = $this->request->getVar("chosenGenre");
+        $playlistModel = new PlaylistModel();
+        $userPlaylistModel = new UserPlaylistModel();
+        $userInfoModel = new UserInfoModel();
+
+        $userInfo = $userInfoModel->where("genre", $genre)->where("username", $this->session->get("username"))->findAll();
+
+        $playlists = $playlistModel->where("genre", $genre)->findAll();
+        $userPlaylists = $userPlaylistModel->where("idU", $userInfo[0]->idU)->findAll();
+
+        foreach($playlists as $playlist){
+            $flag = false;
+            foreach ($userPlaylists as $userPlaylist){
+                if($playlist->idP == $userPlaylist->idP){
+                    $flag = true;
+                    break;
+                }
+            }
+            if($flag == true){
+               echo   $playlist->difficulty . "," . $playlist->number . "," . $playlist->price . "," . $playlist->idP . "," . "unlocked" . "/";
+            }
+            else{
+                echo  $playlist->difficulty . "," . $playlist->number . "," . $playlist->price . "," . $playlist->idP . "," . "locked" . "/";
+            }
+        }
+    }
+
+    public function getMyTokens(){
+        $userInfoModel = new UserInfoModel();
+        $genre = $this->request->getVar("chosenGenre");
+
+        $info = $userInfoModel->where("genre", $genre)->where("username", $this->session->get("username"))->findAll();
+
+        echo $info[0]->tokens;
+    }
+
+    public function getPlaylistById(){
+        $playlistModel = new PlaylistModel();
+        $id = $this->request->getVar("idP");
+
+        $playlist = $playlistModel->find($id);
+
+        echo ucfirst($playlist->genre) . " " . ucfirst($playlist->difficulty) . " " . $playlist->number . "/" . $playlist->price;
+    }
+
+    public function buyPlaylist(){
+        $genre = $this->request->getVar("genre");
+        $id = $this->request->getVar("idP");
+
+        $userInfoModel = new UserInfoModel();
+        $playlistModel = new PlaylistModel();
+
+        $playlist = $playlistModel->find($id);
+
+        $info = $userInfoModel->where("genre", $genre)->where("username", $this->session->get("username"))->findAll();
+        $tokens = $info[0]->tokens;
+        $userInfoModel->where("idU", $info[0]->idU)->update(null, ["tokens" => $tokens - $playlist->price]);
+
+        $userPlaylistModel = new UserPlaylistModel();
+        $userPlaylistModel->insert([
+            "idU" => $info[0]->idU,
+            "idP" => $id
+        ]);
     }
 }

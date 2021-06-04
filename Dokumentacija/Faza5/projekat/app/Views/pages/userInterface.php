@@ -1,37 +1,49 @@
 <script>
     $(document).ready(function () {
         $("#selectGenre").click(function () {
-            $.get("<?= base_url("User/echoView/selectGenreToPlay/selectAvailableGenresForUser") ?>", function (data) {
-                $("#insertable").html(data);
-                $(".center").append("<input type='submit' id='confirmGenre' class='btn btn-dark btnRegister btnTransition' value='Choose' disabled>");
-            });
+            toggleOtherButtons($(this));
+            setTimeout(function () {
+                $.get("<?= base_url("User/echoView/selectGenreToPlay/selectAvailableGenresForUser") ?>", function (data) {
+                    $("#insertable").html(data);
+                    $(".center").append("<input type='submit' id='confirmGenre' class='btn btn-dark btnRegister btnTransition' value='Choose' disabled><br>");
+                    $(".center").append("<input type='submit' id='return' class='btn btn-dark btnRegister btnTransition' value='Return to menu'>");
+                });
+            }, 500)
         });
 
         $("#training").click(function () {
-            //$.get("<?//= base_url("User/echoView/selectGenreToPlay/selectAvailableGenresForUser") ?>//", function (data) {
-            //    $("#insertable").html(data);
-            //    let trainingForm = $("<form></form>").attr("id", "confirmGenreForm").attr("method", "post").attr("action", "<?//= base_url("User/goToTraining") ?>//");
-            //    trainingForm.append("<input type='submit' id='confirmGenre' class='btn btn-dark btnRegister btnTransition' value='Choose' disabled>");
-            //    trainingForm.append("<input type='hidden' name='chosenGenre' id='chosenGenre' value=''>");
-            //    $(".center").append(trainingForm);
-            //});
-            $.get("<?= base_url("User/echoView/training") ?>", function (data) {
-                $(".center").html(data);
-            })
+            toggleOtherButtons($(this));
+            setTimeout(function () {
+                $(".center").load("<?= base_url("User/echoView/training") ?>");
+            }, 500)
         });
 
         $("#leaderboards").click(function (){
-            $.post("<?=base_url('User/echoView/leaderboards')?>", function(data){
-                $(".center").html(data);
-            });
+            toggleOtherButtons($(this));
+            setTimeout(function () {
+                $(".center").load("<?=base_url('User/echoView/leaderboards')?>");
+            }, 500)
         });
 
         $("#quit").click(function () {
-            $.post("<?= base_url("User/echoView/quit") ?>", function (data) {
-                $(".center").html(data);
-            });
+            $(".center").load("<?= base_url("User/echoView/quit") ?>");
         });
 
+        $("#playlists").click(function () {
+            $.post("<?= base_url("User/echoView/genresAndPlaylists") ?>", function (data) {
+                $(".center").html(data);
+            })
+        });
+        
+        function toggleOtherButtons(clicked) {
+            let buttons = $(".userInterfaceForm").find(".btnTransition");
+            for (let i = 0; i < buttons.length; i++) {
+                buttons[i] = $(buttons[i]);
+                if (clicked.attr("id") !== buttons[i].attr("id"))
+                    buttons[i].addClass("btnDisappear");
+            }
+            clicked.css({ "width": "100%", "background-color": "#721817" });
+        }
 
     });
 </script>
@@ -45,7 +57,7 @@
         </tr>
         <tr>
             <td>
-                <input class="btn btn-dark btnTransition" type="submit" value="Genres & playlists">
+                <input class="btn btn-dark btnTransition" type="submit" value="Genres & playlists" id="playlists">
             </td>
         </tr>
         <tr>

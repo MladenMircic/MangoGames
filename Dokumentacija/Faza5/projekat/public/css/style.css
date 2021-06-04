@@ -114,7 +114,7 @@ input.btnTransition {
     transition: width 500ms, background-color 500ms;
 }
 
-input.btnTransition:hover{
+input.btnTransition:hover:enabled {
     width: 80%;
     background-color: #721817;
 }
@@ -128,7 +128,7 @@ input.btnTransition:hover{
     width:50%;
 }
 
-.genres-table {
+.genres-table , .yourGenresTable{
     text-align: center;
 }
 
@@ -217,14 +217,45 @@ table.center {
     justify-content: space-evenly;
 }
 
-.nesto {
+.borderTransition {
     transition: border-left-width 200ms,
             border-bottom-width 200ms,
             border-top-width 200ms,
             border-right-width 200ms;
 }
 
+@keyframes borderAppearing {
+    from {
+        border-width: 0;
+    }
+    to {
+        border-width: 5px;
+    }
+}
+
+@keyframes borderDisappearing {
+    from {
+        border-width: 5px;
+    }
+    to {
+        border-width: 0;
+    }
+}
+
 .selectedGenre {
+    animation-name: borderAppearing;
+    animation-duration: 200ms;
+    animation-fill-mode: forwards;
+    border-left: 5px solid #9c1616;
+    border-right: 5px solid #303333;
+    border-top: 5px solid #303333;
+    border-bottom: 5px solid #9c1616;
+}
+
+.deselectedGenre {
+    animation-name: borderDisappearing;
+    animation-duration: 200ms;
+    animation-fill-mode: forwards;
     border-left: 5px solid #9c1616;
     border-right: 5px solid #303333;
     border-top: 5px solid #303333;
@@ -240,8 +271,8 @@ div.imagesForGame {
 }
 
 img.genreImageForGame {
-    width: 50px;
-    height: 50px;
+    width: 10%;
+    height: 10%;
     transition: opacity 5s;
 }
 
@@ -274,12 +305,88 @@ img.genreImageForGame {
     white-space: pre;
 }
 
-#toUnlock{
-    margin-top: -13px;
-}
 
-.numberOfGuesses{
+#results {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    font-size: 26px;
+    font-weight: bold;
+}
+
+#toUnlock {
+    margin-top: -13px;
+}
+
+.numberOfGuesses, .buttonsConfirm{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+@keyframes textApearing {
+    from { font-size: 0 }
+    to { font-size: 20px }
+}
+
+#myName, #opponentName {
+    animation-name: textApearing;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes imageAppearing {
+    from {
+        width: 0;
+        height: 0;
+    }
+    to {
+        width: 100px;
+        height: 100px;
+        transform: rotateZ(1080deg);
+    }
+}
+
+#winnerImage {
+    width: 0;
+    height: 0;
+    animation-name: imageAppearing;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+    animation-delay: 2s;
+}
+
+@keyframes appearingFromLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-100px);
+    }
+    to {
+        opacity: 100%;
+        transform: translateX(0);
+    }
+}
+
+#myPoints, #opponentPoints {
+    opacity: 0;
+    animation-name: appearingFromLeft;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    animation-delay: 4s;
+}
+
+#myTokens, #opponentTokens {
+    opacity: 0;
+    animation-name: appearingFromLeft;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    animation-delay: 5s;
+}
+
+#back,#toSongList {
+    opacity: 0;
+    animation-name: appearingFromLeft;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    animation-delay: 6s;
 }
