@@ -38,9 +38,9 @@
                         cnt++;
                     }
                     if(cnt==1){
-                        $("#confirmGenres").prop("disabled", false);
+                        $("#show").prop("disabled", false);
                     }
-                    else $("#confirmGenres").prop("disabled", true);
+                    else $("#show").prop("disabled", true);
                 }
             });
 
@@ -75,7 +75,7 @@
 
     </table>
 </div>
-<input type="button" class="btn btn-dark btnRegister btnTransition" value="Show playlists" id="show" >
+<input type="button" class="btn btn-dark btnRegister btnTransition" disabled value="Show playlists" id="show" >
 <input type="button" class="btn btn-dark btnRegister btnTransition" value="Return to menu" id="return">
 <br>
 <br>

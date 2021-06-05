@@ -100,7 +100,8 @@ class PrivilegedUser extends BaseController
         $playlistModel->insert([
             "difficulty" => $this->request->getVar('level'),
             "genre"=>  $this->request->getVar('genre'),
-            "number"=> $maxNum
+            "number"=> $maxNum,
+            "price"=>$this->request->getVar('price')
         ]);
         $message="added playlist ".ucfirst($this->request->getVar('genre'))." ".
             ucfirst($this->request->getVar('level'))." ".strVal($maxNum);
