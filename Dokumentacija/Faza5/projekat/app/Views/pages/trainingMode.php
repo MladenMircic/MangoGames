@@ -95,12 +95,9 @@
                                                         .append(logo)
                                                         .css("justify-content", "center");
                                         localStorage.setItem("usedSongs", usedSongs);
+
                                         if(mode === "train")
-                                        {
-                                            $.post("<?= base_url('Training/saveUserTokens') ?>", {
-                                                tokens: tokensAcquired
-                                            });
-                                        }
+                                            $.post("<?= base_url('Training/saveUserTokens') ?>", { tokens: tokensAcquired });
 
                                         $.post("<?= base_url('Training/echoView/songList') ?>", function (data) {
                                             localStorage.setItem("numberOfGuesses", numberOfCorrectGuesses.toString());

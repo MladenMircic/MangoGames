@@ -9,8 +9,7 @@ use App\Models\UserPlaylistModel;
 
 class Training extends BaseController
 {
-    public function index()
-    {
+    public function getSongsFromPlaylists() {
         $songModel = new SongModel();
         $userInfoModel = new UserInfoModel();
         $mode = $this->session->get("mode");
@@ -22,9 +21,6 @@ class Training extends BaseController
 
             foreach($userPlaylists as $playlist)
                 $idPs = array_merge($idPs, [$playlist->idP]);
-
-            $this->songs = $songModel->whereIn("idP", $idPs)->findAll();
-            $this->session->set("songs", $this->songs);
         }
         else {
             $playlistModel = new PlaylistModel();
@@ -33,10 +29,14 @@ class Training extends BaseController
 
             foreach($playlistsForGenre as $playlist)
                 $idPs = array_merge($idPs, [$playlist->idP]);
-
-            $this->songs = $songModel->whereIn("idP", $idPs)->findAll();
-            $this->session->set("songs", $this->songs);
         }
+        $this->songs = $songModel->whereIn("idP", $idPs)->findAll();
+        $this->session->set("songs", $this->songs);
+    }
+
+    public function index()
+    {
+        $this->getSongsFromPlaylists();
         $this->showView('trainingMode');
     }
 

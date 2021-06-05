@@ -5,11 +5,9 @@ namespace App\Controllers;
 
 
 use App\Models\ChangeLogModel;
-use App\Models\MistakeLogModel;
-use App\Models\SongModel;
 use App\Models\UserInfoModel;
 use App\Models\UserModel;
-use phpDocumentor\Reflection\Type;
+use App\Models\UserPlaylistModel;
 
 /**
  * Class Administrator - Represents all the functionalities that an administrator has
@@ -42,8 +40,11 @@ class Administrator extends PrivilegedUser
 
         if($toDelete!=null) {
             $usersInfo = new UserInfoModel();
-            $toDeleteInfo = $usersInfo->where('username', $toDelete->username)->find();
-            foreach ($toDeleteInfo as $userInfo){
+            $userPlaylistModel = new UserPlaylistModel();
+            $toDeleteInfo = $usersInfo->where('username', $toDelete->username)->findAll();
+
+            foreach ($toDeleteInfo as $userInfo) {
+                $userPlaylistModel->where("idU", $userInfo->idU)->delete();
                 $usersInfo->delete($userInfo->id);
             }
 

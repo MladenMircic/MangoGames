@@ -37,24 +37,9 @@ class Register extends BaseController
             return $this->showView('register', ['errors' => $this->validator->getErrors()]);
         }
 
-        /**
-         * A user model representing all types of users from database
-         */
-        $userModel = new UserModel();
-        $user = $userModel->find($this->request->getVar('username'));
-
-        if ($user != null) {
-            return $this->showView('register', ['errors' => ['username' => 'User already exists.']]);
-        }
-
-        $userModel->insert([
-            'username' => $this->request->getVar('username'),
-            'password' => $this->request->getVar('password'),
-            'type' => 'user'
-        ]);
-        $this->session->set("username", $this->request->getVar('username'));
-        $this->pickGenres();
-
+        $this->session->set("username", $this->request->getVar("username"));
+        $this->session->set("password", $this->request->getVar("password"));
+        return redirect()->to(base_url("Register/pickGenres"));
     }
 
     /**
@@ -75,6 +60,23 @@ class Register extends BaseController
      */
     public function confirmGenres(){
         /**
+         * A user model representing all types of users from database
+         */
+        $userModel = new UserModel();
+        $user = $userModel->find($this->session->get('username'));
+
+        if ($user != null)
+            return $this->showView('register', ['errors' => ['username' => 'User already exists.']]);
+
+        $userModel->insert([
+            'username' => $this->session->get('username'),
+            'password' => $this->session->get('password'),
+            'type' => 'user'
+        ]);
+        $this->session->set("type", "user");
+        $this->session->remove("password");
+
+        /**
          * A model that represents user progress in one genre
          */
         $userInfoModel=new UserInfoModel();
@@ -87,28 +89,6 @@ class Register extends BaseController
             "genre" =>  $this->request->getVar('g2')
         ]);
 
-        $playlistModel = new PlaylistModel();
-        $playlistsGenre1 = $playlistModel
-                                        ->where("difficulty", "easy")
-                                        ->where("genre", $this->request->getVar('g1'))
-                                        ->findAll();
-
-        $playlistsGenre2 = $playlistModel
-                                        ->where("difficulty", "easy")
-                                        ->where("genre", $this->request->getVar('g2'))
-                                        ->findAll();
-
-        $playlistMin1 = $playlistsGenre1[0]->idP;
-        $playlistMin2 = $playlistsGenre2[0]->idP;
-        foreach ($playlistsGenre1 as $playlist) {
-            if ($playlist->idP < $playlistMin1)
-                $playlistMin1 = $playlist->idP;
-        }
-        foreach ($playlistsGenre2 as $playlist) {
-            if ($playlist->idP < $playlistMin2)
-                $playlistMin2 = $playlist->idP;
-        }
-
         $user_info1 = $userInfoModel
                                     ->where("username", $this->session->get("username"))
                                     ->where("genre", $this->request->getVar('g1'))
@@ -120,13 +100,14 @@ class Register extends BaseController
                                     ->first();
 
         $userPlaylistModel = new UserPlaylistModel();
+        $playlistModel = new PlaylistModel();
         $userPlaylistModel->insert([
             "idU" => $user_info1->idU,
-            "idP" => $playlistMin1
+            "idP" => $playlistModel->getIdOfMinNumOfGenre($this->request->getVar('g1'))
         ]);
         $userPlaylistModel->insert([
             "idU" => $user_info2->idU,
-            "idP" => $playlistMin2
+            "idP" => $playlistModel->getIdOfMinNumOfGenre($this->request->getVar('g2'))
         ]);
 
         return redirect()->to(base_url("User"));
