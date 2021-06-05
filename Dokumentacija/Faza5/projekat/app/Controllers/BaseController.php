@@ -2,7 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Models\PlaylistModel;
 use App\Models\SongModel;
 use App\Models\UserInfoModel;
 use CodeIgniter\Controller;
@@ -10,7 +9,6 @@ use CodeIgniter\HTTP\CLIRequest;
 use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
-use CodeIgniter\Model;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -99,7 +97,7 @@ class BaseController extends Controller
     public function getGenrePoints() {
         $userInfoModel=new UserInfoModel();
 
-        if($this->request->getVar("genre")=="allGenres"){
+        if($this->request->getVar("genre") == "allGenres"){
             $arr=[];
             $infos=$userInfoModel->findAll();
 

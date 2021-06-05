@@ -57,15 +57,11 @@
             let data = $(".chosen").attr("data-content").split(" ");
             let chosenGenre = data[0];
             localStorage.setItem("chosenGenre", chosenGenre);
-            $.post("<?= base_url("User/echoView/playlistUnlock") ?>", function (data1) {
-                $(".center").html(data1);
-            });
+            $(".center").load("<?= base_url("User/echoView/playlistUnlock") ?>");
         });
 
-        $("#back").click(function () {
-            $.get("<?= base_url("User/echoView/userInterface") ?>", function (data) {
-                $(".center").html(data);
-            });
+        $("#return").click(function () {
+            $(".center").load("<?= base_url("User/echoView/userInterface") ?>");
         });
     });
 </script>
@@ -80,7 +76,7 @@
     </table>
 </div>
 <input type="button" class="btn btn-dark btnRegister btnTransition" value="Show playlists" id="show" >
-<input type="button" class="btn btn-dark btnRegister btnTransition" value="Return to menu" id="back">
+<input type="button" class="btn btn-dark btnRegister btnTransition" value="Return to menu" id="return">
 <br>
 <br>
 <br>

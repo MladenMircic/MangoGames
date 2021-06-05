@@ -1,19 +1,15 @@
 <script>
     $(document).ready(function (){
-        // let request;
-        // let audio;
 
         $("#back").click(function(){
-            $.post("<?php
+            $(".center").load("<?php
                 if (session()->get("type") == "mod") echo base_url('Moderator/echoView/modMenu');
-                else echo base_url("Administrator/echoView/adminMenu") ?>", function (data) {
-                $(".center").html(data);
-            });
+                else echo base_url("Administrator/echoView/adminMenu") ?>");
         });
 
         $("#info").click(function () {
             let ids = $("#ids").val();
-            if(ids != ""){
+            if(ids !== ""){
                 $.post("<?php
                     if (session()->get("type") == "mod") echo base_url('Moderator/echoView/songInfo');
                     else echo base_url("Administrator/echoView/songInfo") ?>", function (data) {

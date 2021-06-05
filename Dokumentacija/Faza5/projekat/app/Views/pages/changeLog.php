@@ -11,18 +11,13 @@
                     let tr=$("<tr></tr>");
                     let message=info[0]+" "+info[1]+" on "+dateTime[0]+ " at "+ dateTime[1];
                     let td=$("<td></td>").append(message);
-                    // let moderator=$("<td></td").append(info[0]);
-                    // let operation=$("<td></td").append(info[1]);
-                    // let dateTime=$("<td></td").append(info[2]);
                     tr.append(td);
                     $("#changeLog").append(tr);
                 }
             });
         }
         $("#return").click(function() {
-            $.post("<?=base_url('Administrator/echoView/adminMenu')?>", function (data) {
-                $(".center").html(data);
-            });
+            $(".center").load("<?=base_url('Administrator/echoView/adminMenu')?>");
         });
     });
 

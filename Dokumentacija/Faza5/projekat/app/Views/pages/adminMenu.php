@@ -27,38 +27,27 @@
         });
 
         $("#leaderboards").click(function () {
-            $.post("<?= base_url("Administrator/echoView/leaderboardsPrivileged") ?>", function (data) {
-                $(".center").html(data);
-            });
+            $(".center").load("<?= base_url("Administrator/echoView/leaderboardsPrivileged") ?>");
         });
 
         $("#update").click(function () {
-            $.post("<?= base_url("Administrator/echoView/insertDelete") ?>", function (data) {
-                $(".center").html(data);
-            });
+            $(".center").load("<?= base_url("Administrator/echoView/insertDelete") ?>");
         });
 
         $("#registerMod").click(function () {
-            $.post("<?= base_url("Administrator/echoView/registerModerator") ?>", function (data) {
-                $(".center").html(data);
-            });
+            $(".center").load("<?= base_url("Administrator/echoView/registerModerator") ?>");
         });
 
         $("#delete").click(function () {
-            $.post("<?= base_url("Administrator/echoView/deleteAccount") ?>", function (data) {
-                $(".center").html(data);
-            })
+            $(".center").load("<?= base_url("Administrator/echoView/deleteAccount") ?>");
         });
 
         $("#quit").click(function () {
-            $.post("<?= base_url("Administrator/echoView/quit") ?>", function (data) {
-                $(".center").html(data);
-            });
+            $(".center").load("<?= base_url("Administrator/echoView/quit") ?>");
         });
+
         $("#changeLog").click(function () {
-            $.post("<?= base_url("Administrator/echoView/changeLog") ?>", function (data) {
-                $(".center").html(data);
-            });
+            $(".center").load("<?= base_url("Administrator/echoView/changeLog") ?>");
         });
     });
 </script>

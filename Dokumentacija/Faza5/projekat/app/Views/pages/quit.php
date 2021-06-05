@@ -2,21 +2,12 @@
     $(document).ready(function () {
         $("#no").click(function () {
             let user = "<?= session()->get('type'); ?>";
-            if(user === "mod"){
-                $.post("<?= base_url("Moderator/echoView/modMenu") ?>", function (data) {
-                    $(".center").html(data);
-                });
-            }
-            else if(user === "admin"){
-                $.post("<?= base_url("Administrator/echoView/adminMenu") ?>", function (data) {
-                    $(".center").html(data);
-                });
-            }
-            else{
-                $.post("<?= base_url("User/echoView/userInterface") ?>", function (data) {
-                    $(".center").html(data);
-                });
-            }
+            if(user === "mod")
+                $(".center").load("<?= base_url("Moderator/echoView/modMenu") ?>");
+            else if(user === "admin")
+                $(".center").load("<?= base_url("Administrator/echoView/adminMenu") ?>");
+            else
+                $(".center").load("<?= base_url("User/echoView/userInterface") ?>");
         });
     });
 </script>

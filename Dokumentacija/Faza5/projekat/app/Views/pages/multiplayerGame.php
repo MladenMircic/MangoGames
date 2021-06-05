@@ -232,9 +232,6 @@
                     $(".center").load("<?= base_url("User/echoView/userInterface") ?>");
                     break;
                 }
-                case "radi": {
-                    alert(e.data);
-                }
             }
         }
 

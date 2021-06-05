@@ -1,9 +1,7 @@
 <script>
     $(document).ready(function (){
         $("#update").click(function(){
-            $.post("<?=base_url('Moderator/echoView/insertDelete')?>", function(data){
-                $(".center").html(data);
-            });
+            $(".center").load("<?=base_url('Moderator/echoView/insertDelete')?>");
         });
 
         $("#mistakeLog").click(function(){
@@ -33,14 +31,11 @@
         });
 
         $("#quit").click(function () {
-            $.post("<?= base_url("Moderator/echoView/quit") ?>", function (data) {
-                $(".center").html(data);
-            });
+            $(".center").load("<?= base_url("Moderator/echoView/quit") ?>");
         });
+
         $("#leaderboards").click(function () {
-            $.post("<?= base_url("Moderator/echoView/leaderboardsPrivileged") ?>", function (data) {
-                $(".center").html(data);
-            });
+            $(".center").load("<?= base_url("Moderator/echoView/leaderboardsPrivileged") ?>");
         });
     });
 </script>

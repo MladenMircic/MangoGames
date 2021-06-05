@@ -41,7 +41,7 @@
         }
         $("#deletePlaylist").click(function(){
             $("#error").empty();
-            if($("#playlistDefault").prop("selected")==true){
+            if($("#playlistDefault").prop("selected") === true){
                 $("#error").append("You must choose playlist");
             }
             else{
@@ -57,7 +57,6 @@
                     "idP": playlistId
                 }, function() {
                     $("#change").empty().append("<br><br><h3>Playlist deleted successfully</h3>");
-
                 });
             }
         });
