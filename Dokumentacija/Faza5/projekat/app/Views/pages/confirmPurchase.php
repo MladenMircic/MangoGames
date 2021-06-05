@@ -38,13 +38,10 @@
         });
 
         $("#no").click(function () {
-            $.get("<?= base_url("User/echoView/playlistUnlock") ?>", function (data) {
-                $(".center").html(data);
-            })
+            $(".center").load("<?= base_url("User/echoView/playlistUnlock") ?>");
         });
     });
 </script>
-
 
 <br>
 <br>

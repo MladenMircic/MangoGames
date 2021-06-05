@@ -75,7 +75,7 @@
 
 
 
-<select style="color:#721817;" id="genres" class="selectpicker" >
+<select style="color:#721817;" id="genres" class="selectpicker">
     <option id="levelDefault" selected>Genre</option>
     <option id="allGenres">All genres</option>
 </select>

@@ -10,8 +10,8 @@
             let isHovering=false;
 
             $(".toMove").click(function() {
-                if (isHovering == false) {
-                    if ($(this).hasClass("chosen") == false && $(this).hasClass("unchosen") == false && cnt<2) {
+                if (isHovering === false) {
+                    if ($(this).hasClass("chosen") === false && $(this).hasClass("unchosen") === false && cnt<2) {
                         //this is chosen first time - both classes are false
                         cnt++;
                         $(this).toggleClass("chosen");
@@ -19,7 +19,7 @@
                         let data = $(this).attr("data-content").split(" ");
                         $(this).attr("data-content", data[0] + " - " + "unlocked");
 
-                    } else if ($(this).hasClass("chosen") == true) {
+                    } else if ($(this).hasClass("chosen") === true) {
                         //this is unchosen
                         cnt--;
                         let data = $(this).attr("data-content").split(" ");
@@ -35,7 +35,7 @@
                         $(this).toggleClass("unchosen");
                         cnt++;
                     }
-                    if(cnt==2){
+                    if(cnt === 2){
                         $("#confirmGenres").prop("disabled", false);
                     }
                     else $("#confirmGenres").prop("disabled", true);

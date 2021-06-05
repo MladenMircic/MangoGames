@@ -4,9 +4,9 @@
 
         window.conn.onmessage = function(e) {
             let messageReceived = e.data.split("|");
-            localStorage.setItem("opponent", messageReceived[1]);
-            localStorage.setItem("gameId", messageReceived[2]);
-            window.songs = messageReceived[3];
+            localStorage.setItem("opponent", messageReceived[0]);
+            localStorage.setItem("gameId", messageReceived[1]);
+            window.songs = messageReceived[2];
             $("#insertable").load("<?= base_url("User/echoView/multiplayerGame") ?>");
         }
 
@@ -14,7 +14,7 @@
             window.conn.close();
             $(".center").load("<?= base_url("User/echoView/userInterface") ?>");
         });
-    })
+    });
 </script>
 
 <h4>Please wait while we find you a mate to compete with</h4>

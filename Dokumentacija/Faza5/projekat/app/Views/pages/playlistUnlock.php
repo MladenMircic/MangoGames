@@ -10,10 +10,11 @@
                 $("#tokens").append("TOKENS: " + numberOfTokens).append($("<img>").attr("src", "images/" + genre + "Token.png").css("width" , "12%"));
 
             })
+
             drawPlaylistTable();
             $('[data-toggle="popover"]').popover();
 
-            function drawPlaylistTable(){
+            function drawPlaylistTable() {
                 let playlists = localStorage.getItem("playlists").split("/");
                 let arr = [];
 
@@ -27,7 +28,7 @@
                     arr.push(pl);
                 }
 
-                arr.sort(function (a,b){
+                arr.sort(function (a,b) {
                     if(a[5]>b[5])return 1;  //level
                     if(a[5]<b[5]) return -1;
                     return a[1]-b[1];  //number
@@ -66,21 +67,17 @@
                 }
 
             }
+
             $(".toUnlock").click(function () {
                 localStorage.setItem("idPlaylist", this.id);
                 localStorage.setItem("numOfTokens", numberOfTokens);
-                $.get("<?= base_url("User/echoView/confirmPurchase") ?>", function (data) {
-                    $(".center").html(data);
-                });
-
+                $(".center").load("<?= base_url("User/echoView/confirmPurchase") ?>");
             });
         });
 
-        $("#back").click(function () {
+        $("#return").click(function () {
             localStorage.clear();
-            $.get("<?= base_url("User/echoView/genresAndPlaylists") ?>", function (data) {
-                $(".center").html(data);
-            });
+            $(".center").load("<?= base_url("User/echoView/genresAndPlaylists") ?>");
         });
     })
 </script>
@@ -99,4 +96,4 @@
 </div>
 <br>
 <br>
-<input type="button" class="btn btn-dark btnTransition btnRegister" value="Back" id="back">
+<input type="button" class="btn btn-dark btnTransition btnRegister" value="Back" id="return">

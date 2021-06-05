@@ -95,7 +95,7 @@
                                                         .append(logo)
                                                         .css("justify-content", "center");
                                         localStorage.setItem("usedSongs", usedSongs);
-                                        if(mode == "train")
+                                        if(mode === "train")
                                         {
                                             $.post("<?= base_url('Training/saveUserTokens') ?>", {
                                                 tokens: tokensAcquired
@@ -103,10 +103,8 @@
                                         }
 
                                         $.post("<?= base_url('Training/echoView/songList') ?>", function (data) {
-                                            localStorage.setItem("numberOfGuesses", numberOfCorrectGuesses);
+                                            localStorage.setItem("numberOfGuesses", numberOfCorrectGuesses.toString());
                                             $(".center").html(data);
-                                            if(mode == "unlock")
-                                                $.post("<?= base_url("Training/saveNewUserInfo") ?>");
                                         });
                                     }
 
@@ -124,8 +122,7 @@
             logo = $($(".header-content").children(".logo")).toggleClass("logo logoForGame");
             $(".userWelcome").append(logo);
 
-            if(mode == "train")
-            {
+            if(mode === "train") {
                 let tokenSection = $("<div></div>").addClass("token-section")
                     .append($("<div></div>").append("0").attr("id", "tokens"))
                     .append($("<img>").attr("src", "<?= base_url("images/" . session()->get("chosenGenre") . "Token.png") ?>").css({"width": "15%", "height": "25%"}));
@@ -134,7 +131,7 @@
                     .append(tokenSection)
                     .css({"font-size": "20px", "font-weight": "bold", "justify-content": "space-between"});
             }
-            else{
+            else {
                 let path = "<?php echo base_url("images/" . session()->get("chosenGenre") . ".png");?>";
                  $(".header-content")
                      .prepend($("<div></div>").append("<?= session()->get('username') ?>").css("margin-right", "30px"))

@@ -77,9 +77,7 @@
        }
 
        $("#return").click(function(){
-           $.post("<?=base_url('User/echoView/userInterface')?>", function(data){
-               $(".center").html(data);
-           });
+           $(".center").load("<?=base_url('User/echoView/userInterface')?>");
        });
     });
 </script>

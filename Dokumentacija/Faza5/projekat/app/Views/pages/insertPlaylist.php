@@ -47,7 +47,7 @@
                 $.post("<?= base_url('PrivilegedUser/insertPlaylist')?>", {
                     "genre": genre,
                     "level": level
-                }, function (data) {
+                }, function () {
                     $("#change").empty().append("<br><br><h3>Playlist inserted successfully</h3>");
                 });
             }

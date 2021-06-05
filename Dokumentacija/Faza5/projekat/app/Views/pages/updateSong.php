@@ -40,14 +40,14 @@
 
             });
         }
-       $("#songs").on("change", function (){
+       $("#songs").on("change", function () {
            $("#text1").empty();
            $(".toHide").prop("hidden", true);
        });
         $("#playlists").on("change", function () {
             $("#text1").empty();
             $(".toHide").prop("hidden", true);
-            if($("#playlistDefault").prop("selected") === true){
+            if($("#playlistDefault").prop("selected") === true) {
                 $("#songs").empty().append("<option id='songDefault' selected>Song</option>");
             }
             else {
@@ -74,7 +74,8 @@
                 });
             }
         });
-        $(".btnEdit").click(function (){
+
+        $(".btnEdit").click(function () {
             localStorage.setItem("toChange", this.id);
             let selectedSong= $("option:selected", $("#songs"));
             let selectedPlaylist= $("option:selected", $("#playlists"));
@@ -90,7 +91,8 @@
 
             }
         });
-        $("#newName").on("input",function (){
+
+        $("#newName").on("input",function () {
             if (this.value===""){
                 $("#updateOk").prop("disabled", true);
             }
@@ -98,7 +100,7 @@
                 $("#updateOk").prop("disabled", false);
         });
 
-        $("#updateOk").click(function(){
+        $("#updateOk").click(function() {
             let songId=$("option:selected", $("#songs")).attr("id");
             $.post("<?=base_url("PrivilegedUser/updateSong") ?>", {
                 "toChange":localStorage.getItem("toChange"),

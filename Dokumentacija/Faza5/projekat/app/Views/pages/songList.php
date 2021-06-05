@@ -12,6 +12,7 @@
                     let correctGuesses = localStorage.getItem("numberOfGuesses");
                     let genre = "<?php echo session()->get("chosenGenre"); ?>";
                     if(correctGuesses >= 6){
+                        $.post("<?= base_url("Training/saveNewUserInfo") ?>");
                         $(".guessed").append("Congratulations you successfully unlocked " + genre + " genre!").css({"font-size" : "20px" , "font-weight" : "bold"});
                     }
                     else{
@@ -40,6 +41,11 @@
                         $(".tableSongList").append(tr);
                 }
             }
+            <?php
+                session()->remove("songs");
+                session()->remove("mode");
+                session()->remove("chosenGenre");
+            ?>
             localStorage.clear();
         }
 

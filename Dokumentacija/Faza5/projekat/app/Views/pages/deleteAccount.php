@@ -19,9 +19,7 @@
         });
 
         $("#goBack").click(function () {
-            $.post("<?= base_url("Administrator/echoView/adminMenu") ?>", function (data) {
-                $(".center").html(data);
-            });
+            $(".center").load("<?= base_url("Administrator/echoView/adminMenu") ?>");
         });
     });
 </script>

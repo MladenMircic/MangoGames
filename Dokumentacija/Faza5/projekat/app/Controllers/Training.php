@@ -2,28 +2,41 @@
 
 namespace App\Controllers;
 
+use App\Models\PlaylistModel;
 use App\Models\SongModel;
 use App\Models\UserInfoModel;
-use CodeIgniter\HTTP\RequestInterface;
-use CodeIgniter\HTTP\ResponseInterface;
-use CodeIgniter\Model;
-use Psr\Log\LoggerInterface;
+use App\Models\UserPlaylistModel;
 
 class Training extends BaseController
 {
-    protected $songs;
-
-    public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
-    {
-        // Do Not Edit This Line
-        parent::initController($request, $response, $logger);
-
-        $songModel = new SongModel();
-        $this->songs = $songModel->findAll();
-    }
-
     public function index()
     {
+        $songModel = new SongModel();
+        $userInfoModel = new UserInfoModel();
+        $mode = $this->session->get("mode");
+        if ($mode == "train") {
+            $userInfo = $userInfoModel->where("username", $this->session->get("username"))->where("genre", $this->session->get("chosenGenre"))->first();
+            $userPlaylistModel = new UserPlaylistModel();
+            $userPlaylists = $userPlaylistModel->where("idU", $userInfo->idU)->findAll();
+            $idPs = [];
+
+            foreach($userPlaylists as $playlist)
+                $idPs = array_merge($idPs, [$playlist->idP]);
+
+            $this->songs = $songModel->whereIn("idP", $idPs)->findAll();
+            $this->session->set("songs", $this->songs);
+        }
+        else {
+            $playlistModel = new PlaylistModel();
+            $playlistsForGenre = $playlistModel->where("genre", $this->session->get("chosenGenre"))->findAll();
+            $idPs = [];
+
+            foreach($playlistsForGenre as $playlist)
+                $idPs = array_merge($idPs, [$playlist->idP]);
+
+            $this->songs = $songModel->whereIn("idP", $idPs)->findAll();
+            $this->session->set("songs", $this->songs);
+        }
         $this->showView('trainingMode');
     }
 
@@ -31,6 +44,7 @@ class Training extends BaseController
         $data = [];
         $used = [];
         $i = 0;
+        $this->songs = $this->session->get("songs");
         $songToPlayIndex = rand(0, count($this->songs) - 1);
         $data['songToBePlayed'] = $this->songs[$songToPlayIndex];
         $data['songs'] []= $this->songs[$songToPlayIndex]->name;
@@ -43,6 +57,8 @@ class Training extends BaseController
             $i++;
         }
         shuffle($data['songs']);
+        array_splice($this->songs, $songToPlayIndex, 1);
+        $this->session->set("songs", $this->songs);
         if ($toJson == false)
             return $data;
         else
@@ -68,6 +84,13 @@ class Training extends BaseController
             "genre" => $this->session->get("chosenGenre"),
             "points" => 0,
             "tokens" => 0
+        ]);
+        $userInfo = $userInfoModel->where("username", $this->session->get("username"))->where("genre", $this->session->get("chosenGenre"))->first();
+        $userPlaylistModel = new UserPlaylistModel();
+        $playlistModel = new PlaylistModel();
+        $userPlaylistModel->insert([
+            'idU' => $userInfo->idU,
+            'idP' => $playlistModel->getIdOfMinNumOfGenre($this->session->get("chosenGenre"))
         ]);
     }
 }

@@ -4,10 +4,8 @@ namespace App\Controllers;
 
 use App\Models\PlaylistModel;
 use App\Models\UserInfoModel;
-use App\Models\UserModel;
 use App\Models\GenreModel;
 use App\Models\UserPlaylistModel;
-use CodeIgniter\Model;
 
 class User extends BaseController
 {
@@ -153,10 +151,10 @@ class User extends BaseController
                     break;
                 }
             }
-            if($flag == true){
+            if($flag == true) {
                echo   $playlist->difficulty . "," . $playlist->number . "," . $playlist->price . "," . $playlist->idP . "," . "unlocked" . "/";
             }
-            else{
+            else {
                 echo  $playlist->difficulty . "," . $playlist->number . "," . $playlist->price . "," . $playlist->idP . "," . "locked" . "/";
             }
         }
