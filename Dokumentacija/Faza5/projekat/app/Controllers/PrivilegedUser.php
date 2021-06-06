@@ -21,7 +21,9 @@ class PrivilegedUser extends BaseController
         parent::initController($request, $response, $logger);
 
     }
-
+    /**
+     * Echoes all playlists from PlaylistModel in format genre/difficulty/number/playlistId.
+     */
     public function getPlaylists() {
         $playlistModel=new PlaylistModel();
         $playlists=$playlistModel->findAll();
@@ -30,13 +32,21 @@ class PrivilegedUser extends BaseController
             echo ($name);
         }
     }
+
+    /**
+     * @param $idP
+     * @return string
+     * Finds the playlist from the database and returns details in format 'genre difficulty number'.
+     */
     public function playlistToString($idP){
         $playlistModel=new PlaylistModel();
         $player=$playlistModel->find($idP);
         return ucfirst($player->genre)." ".ucfirst($player->difficulty)." ".ucfirst($player->number);
     }
 
-
+    /**
+     * Deletes the playlist, which Id is provided, from the database and updates the ChangeLog.
+     */
     public function deletePlaylist(){
         $playlistModel=new PlaylistModel();
 
@@ -46,6 +56,9 @@ class PrivilegedUser extends BaseController
 
     }
 
+    /**
+     * Deletes the song, which Id is provided, from the database and updates the ChangeLog.
+     */
     public function deleteSong(){
         $songModel=new SongModel();
         $song=$songModel->find($this->request->getVar('idS'));
@@ -55,6 +68,9 @@ class PrivilegedUser extends BaseController
         $this->insertToChangeLog($message);
     }
 
+    /**
+     * Echoes a list of songs from specific playlist.
+     */
     public function getSongs(){
         $songModel=new SongModel();
         $playlistModel=new PlaylistModel();
@@ -68,6 +84,10 @@ class PrivilegedUser extends BaseController
         }
     }
 
+    /**
+     * @throws \ReflectionException
+     * Inserts a song to the database. A song name, song artist, path and playlist are provided by the request. Updates the ChangeLog.
+     */
     public function insertSong(){
 
         $songModel=new SongModel();
@@ -86,6 +106,10 @@ class PrivilegedUser extends BaseController
         $this->insertToChangeLog($message);
     }
 
+    /**
+     * @throws \ReflectionException
+     * Inserts a playlist to the database. A genre and a difficulty are provided by the request. Updates the ChangeLog.
+     */
     public function insertPlaylist(){
         $playlistModel=new PlaylistModel();
         $pls=$playlistModel->where("genre", $this->request->getVar('genre'))->
@@ -109,6 +133,11 @@ class PrivilegedUser extends BaseController
         $this->insertToChangeLog($message);
     }
 
+    /**
+     * @param $message
+     * @throws \ReflectionException
+     * Inserts the message to the ChangeLog. Limits the number of logs to 50.
+     */
     public function insertToChangeLog($message){
         $changeLogModel=new ChangeLogModel();
         $changeLogModel->insert([
@@ -124,6 +153,9 @@ class PrivilegedUser extends BaseController
         }
     }
 
+    /**
+     * Echoes all genres which exist in the database.
+     */
     public function getAllGenres() {
         $genreModel=new GenreModel();
         $genres=$genreModel->findAll();
@@ -131,6 +163,10 @@ class PrivilegedUser extends BaseController
             echo $genre->name . ",";
         }
     }
+
+    /**
+     * Echoes all genres which exist in the database.
+     */
     public function getGenres(){
         $genreModel=new GenreModel();
         $genres=$genreModel->findAll();
@@ -140,6 +176,9 @@ class PrivilegedUser extends BaseController
         }
     }
 
+  /**
+  *Echoes a name, artist and path of a song, which Id is provided by a request.
+  */
     public function getSongInfo()
     {
         $songModel = new SongModel();
@@ -156,6 +195,11 @@ class PrivilegedUser extends BaseController
         }
     }
 
+
+  /**
+     * @throws \ReflectionException
+     * Updates a song name or a song artist in the database.
+     */
     public function updateSong(){
 
         $songModel=new SongModel();

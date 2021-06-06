@@ -73,7 +73,10 @@ class User extends BaseController
             echo $info->genre . ",";
         }
     }
-
+  
+    /**
+     * Returns points and tokens of the current player for all genres, or for the specific genre.
+     */
     public function getPointsAndTokens() {
         $userInfoModel=new UserInfoModel();
         if($this->request->getVar("genre")=="allGenres"){
@@ -93,6 +96,9 @@ class User extends BaseController
         }
     }
 
+    /**
+     * Returns usernames and points of all players for the specific genre, or for all genres.
+     */
     public function getGenrePoints() {
         $userInfoModel=new UserInfoModel();
         if($this->request->getVar("genre")=="allGenres"){
