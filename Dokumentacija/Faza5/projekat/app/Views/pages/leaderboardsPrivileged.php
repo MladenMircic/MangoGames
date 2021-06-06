@@ -85,7 +85,7 @@
 <div style="height: 50px"id="picture"></div>
 <br>
 <div>
-    <div style="margin:auto; background-color: rgba(251,151,57,0.0); border: none" class="scroll">
+    <div style="width:80%; margin:auto; background-color: rgba(251,151,57,0.0); border: none" class="scroll">
         <table style="text-align: center" class=" table table-dark table-sm"  id="leaderboard">
         </table>
     </div>

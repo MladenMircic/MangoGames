@@ -126,9 +126,6 @@ class BaseController extends Controller
         echo $songString;
     }
 
-    /**
-     *
-     */
     public function getGenrePoints() {
         $userInfoModel=new UserInfoModel();
 

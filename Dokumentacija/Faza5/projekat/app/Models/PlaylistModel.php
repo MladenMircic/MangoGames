@@ -12,7 +12,7 @@ class PlaylistModel extends Model
     protected $returnType = 'object';
     protected $useAutoIncrement = true;
 
-    protected $allowedFields = ['idP','difficulty', 'genre', 'number'];
+    protected $allowedFields = ['idP','difficulty', 'genre', 'number', 'price'];
 
     public function getIdOfMinNumOfGenre($genre) {
 

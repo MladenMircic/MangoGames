@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\MistakeLogModel;
 use App\Models\PlaylistModel;
 use App\Models\UserInfoModel;
 use App\Models\GenreModel;
@@ -197,5 +198,11 @@ class User extends BaseController
             "idU" => $info[0]->idU,
             "idP" => $id
         ]);
+    }
+
+    public function reportMistake(){
+        $mistakeLogModel = new MistakeLogModel();
+
+        $mistakeLogModel->insert(["idS" => $this->request->getVar("idSong")]);
     }
 }

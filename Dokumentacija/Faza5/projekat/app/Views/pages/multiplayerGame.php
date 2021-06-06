@@ -29,6 +29,16 @@
         let opponentUsername = localStorage.getItem("opponent");
         let opponentPoints = 0;
 
+        let button = $("<input>").attr("type", "button").attr("value", "Report a mistake").addClass("btn").addClass("btn-warning").addClass("btn-sm").attr("id", "report").css({"margin-right" : "10%" , "margin-top" : "50%"});
+        $(".optional").append(button);
+
+        $("#report").click(function () {
+            $(this).attr("disabled", true);
+            $.post("<?= base_url("User/reportMistake") ?>", {idSong : songToBePlayed.idS}, function (data) {
+                $(".optional").append($("<div></div>").append("Mistake reported").attr("id", "reported").css({"color" : "red", "text-align" : "center", "margin-right" : "10%"}));
+            })
+        });
+
         function LoadSongsAndPlayAudio() {
             songData = JSON.parse(window.songs);
             songToBePlayed = songData.songToBePlayed;
@@ -178,7 +188,7 @@
                                             username: opponentUsername,
                                             points: opponentPoints
                                         }));
-
+                                        $(".optional").empty();
                                         $.post("<?= base_url('User/saveTokens') ?>", { tokens: tokensAcquired });
                                         $(".center").load("<?= base_url("User/echoView/endGameScreen") ?>");
                                     }
@@ -220,6 +230,8 @@
                     break;
                 }
                 case "newRound": {
+                    $("#reported").empty();
+                    $("#report").attr("disabled", false);
                     window.songs = messageReceived[1];
                     LoadSongsAndPlayAudio();
                     break;

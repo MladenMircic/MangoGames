@@ -2,12 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Models\ChangeLogModel;
-use App\Models\GenreModel;
-use App\Models\PlaylistModel;
-use App\Models\SongModel;
-use App\Models\MistakeLogModel;
-
 /**
  * Class Moderator - Represents all the functionalities that aa moderator has
  * @package App\Controllers
