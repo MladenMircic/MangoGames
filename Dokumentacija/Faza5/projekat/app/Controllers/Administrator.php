@@ -8,6 +8,7 @@ use App\Models\ChangeLogModel;
 use App\Models\UserInfoModel;
 use App\Models\UserModel;
 use App\Models\UserPlaylistModel;
+use CodeIgniter\Model;
 
 /**
  * Class Administrator - Represents all the functionalities that an administrator has
@@ -35,20 +36,22 @@ class Administrator extends PrivilegedUser
 
 
     public function deleteAccount(){
-        $users = new UserModel();
-        $toDelete =$users->find($this->request->getVar('accountToDelete'));
-
+        $userModel = new UserModel();
+        $toDelete =$userModel->find($this->request->getVar('accountToDelete'));
         if($toDelete!=null) {
-            $usersInfo = new UserInfoModel();
+            $userInfoModel = new UserInfoModel();
             $userPlaylistModel = new UserPlaylistModel();
-            $toDeleteInfo = $usersInfo->where('username', $toDelete->username)->findAll();
+            $toDeleteInfo = $userInfoModel->where('username', $toDelete->username)->findAll();
 
             foreach ($toDeleteInfo as $userInfo) {
-                $userPlaylistModel->where("idU", $userInfo->idU)->delete();
-                $usersInfo->delete($userInfo->id);
+                $userPlaylists = $userPlaylistModel->where("idU", $userInfo->idU)->findAll();
+                foreach($userPlaylists as $playlist){
+                    $userPlaylistModel->where("idUP", $playlist->idUP)->delete();
+                }
+                $userInfoModel->where("idU", $userInfo->idU)->delete();
             }
 
-            $users->delete($toDelete->username);
+            $userModel->where("username", $toDelete->username)->delete();
             echo "";
         }
         else{
@@ -67,13 +70,18 @@ class Administrator extends PrivilegedUser
         if($taken != null){
             echo "User with that username already exists";
         }
+        echo "";
+    }
+
+    public function saveNewModerator(){
+        $users = new UserModel();
         $users->insert([
             'username' =>  $this->request->getVar("modUsername"),
             'password' => $this->request->getVar("modPassword"),
             'type' => "moderator"
         ]);
-        echo "";
     }
+
     public function getChangeLog(){
         $changeLogModel=new ChangeLogModel();
         $logs=$changeLogModel->findAll();

@@ -7,6 +7,7 @@ use App\Models\PlaylistModel;
 use App\Models\SongModel;
 use App\Models\GenreModel;
 use App\Models\UserInfoModel;
+use App\Models\MistakeLogModel;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\Model;
@@ -175,7 +176,20 @@ class PrivilegedUser extends BaseController
         }
     }
 
-    /**
+  /**
+  *Echoes a name, artist and path of a song, which Id is provided by a request.
+  */
+    public function getSongInfo()
+    {
+        $songModel = new SongModel();
+        $id = $this->request->getVar("idS");
+        $song = $songModel->find($id);
+        $songString = $song->idS . "," . $song->name . "," . $song->artist . "," . $song->path;
+        echo $songString;
+    }
+
+
+  /**
      * @throws \ReflectionException
      * Updates a song name or a song artist in the database.
      */
