@@ -143,10 +143,17 @@ class PrivilegedUser extends BaseController
     public function getSongInfo()
     {
         $songModel = new SongModel();
+        $mistakeLogModel = new MistakeLogModel();
         $id = $this->request->getVar("idS");
         $song = $songModel->find($id);
-        $songString = $song->idS . "," . $song->name . "," . $song->artist . "," . $song->path;
-        echo $songString;
+        $mistake = $mistakeLogModel->where("idS", $id)->findAll();
+        if($mistake == null){
+            echo "mistake";
+        }
+        else{
+            $songString = $song->idS . "," . $song->name . "," . $song->artist . "," . $song->path;
+            echo $songString;
+        }
     }
 
     public function updateSong(){
