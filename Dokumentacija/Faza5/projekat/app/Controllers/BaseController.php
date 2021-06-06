@@ -68,7 +68,7 @@ class BaseController extends Controller
      * @param $page
      * @param array $data
      */
-    protected function showView($page, array $data = []) {
+    public function showView($page, array $data = []) {
 	    $rawData = $this->showAdditionalData();
 	    foreach($rawData as $key => $value)
             $data[$key] = $value;
@@ -94,12 +94,12 @@ class BaseController extends Controller
      * @param $page
      * @param null $additionalData
      */
-	protected function echoView($page, $additionalData = null)
+    public function echoView($page, $additionalData = null)
     {
         if ($additionalData != null)
             $data = $this->{$additionalData}();
         if(isset($data))
-	        echo view("pages/$page", $data);
+            echo view("pages/$page", $data);
         else echo view("pages/$page");
     }
 
@@ -108,7 +108,7 @@ class BaseController extends Controller
      *
      * @return \CodeIgniter\HTTP\RedirectResponse
      */
-    protected function logout()
+    public function logout()
     {
         $this->session->destroy();
         return redirect()->to(base_url("Login?wantToExit=true"));
@@ -117,7 +117,7 @@ class BaseController extends Controller
     /**
      * A method that returns a song information based on it's id provided by the request.
      */
-    protected function getSongInfo()
+    public function getSongInfo()
     {
         $songModel = new SongModel();
         $id = $this->request->getVar("idS");

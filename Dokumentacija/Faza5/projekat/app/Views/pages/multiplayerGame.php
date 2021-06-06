@@ -240,6 +240,7 @@
                     window.conn.close();
                     audio.pause();
                     $(".popover").remove();
+                    $(".optional").empty();
                     logo.toggleClass("logo logoForGame");
 
                     $(".header-content")

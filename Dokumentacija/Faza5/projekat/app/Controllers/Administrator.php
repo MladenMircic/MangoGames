@@ -8,7 +8,6 @@ use App\Models\ChangeLogModel;
 use App\Models\UserInfoModel;
 use App\Models\UserModel;
 use App\Models\UserPlaylistModel;
-use CodeIgniter\Model;
 
 /**
  * Class Administrator - Represents all the functionalities that an administrator has
