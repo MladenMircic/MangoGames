@@ -1,4 +1,7 @@
 <script>
+
+    // Mladen Mirčić 0413/2018
+
     $(document).ready(function () {
         window.conn = new WebSocket('ws://localhost:8081?username=<?= session()->get('username') ?>&chosenGenre=<?= session()->get('chosenGenre') ?>');
 

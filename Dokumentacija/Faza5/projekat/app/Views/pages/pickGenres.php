@@ -1,6 +1,9 @@
 <script>
     $(document).ready(function () {
 
+        // Mladen Mirčić 0413/2018
+        // Teodora Mijatović 0314/2018
+
         $.post("<?= base_url("User/echoView/printGenreImages/getGenres") ?>", function (data) {
             let row = $("<tr></tr>").html(data);
             $(".genres-table").append(row);

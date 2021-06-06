@@ -1,8 +1,8 @@
-<!--
-    Kosta Dimitrijević 0467/2018
--->
 
 <script>
+
+    // Kosta Dimitrijević 0467/2018
+
     $(document).ready(function () {
         $("#confirm").click(function () {
             $.post("<?= base_url("Administrator/checkModerator") ?>",

@@ -1,5 +1,8 @@
 <script>
     $(document).ready(function (){
+
+        // Mladen Mirčić 0413/2018
+
         $("#update").click(function(){
             $(".center").load("<?=base_url('Moderator/echoView/insertDelete')?>");
         });

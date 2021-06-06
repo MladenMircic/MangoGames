@@ -1,5 +1,8 @@
 <script>
     $(document).ready(function (){
+
+        // Teodora Mijatović 0314/2018
+
         insertSong();
         function insertSong(){
             $.post("<?= site_url('PrivilegedUser/getPlaylists')?>", function(data){

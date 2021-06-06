@@ -1,5 +1,8 @@
 <script>
     $(document).ready(function(){
+
+        // Teodora Mijatović 0314/2018
+
         deletePlaylist();
         function deletePlaylist(){
             $.get("<?=base_url("PrivilegedUser/getPlaylists") ?>", function(data){

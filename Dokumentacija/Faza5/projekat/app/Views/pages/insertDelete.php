@@ -1,5 +1,8 @@
 <script>
     $(document).ready(function () {
+
+        // Teodora Mijatović 0314/2018
+
         $("#confirmOperation").click(function () {
             let ops = document.getElementsByClassName("operation");
             let types = document.getElementsByClassName("type");
