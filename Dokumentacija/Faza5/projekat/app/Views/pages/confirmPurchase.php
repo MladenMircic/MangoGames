@@ -1,9 +1,9 @@
-<!--
-    Kosta Dimitrijević 0467/2018
-    Teodora Mijatović 0314/2018
--->
 
 <script>
+
+    // Kosta Dimitrijević 0467/2018
+    // Teodora Mijatović 0314/2018
+
     $(document).ready(function () {
         let numOfTokens = localStorage.getItem("numOfTokens");
         $(".popover").remove();

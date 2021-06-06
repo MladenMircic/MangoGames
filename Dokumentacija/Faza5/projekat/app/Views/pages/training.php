@@ -1,9 +1,9 @@
-<!--
-    Kosta Dimitrijević 0467/2018
--->
 
 <script>
     $(document).ready(function () {
+
+        // Kosta Dimitrijević 0467/2018
+
         $.post("<?= base_url("User/echoView/printGenreImages/getGenres") ?>", function (data) {
             let row = $("<tr></tr>").html(data);
             $(".genres-table").append(row);

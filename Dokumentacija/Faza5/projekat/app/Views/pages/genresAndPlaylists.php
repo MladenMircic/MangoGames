@@ -1,4 +1,8 @@
 <script>
+
+    // Teodora Mijatović 0314/2018
+    // Kosta Dimitrijević 0467/2018
+
     $(document).ready(function () {
         $.post("<?= base_url("User/getMyGenres") ?>", function (data) {
             let cnt = 0;

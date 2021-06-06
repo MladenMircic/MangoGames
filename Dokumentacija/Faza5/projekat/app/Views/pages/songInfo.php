@@ -1,8 +1,8 @@
-<!--
-    Kosta Dimitrijević 0467/2018
--->
 
 <script>
+
+    // Kosta Dimitrijević 0467/2018
+
     $("#playAudio").click(function () {
         window.audio.play();
     });

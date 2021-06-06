@@ -1,3 +1,7 @@
+<!--
+    Mladen Mirčić 0413/2018
+-->
+
 <form method="post" action="<?= base_url("Register/checkRegisterCredentials") ?>">
     <table class="table registerForm">
         <tr>

@@ -1,7 +1,8 @@
-<!--
-    Kosta Dimitrijević 0467/2018
--->
+
 <script>
+
+    // Kosta Dimitrijević 0467/2018
+
     $(document).ready(function () {
         $("#no").click(function () {
             let user = "<?= session()->get('type'); ?>";

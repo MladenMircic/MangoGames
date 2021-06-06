@@ -1,5 +1,8 @@
 <script>
     $(document).ready(function () {
+
+        // Mladen Mirčić 0413/2018
+
         $(".popover").remove();
         let myself = JSON.parse(localStorage.getItem("myself"));
         let opponent = JSON.parse(localStorage.getItem("opponent"));
