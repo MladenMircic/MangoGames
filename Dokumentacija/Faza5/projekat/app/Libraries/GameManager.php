@@ -7,18 +7,51 @@ use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 use App\Models\UserInfoModel;
 
+/**
+ * Class GameManager - A class that implements all the WebSocket Server methods
+ * @package App\Libraries
+ *
+ * @version 1.0
+ */
 class GameManager implements MessageComponentInterface {
+
+    /**
+     * @var \SplObjectStorage $clients Clients
+     */
     protected $clients;
+
+    /**
+     * @var array $users Users
+     */
     protected $users;
+
+    /**
+     * @var array $activeGames ActiveGames
+     */
     protected $activeGames;
 
+    /**
+     * @var int $currentGameId CurrentGameID
+     */
     protected $currentGameId = 0;
 
+    /**
+     * GameManager constructor. Initializes client storage to be used for all incoming connections.
+     */
     public function __construct() {
         $this->clients = new \SplObjectStorage;
     }
 
-    public function formBothHaveSongs($player1Playlists, $player2Playlists) {
+    /**
+     * A method that makes an intersection between playlists both players have in the selected genre
+     * and searches the database for all the songs in the intersected playlists then returns them.
+     *
+     * @param $player1Playlists
+     * @param $player2Playlists
+     * @return array
+     */
+    public function formBothHaveSongs($player1Playlists, $player2Playlists): array
+    {
         $idPs1 = [];
         $idPs2 = [];
 
@@ -39,7 +72,17 @@ class GameManager implements MessageComponentInterface {
         return $songsBothHave;
     }
 
-    public function formOneHaveSongs($player1Playlists, $player2Playlists) {
+    /**
+     * A method that returns two arrays of songs.
+     * First array is filled with the songs which the first player has in the selected genre
+     * while second contains songs which the second player has.
+     *
+     * @param $player1Playlists
+     * @param $player2Playlists
+     * @return array[]
+     */
+    public function formOneHaveSongs($player1Playlists, $player2Playlists): array
+    {
         $idPs1 = [];
         $idPs2 = [];
 
@@ -66,6 +109,14 @@ class GameManager implements MessageComponentInterface {
         return [0 => $firstHaveSongs, 1 => $secondHaveSongs];
     }
 
+    /**
+     * A method that is called every time a client makes a connection.
+     * It tries to match the client with another one waiting for a player in the same genre.
+     * If found, makes a new gameId to represent a game session between two players and sends them
+     * a message to start the game.
+     *
+     * @param ConnectionInterface $conn
+     */
     public function match(ConnectionInterface $conn) {
         $opponent = null;
         foreach($this->clients as $client) {
@@ -109,7 +160,17 @@ class GameManager implements MessageComponentInterface {
         }
     }
 
-    public function pickSongs($gameId) {
+    /**
+     * A method called upon every start of new round between two players.
+     * Picks a song to be played in the upcoming round in 60:40 proportion
+     * between songs that both players have and songs that only one has.
+     * Then it picks three more songs to be shown to the players for guessing and returns them.
+     *
+     * @param $gameId
+     * @return array
+     */
+    public function pickSongs($gameId): array
+    {
         $data = [];
         $whichToPick = rand(0, 100);
         if ($whichToPick <= 60 || count($this->activeGames[$gameId]['oneHaveSongs'][0]) == 0 && count($this->activeGames[$gameId]['oneHaveSongs'][1]) == 0) {
@@ -148,6 +209,13 @@ class GameManager implements MessageComponentInterface {
         return $data;
     }
 
+    /**
+     * A method that is called every time a connection is made by the client.
+     * Saves all the relevant client information including his username and chosen genre when starting a multiplayer game.
+     * Then calls a method in which the client tries to connect to another client waiting for the match in the same genre.
+     *
+     * @param ConnectionInterface $conn
+     */
     public function onOpen(ConnectionInterface $conn) {
         // Store the new connection to send messages to later
         $this->clients->attach($conn);
@@ -159,6 +227,14 @@ class GameManager implements MessageComponentInterface {
         $this->match($conn);
     }
 
+    /**
+     * A method that is called every time a client passes a message to the server.
+     * It splits the message in the correct format,
+     * and based on the content makes an interaction with opponent in the current game session.
+     *
+     * @param ConnectionInterface $from
+     * @param string $msg
+     */
     public function onMessage(ConnectionInterface $from, $msg) {
         $info = explode("|", $msg);
         $gameId = intval($info[1]);
@@ -244,6 +320,13 @@ class GameManager implements MessageComponentInterface {
         }
     }
 
+    /**
+     * A method that is called every time a client closes the connection to the server.
+     * If a player didn't leave the game "gracefully" (force quits), the server
+     * automatically closes the connection with opponent in the same session.
+     *
+     * @param ConnectionInterface $conn
+     */
     public function onClose(ConnectionInterface $conn) {
         foreach ($this->activeGames as $activeGame) {
             if (($activeGame['player1'] == $conn || $activeGame['player2'] == $conn) &&

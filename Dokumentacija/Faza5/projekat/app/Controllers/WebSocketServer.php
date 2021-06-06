@@ -7,8 +7,18 @@ use Ratchet\Http\HttpServer;
 use Ratchet\WebSocket\WsServer;
 use App\Libraries\GameManager;
 
+/**
+ * Class WebSocketServer - A wrapper class for starting the WebSocket Server
+ * @package App\Controllers
+ *
+ * @version 1.0
+ */
 class WebSocketServer extends BaseController
 {
+    /**
+     * A method that should be in all cases run from the CLI.
+     * Starts the WebSocket Server on port 8081
+     */
     public function index()
     {
         if(!is_cli())

@@ -2,10 +2,10 @@
     $(document).ready(function () {
         $("#deleteAcc").click(function () {
             $.post("<?= base_url("Administrator/deleteAccount") ?>", {
-                "accountToDelete" : $("#toDelete").val()
+                accountToDelete: $("#toDelete").val()
             }, function (data) {
                 $("#error").empty();
-                if(data != ""){
+                if(data !== ""){
                     let col = $("<td></td>").append(data);
                     col.attr("style", "color : red").attr("colspan", "2").addClass("borderless");
                     $("#error").append(col);

@@ -1991,7 +1991,7 @@
 </XPD:OBJ>
 </XPD:OBJ>
 <XPD:OBJ name="OwnedCollaborationInstanceSets[1]" type="UMLCollaborationInstanceSet" guid="XatTsqLNHkq7p4NetgY8rgAA">
-<XPD:ATTR name="Name" type="string">UnlockNewGenreFailColab</XPD:ATTR>
+<XPD:ATTR name="Name" type="string">CollaborationInstanceSet1</XPD:ATTR>
 <XPD:REF name="RepresentedClassifier">GJJGhuh2uk24YwxSWIpIygAA</XPD:REF>
 <XPD:ATTR name="#InteractionInstanceSets" type="integer">1</XPD:ATTR>
 <XPD:OBJ name="InteractionInstanceSets[0]" type="UMLInteractionInstanceSet" guid="CaV/8J2IekSa+yk1iUWuxgAA">

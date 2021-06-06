@@ -85,7 +85,7 @@ class PrivilegedUser extends BaseController
         $this->insertToChangeLog($message);
     }
 
-    public function insertPlaylist(){
+    public function insertPlaylist() {
         $playlistModel=new PlaylistModel();
         $pls=$playlistModel->where("genre", $this->request->getVar('genre'))->
             where("difficulty", $this->request->getVar('level'))->findAll();

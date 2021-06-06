@@ -12,6 +12,8 @@ use App\Models\UserPlaylistModel;
 /**
  * Class Administrator - Represents all the functionalities that an administrator has
  * @package App\Controllers
+ *
+ * @version 1.0
  */
 class Administrator extends PrivilegedUser
 {
@@ -32,32 +34,38 @@ class Administrator extends PrivilegedUser
         return ['welcomeMessage' => "Welcome, {$this->session->get('username')} <br> <div style='color: purple'>Administrator</div>"];
     }
 
+    /**
+     * A method that deletes all user info associated with the username provided from the page
+     */
+    public function deleteAccount() {
+        $userModel = new UserModel();
+        $toDelete = $userModel->find($this->request->getVar('accountToDelete'));
 
-
-    public function deleteAccount(){
-        $users = new UserModel();
-        $toDelete =$users->find($this->request->getVar('accountToDelete'));
-
-        if($toDelete!=null) {
-            $usersInfo = new UserInfoModel();
+        if($toDelete != null) {
+            $userInfoModel = new UserInfoModel();
             $userPlaylistModel = new UserPlaylistModel();
-            $toDeleteInfo = $usersInfo->where('username', $toDelete->username)->findAll();
+            $toDeleteInfo = $userInfoModel->where('username', $toDelete->username)->findAll();
 
             foreach ($toDeleteInfo as $userInfo) {
-                $userPlaylistModel->where("idU", $userInfo->idU)->delete();
-                $usersInfo->delete($userInfo->id);
+                $userPlaylists = $userPlaylistModel->where('idU', $userInfo->idU)->findAll();
+                foreach ($userPlaylists as $playlist)
+                    $userPlaylistModel->delete($playlist->idUP);
+                $userInfoModel->delete($userInfo->idU);
             }
 
-            $users->delete($toDelete->username);
+            $userModel->delete($toDelete->username);
             echo "";
         }
-        else{
+        else
             echo "Invalid username";
-        }
     }
 
-    public function checkModerator()
-    {
+    /**
+     * Checks if a username already exists in the database.
+     *
+     * @throws \ReflectionException
+     */
+    public function checkModerator() {
         $users = new UserModel();
         $username = $this->request->getVar("modUsername");
 
@@ -74,7 +82,11 @@ class Administrator extends PrivilegedUser
         ]);
         echo "";
     }
-    public function getChangeLog(){
+
+    /**
+     * Returns all the information about moderator changes from the database.
+     */
+    public function getChangeLog() {
         $changeLogModel=new ChangeLogModel();
         $logs=$changeLogModel->findAll();
         foreach ($logs as $log){

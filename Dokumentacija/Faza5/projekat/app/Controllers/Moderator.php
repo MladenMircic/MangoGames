@@ -11,6 +11,8 @@ use App\Models\MistakeLogModel;
 /**
  * Class Moderator - Represents all the functionalities that aa moderator has
  * @package App\Controllers
+ *
+ * @version 1.0
  */
 class Moderator extends PrivilegedUser
 {

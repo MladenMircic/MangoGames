@@ -44,6 +44,7 @@ class User extends BaseController
             echo $info->genre . ",";
         }
     }
+
     public function getPointsAndTokens() {
         $userInfoModel=new UserInfoModel();
         if($this->request->getVar("genre")=="allGenres"){

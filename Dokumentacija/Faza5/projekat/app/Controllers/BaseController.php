@@ -58,7 +58,17 @@ class BaseController extends Controller
 		$this->session = \Config\Services::session();
 	}
 
-    public function showView($page, $data = []) {
+    /**
+     * A method that every controller implements.
+     * When called, returns a pattern filled with a page provided.
+     * Additionally, adds data provided by the second argument.
+     * If showAdditionalData() method is implemented in the derived class, the method calls it and inserts data
+     * to the page, if not, does nothing.
+     *
+     * @param $page
+     * @param array $data
+     */
+    protected function showView($page, array $data = []) {
 	    $rawData = $this->showAdditionalData();
 	    foreach($rawData as $key => $value)
             $data[$key] = $value;
@@ -66,11 +76,25 @@ class BaseController extends Controller
         echo view("patterns/default_page_pattern", $data);
     }
 
+    /**
+     * A method that every derived controller should implement if
+     * a page it is showing requires additional data.
+     *
+     * @return array
+     */
     protected function showAdditionalData() {
 	    return [];
     }
 
-	public function echoView($page, $additionalData = null)
+    /**
+     * A lightweight method that is called using ajax requests.
+     * Works similarly to showView method, but second argument
+     * is a method name if additional data is required on provided page.
+     *
+     * @param $page
+     * @param null $additionalData
+     */
+	protected function echoView($page, $additionalData = null)
     {
         if ($additionalData != null)
             $data = $this->{$additionalData}();
@@ -79,13 +103,21 @@ class BaseController extends Controller
         else echo view("pages/$page");
     }
 
-    public function logout()
+    /**
+     * A method that destroys user's current session and redirects him to the Login page.
+     *
+     * @return \CodeIgniter\HTTP\RedirectResponse
+     */
+    protected function logout()
     {
         $this->session->destroy();
         return redirect()->to(base_url("Login?wantToExit=true"));
     }
 
-    public function getSongInfo()
+    /**
+     * A method that returns a song information based on it's id provided by the request.
+     */
+    protected function getSongInfo()
     {
         $songModel = new SongModel();
         $id = $this->request->getVar("idS");
@@ -94,6 +126,9 @@ class BaseController extends Controller
         echo $songString;
     }
 
+    /**
+     *
+     */
     public function getGenrePoints() {
         $userInfoModel=new UserInfoModel();
 

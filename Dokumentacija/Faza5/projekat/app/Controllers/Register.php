@@ -11,6 +11,8 @@ use App\Models\UserPlaylistModel;
 /**
  * Class Register - For registering player users in the database
  * @package App\Controllers
+ *
+ * @version 1.0
  */
 class Register extends BaseController
 {

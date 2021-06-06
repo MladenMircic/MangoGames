@@ -7,6 +7,8 @@ use App\Models\UserModel;
 /**
  * Class Login - For logging in every type of registered user
  * @package App\Controllers
+ *
+ * @version 1.0
  */
 class Login extends BaseController
 {
@@ -20,6 +22,7 @@ class Login extends BaseController
 
     /**
      * An optional method which a class can implement if additional data is required by the showView method
+     *
      * @return array
      */
     protected function showAdditionalData()
@@ -30,6 +33,7 @@ class Login extends BaseController
     /**
      * A method that checks user credentials, return errors if there are problems or redirect to
      * appropriate user type controller
+     *
      * @return \CodeIgniter\HTTP\RedirectResponse|void
      */
     public function checkUserCredentials()
