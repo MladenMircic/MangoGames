@@ -22,9 +22,14 @@
                             $("#error").append(col);
                             return;
                         }
-                        let col = $("<td></td>").attr("style", "color : green").attr("colspan", "2").addClass("borderless");
-                        col.append("You added new moderator successfully");
-                        $("#error").append(col);
+                        $.post("<?= base_url("Administrator/saveNewModerator") ?>",{
+                            "modUsername" : $("#moderatorUsername").val(),
+                            "modPassword" : $("#moderatorPassword").val()
+                        }, function (data) {
+                            let col = $("<td></td>").attr("style", "color : green").attr("colspan", "2").addClass("borderless");
+                            col.append("You added new moderator successfully");
+                            $("#error").append(col);
+                        });
                     }
                     else if(username == ""){
                         let col = $("<td></td>").attr("style", "color : red").attr("colspan", "2").addClass("borderless");
@@ -40,7 +45,7 @@
             );
         });
 
-        $("#back").click(function () {
+        $("#backToMenu").click(function () {
             $(".center").load("<?= base_url("Administrator/echoView/adminMenu") ?>");
         });
     });
@@ -75,5 +80,5 @@
             </td>
         </tr>
     </table>
-    <input type="button" class="btn btnRegister btn-dark" value="Return to menu" id="back">
+    <input type="button" class="btn btn-dark" value="Return to menu" id="backToMenu">
 </div>
