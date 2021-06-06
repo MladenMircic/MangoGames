@@ -8,29 +8,54 @@ use App\Models\UserInfoModel;
 use App\Models\GenreModel;
 use App\Models\UserPlaylistModel;
 
+/**
+ * Class User - For handling all user actions.
+ * @package App\Controllers
+ *
+ * @version 1.0
+ */
 class User extends BaseController
 {
 
+    /**
+     * A method to show user menu page
+     */
     public function index()
     {
         $this->showView('userInterface', []);
     }
 
+    /**
+     * An optional method which a class can implement if additional data is required by the showView method
+     * @return array
+     */
     protected function showAdditionalData() {
         return ['welcomeMessage' => "Welcome,<br> <b>{$this->session->get('username')}</b>"];
     }
 
+    /**
+     * Sets current chosen genre in training or multiplayer game
+     * @return array
+     */
     public function setChosenGenre() {
         $this->session->set("chosenGenre", $this->request->getVar("chosenGenre"));
         return [];
     }
 
+    /**
+     * Redirects user to Training controller
+     * @return \CodeIgniter\HTTP\RedirectResponse
+     */
     public function goToTraining() {
         $this->session->set("chosenGenre", $this->request->getVar("chosenGenre"));
         $this->session->set("mode", $this->request->getVar("mode"));
         return redirect()->to(base_url("Training"));
     }
 
+    /**
+     * Returns all available genres for user upon requesting to play multiplayer game
+     * @return array
+     */
     public function selectAvailableGenresForUser()
     {
         $userInfoModel = new UserInfoModel();
@@ -38,6 +63,9 @@ class User extends BaseController
         return ['userInfo' => $userInfo];
     }
 
+    /**
+     * Echoes all available genres for user upon requesting to view genres and playlists
+     */
     public function getMyGenres() {
         $userInfoModel=new UserInfoModel();
         $infos=$userInfoModel->where('username',$this->session->get('username'))->findAll();
@@ -45,6 +73,7 @@ class User extends BaseController
             echo $info->genre . ",";
         }
     }
+
     public function getPointsAndTokens() {
         $userInfoModel=new UserInfoModel();
         if($this->request->getVar("genre")=="allGenres"){
@@ -63,7 +92,6 @@ class User extends BaseController
             echo $infos[0]->points . "," . $infos[0]->tokens;
         }
     }
-
 
     public function getGenrePoints() {
         $userInfoModel=new UserInfoModel();
@@ -87,6 +115,11 @@ class User extends BaseController
         echo $this->session->get('username');
     }
 
+
+    /**
+     * Updates current number of tokens with newly acquired ones from the game
+     * @throws \ReflectionException
+     */
     public function saveTokens() {
         $userInfoModel = new UserInfoModel();
         $userInfo = $userInfoModel
@@ -99,10 +132,10 @@ class User extends BaseController
                     ->update(null, ["tokens" => $userInfo[0]->tokens + $this->request->getVar("tokens")]);
     }
 
-    public function showEnd() {
-        $this->showView('endGameScreen');
-    }
-
+    /**
+     * Returns the map of all genres and information if it is locked or unlocked by the user
+     * @return array[]
+     */
     public function getGenres() {
         $genreModel = new GenreModel();
         $userInfo = new UserInfoModel();
@@ -132,6 +165,9 @@ class User extends BaseController
         return ["genres" => $toSend];
     }
 
+    /**
+     * Echoes all playlists for chosen genre and information about it's locked status
+     */
     public function getPlaylists(){
 
         $genre = $this->request->getVar("chosenGenre");
@@ -161,6 +197,9 @@ class User extends BaseController
         }
     }
 
+    /**
+     * Echoes tokens for current user
+     */
     public function getMyTokens(){
         $userInfoModel = new UserInfoModel();
         $genre = $this->request->getVar("chosenGenre");
@@ -170,6 +209,9 @@ class User extends BaseController
         echo $info[0]->tokens;
     }
 
+    /**
+     * Echoes playlist for provided id
+     */
     public function getPlaylistById(){
         $playlistModel = new PlaylistModel();
         $id = $this->request->getVar("idP");
@@ -179,6 +221,10 @@ class User extends BaseController
         echo ucfirst($playlist->genre) . " " . ucfirst($playlist->difficulty) . " " . $playlist->number . "/" . $playlist->price;
     }
 
+    /**
+     * Inserts newly bought playlist into the database
+     * @throws \ReflectionException
+     */
     public function buyPlaylist(){
         $genre = $this->request->getVar("genre");
         $id = $this->request->getVar("idP");
@@ -199,6 +245,10 @@ class User extends BaseController
         ]);
     }
 
+    /**
+     * Inserts the id of the song that was reported by the user from the game
+     * @throws \ReflectionException
+     */
     public function reportMistake(){
         $mistakeLogModel = new MistakeLogModel();
 
