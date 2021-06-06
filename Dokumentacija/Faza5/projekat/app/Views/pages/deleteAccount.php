@@ -15,6 +15,7 @@
                     col1.attr("style", "color : green").attr("colspan", "2").addClass("borderless");
                     $("#error").append(col1);
                 }
+
             });
         });
 

@@ -1,7 +1,7 @@
 <script>
     $(document).ready(function (){
 
-        $("#back").click(function(){
+        $("#backToMenu").click(function(){
             $(".center").load("<?php
                 if (session()->get("type") == "mod") echo base_url('Moderator/echoView/modMenu');
                 else echo base_url("Administrator/echoView/adminMenu") ?>");
@@ -10,13 +10,10 @@
         $("#info").click(function () {
             let ids = $("#ids").val();
             if(ids !== ""){
-                $.post("<?php
-                    if (session()->get("type") == "mod") echo base_url('Moderator/echoView/songInfo');
-                    else echo base_url("Administrator/echoView/songInfo") ?>", function (data) {
+                $.post("<?= base_url("PrivilegedUser/echoView/songInfo") ?>", function (data) {
                     $(".center").html(data);
-                    $.post("<?php
-                        if (session()->get("type") == "mod") echo base_url('Moderator/getSongInfo');
-                        else echo base_url("Administrator/getSongInfo") ?>",{
+                    $.post("<?= base_url('PrivilegedUser/getSongInfo') ?>"
+                    ,{
                         "idS" : ids
                     }, function (data1) {
 
@@ -84,7 +81,7 @@
         <input class="btn btn-dark btn-sm" type="button" style="margin-left: 10px" value="Get song info" id="info">
         <br>
         <br>
-        <input type="button" class="btn btn-sm btn-dark" value="Return to menu" id="back">
+        <input type="button" class="btn btn-sm btn-dark" value="Return to menu" id="backToMenu">
     </div>
 </div>
 
