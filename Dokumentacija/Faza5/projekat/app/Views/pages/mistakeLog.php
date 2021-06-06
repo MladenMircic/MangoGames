@@ -1,4 +1,8 @@
+
 <script>
+
+    // Kosta Dimitrijević 0467/2018
+
     $(document).ready(function (){
 
         $("#backToMenu").click(function(){
@@ -9,55 +13,65 @@
 
         $("#info").click(function () {
             let ids = $("#ids").val();
-            if(ids !== ""){
+            if(ids != ""){
                 $.post("<?= base_url("PrivilegedUser/echoView/songInfo") ?>", function (data) {
                     $(".center").html(data);
                     $.post("<?= base_url('PrivilegedUser/getSongInfo') ?>"
                     ,{
                         "idS" : ids
                     }, function (data1) {
-
-                        let songInfo = [];
-                        songInfo = data1.split(",");
-                        let row1 = $("<tr></tr>");
-                        let col1 = $("<td></td>");
-                        col1.append("Song ID:");
-                        let col2 = $("<td></td>");
-                        col2.append(songInfo[0]);
-                        row1.append(col1);
-                        row1.append(col2);
-
-                        let row2 = $("<tr></tr>");
-                        let col21 = $("<td></td>");
-                        col21.append("Name:");
-                        let col22 = $("<td></td>");
-                        col22.append(songInfo[1]);
-                        row2.append(col21);
-                        row2.append(col22);
-
-                        let row3 = $("<tr></tr>");
-                        let col31 = $("<td></td>");
-                        col31.append("Artist:");
-                        let col32 = $("<td></td>");
-                        col32.append(songInfo[2]);
-                        row3.append(col31);
-                        row3.append(col32);
-
-                        $(".songInfoTable").append(row1);
-                        $(".songInfoTable").append(row2);
-                        $(".songInfoTable").append(row3);
-
-                        window.request = new XMLHttpRequest();
-                        window.request.open("GET", "<?= base_url("/") ?>" + "/" + songInfo[3], true);
-                        window.request.responseType = "blob";
-                        window.request.onload = function() {
-                            if (this.status == 200) {
-                                window.audio = new Audio(URL.createObjectURL(this.response));
-                                window.audio.load();
-
-                            }
+                        $("#errorLog").empty();
+                        if(data1 == "mistake")
+                        {
+                            $(".songInfoTable").hide();
+                            $("#playAudio").hide();
+                            $("#stopAudio").hide();
+                            $("#errorLog").append("Invalid id of song").css({"text-align" : "center", "color" : "red"});
                         }
-                        request.send();
+                        else{
+                            let songInfo = [];
+                            songInfo = data1.split(",");
+                            let row1 = $("<tr></tr>");
+                            let col1 = $("<td></td>");
+                            col1.append("Song ID:");
+                            let col2 = $("<td></td>");
+                            col2.append(songInfo[0]);
+                            row1.append(col1);
+                            row1.append(col2);
+
+                            let row2 = $("<tr></tr>");
+                            let col21 = $("<td></td>");
+                            col21.append("Name:");
+                            let col22 = $("<td></td>");
+                            col22.append(songInfo[1]);
+                            row2.append(col21);
+                            row2.append(col22);
+
+                            let row3 = $("<tr></tr>");
+                            let col31 = $("<td></td>");
+                            col31.append("Artist:");
+                            let col32 = $("<td></td>");
+                            col32.append(songInfo[2]);
+                            row3.append(col31);
+                            row3.append(col32);
+
+                            $(".songInfoTable").append(row1);
+                            $(".songInfoTable").append(row2);
+                            $(".songInfoTable").append(row3);
+
+                            window.request = new XMLHttpRequest();
+                            window.request.open("GET", "<?= base_url("/") ?>" + "/" + songInfo[3], true);
+                            window.request.responseType = "blob";
+                            window.request.onload = function() {
+                                if (this.status == 200) {
+                                    window.audio = new Audio(URL.createObjectURL(this.response));
+                                    window.audio.load();
+
+                                }
+                            }
+                            request.send();
+                        }
+
                     });
                 });
             }
@@ -69,7 +83,9 @@
 <div class="insertable">
     <br>
     <br>
+    <h2 style="text-align: center">Mistake log</h2>
     <div class="scroll offset-sm-3 col-sm-6">
+        <h5 style="text-align: left">Song id</h5>
         <table class="table mistakeLogTable" style="text-align: right">
 
         </table>

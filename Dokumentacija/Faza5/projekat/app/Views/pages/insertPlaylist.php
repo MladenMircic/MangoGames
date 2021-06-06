@@ -1,5 +1,8 @@
 <script>
     $(document).ready(function(){
+
+        // Teodora Mijatović 0314/2018
+
         insertPlaylist();
         function insertPlaylist(){
             $.post("<?= site_url('PrivilegedUser/getGenres')?>", function(data) {

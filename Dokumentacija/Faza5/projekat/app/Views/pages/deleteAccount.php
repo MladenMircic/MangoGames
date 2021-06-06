@@ -1,4 +1,8 @@
+
 <script>
+
+    // Kosta Dimitrijević 0467/2018
+
     $(document).ready(function () {
         $("#deleteAcc").click(function () {
             $.post("<?= base_url("Administrator/deleteAccount") ?>", {

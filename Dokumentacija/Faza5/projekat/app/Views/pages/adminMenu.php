@@ -1,6 +1,8 @@
 <script>
     $(document).ready(function (){
 
+        // Teodora Mijatović 0314/2018
+
         $("#mistakeLog").click(function() {
             $.get("<?= base_url("Administrator/echoView/mistakeLog") ?>", function (data) {
                 $(".center").html(data);

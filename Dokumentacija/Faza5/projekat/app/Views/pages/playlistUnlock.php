@@ -1,4 +1,9 @@
+
 <script>
+
+    // Kosta Dimitrijević 0467/2018
+    // Teodora Mijatović 0314/2018
+
     $(document).ready(function () {
         $.post("<?= base_url("User/getPlaylists") ?>",{chosenGenre : localStorage.getItem("chosenGenre")}, function (data) {
             localStorage.setItem("playlists", data);

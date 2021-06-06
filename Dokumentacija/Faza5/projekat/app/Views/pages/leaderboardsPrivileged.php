@@ -1,5 +1,8 @@
 <script>
     $(document).ready(function () {
+
+        // Teodora Mijatović 0314/2018
+
         showGenres();
         function showGenres(){
             $.post("<?= base_url('PrivilegedUser/getAllGenres')?>", function (data) {

@@ -1,5 +1,9 @@
 <!--
+<<<<<<< HEAD
     Mladen Mirčić 2018/0413
+=======
+    Mladen Mirčić 0413/2018
+>>>>>>> 5c52772039478e940b5706f011ba7b4e8deb458a
 -->
 
 <form method="post" action="<?= base_url("Register/checkRegisterCredentials") ?>">

@@ -1,5 +1,8 @@
 <script>
     $(document).ready(function (){
+
+        // Teodora Mijatović 0314/2018
+
         insertSong();
         function insertSong(){
             $.post("<?= site_url('PrivilegedUser/getPlaylists')?>", function(data){
@@ -66,7 +69,7 @@
                     }
                 }
                 let plArr=pl.split("/");
-                let location="music/"+plArr[0]+ "/"+plArr[1]+"-"+plArr[2]+"/"+performer+" - "+name+".mp4";
+                let location="music/"+plArr[0]+ "/"+plArr[1]+"-"+plArr[2]+"/"+performer+" - "+name+".mp3";
                 $.post("<?=base_url('PrivilegedUser/insertSong')?>",{
                     'name': name,
                     'performer': performer,

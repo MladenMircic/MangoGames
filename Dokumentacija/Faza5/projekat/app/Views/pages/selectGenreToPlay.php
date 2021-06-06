@@ -4,6 +4,9 @@
 
 <script>
     $(document).ready(function () {
+
+        // Mladen Mirčić 0413/2018
+
         let selected = null;
 
        $(".genreChoices img").on({
