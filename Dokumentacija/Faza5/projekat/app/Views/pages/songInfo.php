@@ -1,3 +1,7 @@
+<!--
+    Kosta Dimitrijević 0467/2018
+-->
+
 <script>
     $("#playAudio").click(function () {
         window.audio.play();
@@ -7,13 +11,35 @@
         window.audio.pause();
     });
 
-    $("#backToMenu").click(function(){
-        $(".center").load("<?php
-            if (session()->get("type") == "mod") echo base_url('Moderator/echoView/modMenu');
-            else echo base_url("Administrator/echoView/adminMenu") ?>");
+    $("#backToMistake").click(function(){
+        $.post("<?= base_url("PrivilegedUser/echoView/mistakeLog") ?>", function (data) {
+            $(".center").html(data);
+            $.get("<?= base_url("PrivilegedUser/getMistakes") ?>", function (data1) {
+
+                mistakes = data1.split(',');
+                for (let i=0; i<mistakes.length -1 ;i++)
+                {
+                    let mistake = [];
+                    mistake = mistakes[i].split('/');
+                    let idM = mistake[0];
+                    let idS = mistake[1];
+                    let row = $("<tr></tr>");
+                    let col1 = $("<td></td>").append(idS).attr("style", "color : white");
+                    let col2 = $("<td></td>").append($("<input>").attr("type", "button").attr("value", "delete")
+                        .addClass("btn").addClass("btn-sm").addClass("btn-light"));
+                    row.append(col1);
+                    row.append(col2);
+
+                    $(".mistakeLogTable").append(row);
+                }
+            });
+        })
     });
 </script>
-<div class="offset-sm-3 col-sm-6 infoPart">
+<div class="offset-sm-2 col-sm-8 infoPart">
+    <h3 id="errorLog">
+
+    </h3>
     <table class="table table-striped table-dark songInfoTable">
         <tr>
             <thead style="text-align: center">
@@ -27,5 +53,5 @@
     <input type="button" class="btn btn-sm btn-dark" value="Stop" id="stopAudio">
     <br>
     <br>
-    <input type="button" class="btn btn-dark" value="Return to menu" id="backToMenu">
+    <input type="button" class="btn btn-dark" value="Back" id="backToMistake">
 </div>

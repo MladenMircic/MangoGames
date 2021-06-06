@@ -1,3 +1,7 @@
+<!--
+    Kosta Dimitrijević 0467/2018
+-->
+
 <script>
     $(document).ready(function () {
         $.post("<?= base_url("User/echoView/printGenreImages/getGenres") ?>", function (data) {

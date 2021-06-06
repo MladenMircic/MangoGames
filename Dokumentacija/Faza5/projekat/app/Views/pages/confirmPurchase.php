@@ -1,3 +1,8 @@
+<!--
+    Kosta Dimitrijević 0467/2018
+    Teodora Mijatović 0314/2018
+-->
+
 <script>
     $(document).ready(function () {
         let numOfTokens = localStorage.getItem("numOfTokens");
