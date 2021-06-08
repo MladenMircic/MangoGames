@@ -78,7 +78,7 @@ class Administrator extends PrivilegedUser
         $users->insert([
             'username' =>  $this->request->getVar("modUsername"),
             'password' => $this->request->getVar("modPassword"),
-            'type' => "moderator"
+            'type' => "mod"
         ]);
     }
 
