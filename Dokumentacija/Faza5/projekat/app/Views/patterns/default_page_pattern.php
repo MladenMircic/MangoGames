@@ -39,7 +39,8 @@
                 <?php
                 if (isset($welcomeMessage))
                     echo $welcomeMessage
-                ?>            </div>
+                ?>
+            </div>
         </div>
     </div>
     </body>
