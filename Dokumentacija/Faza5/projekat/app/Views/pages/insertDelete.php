@@ -26,8 +26,10 @@
         $("#operation").on("change", function (){
             //alert("promena");
             let optionSelected = $("option:selected", this);
-            if(optionSelected.attr("id")==="update")
+            if(optionSelected.attr("id")==="update") {
+                $("#defaultType").prop("selected", true);
                 $("#pl").hide();
+            }
             else
                 $("#pl").show();
         });
@@ -85,8 +87,8 @@
         </td>
 
         <td class=" borderless">
-            <select class="form-select formWidth form-select-lg mb-3" aria-label=".form-select-lg example">
-                <option selected>Choose type</option>
+            <select  class="form-select  formWidth form-select-lg mb-3" aria-label=".form-select-lg example">
+                <option id="defaultType" selected>Choose type</option>
                 <option id="pl" class="type" value="playlist">Playlist</option>
                 <option class="type" value="song">Song</option>
             </select>
@@ -97,7 +99,7 @@
 <br>
 <br>
 
-<div id="change">
+<div  id="change">
 
 </div>
 <br>
