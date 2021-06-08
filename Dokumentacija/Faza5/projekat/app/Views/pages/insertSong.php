@@ -100,14 +100,11 @@
     <tr>
         <td>Playlist:</td>
         <td>
-            <select id="playlists" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+            <select style="width: 100%" id="playlists" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
                 <option id="genreDefault" selected>Playlist</option>
             </select>
         </td>
     </tr>
-<!--    <tr>-->
-<!--        <td>Audio location:</td>-->
-<!--        <td><input type="text" id="location"></td>-->
-<!--    </tr>-->
+
 </table>
 <input type="button" id="insertSong" class="btn btn-dark" value="Insert song">

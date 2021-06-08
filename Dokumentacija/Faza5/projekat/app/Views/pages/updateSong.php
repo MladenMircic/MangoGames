@@ -80,6 +80,7 @@
             let selectedSong= $("option:selected", $("#songs"));
             let selectedPlaylist= $("option:selected", $("#playlists"));
             if(selectedSong.attr("id")==="songDefault" || selectedPlaylist.attr("id")==="playlistDefault"){
+                $("#text1").empty();
                 $("#text1").append("<h4>You must choose song</h4>");
             }
             else{
@@ -119,7 +120,7 @@
     <tr>
         <td>Playlist:</td>
         <td>
-            <select id="playlists" class="form-select  form-select-lg mb-3" aria-label=".form-select-lg example">
+            <select style="width: 100%" id="playlists" class="form-select  form-select-lg mb-3" aria-label=".form-select-lg example">
                 <option id="playlistDefault" selected>Playlist</option>
 
             </select>
@@ -128,7 +129,7 @@
     <tr>
         <td>Song:</td>
         <td>
-            <select  id="songs" class=" form-select  form-select-lg mb-3" aria-label=".form-select-lg example">
+            <select  style="width: 100%" id="songs" class=" form-select  form-select-lg mb-3" aria-label=".form-select-lg example">
                 <option id="songDefault" selected>Song</option>
             </select>
         </td>
