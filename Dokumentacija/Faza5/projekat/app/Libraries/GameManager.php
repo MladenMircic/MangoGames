@@ -154,8 +154,8 @@ class GameManager implements MessageComponentInterface {
             $this->activeGames[$this->currentGameId]['currentRound'] = 0;
             $this->activeGames[$this->currentGameId]['endOfRound'] = 0;
             $pickedSongs = $this->pickSongs($this->currentGameId);
-            $conn->send($this->users[$opponent->resourceId]['username'] . "|" . $this->currentGameId . "|" . json_encode($pickedSongs));
-            $opponent->send($this->users[$conn->resourceId]['username'] . "|" . $this->currentGameId . "|" . json_encode($pickedSongs));
+            $conn->send($this->users[$opponent->resourceId]['username'] . "|" . $this->currentGameId . "|" . json_encode($pickedSongs) . "|" . $this->activeGames[$this->currentGameId]['songOrArtist']);
+            $opponent->send($this->users[$conn->resourceId]['username'] . "|" . $this->currentGameId . "|" . json_encode($pickedSongs) . "|" . $this->activeGames[$this->currentGameId]['songOrArtist']);
             $this->currentGameId++;
         }
     }
@@ -172,6 +172,7 @@ class GameManager implements MessageComponentInterface {
     public function pickSongs($gameId): array
     {
         $data = [];
+        $this->activeGames[$gameId]['songOrArtist'] = rand(0, 100);
         $whichToPick = rand(0, 100);
         if (($whichToPick <= 60 || count($this->activeGames[$gameId]['oneHaveSongs'][0]) == 0 && count($this->activeGames[$gameId]['oneHaveSongs'][1]) == 0)
         && count($this->activeGames[$gameId]['bothHaveSongs']) > 0) {
@@ -193,16 +194,18 @@ class GameManager implements MessageComponentInterface {
                 array_splice($this->activeGames[$gameId]['oneHaveSongs'][1], $songToPlayIndex, 1);
             }
         }
-        $data['songs'] []= $data['songToBePlayed']->name;
+        $data['songs'] []= $this->activeGames[$gameId]['songOrArtist'] >= 50 ? $data['songToBePlayed']->name : $data['songToBePlayed']->artist;
         $allSongs = array_merge($this->activeGames[$gameId]['bothHaveSongs'], $this->activeGames[$gameId]['oneHaveSongs'][0], $this->activeGames[$gameId]['oneHaveSongs'][1]);
 
         $used = [];
         $i = 0;
         while ($i < 3) {
             $currentSongNumber = rand(0, count($allSongs) - 1);
-            if (in_array($currentSongNumber, $used) || $allSongs[$currentSongNumber]->name == $data['songToBePlayed']->name)
+            if (in_array($currentSongNumber, $used) ||
+                ($this->activeGames[$gameId]['songOrArtist'] >= 50 && $allSongs[$currentSongNumber]->name == $data['songToBePlayed']->name) ||
+                ($this->activeGames[$gameId]['songOrArtist'] < 50 && $allSongs[$currentSongNumber]->artist == $data['songToBePlayed']->artist))
                 continue;
-            $data['songs'] []= $allSongs[$currentSongNumber]->name;
+            $data['songs'] []= $this->activeGames[$gameId]['songOrArtist'] >= 50 ? $allSongs[$currentSongNumber]->name : $allSongs[$currentSongNumber]->artist;
             $used []= $currentSongNumber;
             $i++;
         }
@@ -315,8 +318,8 @@ class GameManager implements MessageComponentInterface {
                     unset($this->activeGames[$gameId]['points1']);
                     unset($this->activeGames[$gameId]['points2']);
                     $this->activeGames[$gameId]['player1']->send("numOfSongs|" . json_encode($this->activeGames[$gameId]['oneHaveSongs'][0]));
-                    $this->activeGames[$gameId]['player1']->send("newRound|" . json_encode($pickedSongs));
-                    $this->activeGames[$gameId]['player2']->send("newRound|" . json_encode($pickedSongs));
+                    $this->activeGames[$gameId]['player1']->send("newRound|" . json_encode($pickedSongs) . "|" . $this->activeGames[$gameId]['songOrArtist']);
+                    $this->activeGames[$gameId]['player2']->send("newRound|" . json_encode($pickedSongs) . "|" . $this->activeGames[$gameId]['songOrArtist']);
                 }
                 break;
             }

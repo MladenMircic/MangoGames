@@ -26,12 +26,15 @@
         $("#opponentPoints").append("Points: " + opponent.points);
 
         $("#myTokens").append($("<img alt=''>").attr("src", "<?= base_url("images/" . session()->get("chosenGenre") . "Token.png") ?>").css({"width": "50px", "height": "40px"}))
-                      .append(myself.points * 10);
+                      .append((myself.points > 0 ? myself.points : 0) * 10);
 
         $("#opponentTokens").append($("<img alt=''>").attr("src", "<?= base_url("images/" . session()->get("chosenGenre") . "Token.png") ?>").css({"width": "50px", "height": "40px"}))
-                            .append(opponent.points * 10);
+                            .append((opponent.points > 0 ? opponent.points : 0) * 10);
 
-        <?php session()->remove("chosenGenre") ?>
+        $.post("<?= base_url("User/savePointsAndTokens") ?>", {
+            points: myself.points,
+            tokens: (myself.points > 0 ? myself.points : 0) * 10
+        });
 
         $("#toSongList").click(function () {
             $(".center").load("<?= base_url("User/echoView/songList") ?>");

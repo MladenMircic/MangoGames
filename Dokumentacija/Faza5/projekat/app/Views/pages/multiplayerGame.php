@@ -37,7 +37,7 @@
 
         $("#report").click(function () {
             $(this).attr("disabled", true);
-            $.post("<?= base_url("User/reportMistake") ?>", {idSong : songToBePlayed.idS}, function (data) {
+            $.post("<?= base_url("User/reportMistake") ?>", {idSong : songToBePlayed.idS}, function () {
                 $(".optional").append($("<div></div>").append("Mistake reported").attr("id", "reported").css({"color" : "red", "text-align" : "center", "margin-right" : "10%"}));
             })
         });
@@ -63,10 +63,19 @@
             for (let i = 0; i < 4; i++) {
                 options[i] = $(options[i]);
                 options[i].toggleClass("btn-dark").prop("disabled", true);
-                if (options[i].val() === songToBePlayed.name)
-                    options[i].toggleClass("btn-success");
-                else
-                    options[i].toggleClass("btn-danger");
+                if (window.songOrArtist >= 50) {
+                    if (options[i].val() === songToBePlayed.name)
+                        options[i].toggleClass("btn-success");
+                    else
+                        options[i].toggleClass("btn-danger");
+                }
+                else {
+                    if (options[i].val() === songToBePlayed.artist)
+                        options[i].toggleClass("btn-success");
+                    else
+                        options[i].toggleClass("btn-danger");
+                }
+
             }
         }
 
@@ -103,10 +112,18 @@
                 options[i] = $(options[i]);
                 options[i].removeClass("opponentAnswer myAnswer");
                 options[i].toggleClass("btn-dark").prop("disabled", false);
-                if (options[i].val() === songToBePlayed.name)
-                    options[i].toggleClass("btn-success");
-                else
-                    options[i].toggleClass("btn-danger");
+                if (window.songOrArtist >= 50) {
+                    if (options[i].val() === songToBePlayed.name)
+                        options[i].toggleClass("btn-success");
+                    else
+                        options[i].toggleClass("btn-danger");
+                }
+                else {
+                    if (options[i].val() === songToBePlayed.artist)
+                        options[i].toggleClass("btn-success");
+                    else
+                        options[i].toggleClass("btn-danger");
+                }
                 options[i].css("border", "none");
             }
         }
@@ -192,7 +209,6 @@
                                             points: opponentPoints
                                         }));
                                         $(".optional").empty();
-                                        $.post("<?= base_url('User/saveTokens') ?>", { tokens: tokensAcquired });
                                         $(".center").load("<?= base_url("User/echoView/endGameScreen") ?>");
                                     }
 
@@ -236,6 +252,7 @@
                     $("#reported").empty();
                     $("#report").attr("disabled", false);
                     window.songs = messageReceived[1];
+                    window.songOrArtist = messageReceived[2];
                     LoadSongsAndPlayAudio();
                     break;
                 }
@@ -301,7 +318,11 @@
                     .attr("time-after", timerFill);
 
                 myself.addClass("selectedGenre");
-                let isCorrect = $(this).val() === songToBePlayed.name ? 1 : 0;
+                let isCorrect;
+                if (window.songOrArtist >= 50)
+                    isCorrect = $(this).val() === songToBePlayed.name ? 1 : 0;
+                else
+                    isCorrect = $(this).val() === songToBePlayed.artist ? 1 : 0;
                 window.conn.send("answered|" + gameId + "|" + myTime.toFixed(2) + "|" + $(this).attr("id") + "|" + isCorrect);
                 $(this).addClass("myAnswer").css("border", "5px solid blue");
             }

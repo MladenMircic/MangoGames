@@ -126,16 +126,25 @@ class User extends BaseController
      * Updates current number of tokens with newly acquired ones from the game
      * @throws \ReflectionException
      */
-    public function saveTokens() {
+    public function savePointsAndTokens() {
         $userInfoModel = new UserInfoModel();
         $userInfo = $userInfoModel
                                 ->where("username", $this->session->get("username"))
                                 ->where("genre", $this->session->get("chosenGenre"))
-                                ->findAll();
+                                ->first();
+
         $userInfoModel
                     ->where("username", $this->session->get("username"))
                     ->where("genre", $this->session->get("chosenGenre"))
-                    ->update(null, ["tokens" => $userInfo[0]->tokens + $this->request->getVar("tokens")]);
+                    ->update(null, [
+                                "tokens" => ($userInfo->tokens + intval($this->request->getVar("tokens")))
+                            ]);
+        $userInfoModel
+                    ->where("username", $this->session->get("username"))
+                    ->where("genre", $this->session->get("chosenGenre"))
+                    ->update(null, [
+                        "points" => ($userInfo->points + intval($this->request->getVar("points")))
+                    ]);
     }
 
     /**
