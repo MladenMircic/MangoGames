@@ -20,7 +20,13 @@
                         $("#error").append(col);
                         return;
                     }else if(username != "" && password != ""){
-                        if(/^\w{5,}$/.test(password) == false){
+                        if(/^\w{5,}$/.test(username) == false){
+                            let col = $("<td></td>").attr("style", "color : red").attr("colspan", "2").addClass("borderless");
+                            col.append("Username needs to contain at least 5 characters");
+                            $("#error").append(col);
+                            return;
+                        }
+                        else if(/^\w{5,}$/.test(password) == false){
                             let col = $("<td></td>").attr("style", "color : red").attr("colspan", "2").addClass("borderless");
                             col.append("Password needs to contain at least 5 characters");
                             $("#error").append(col);
