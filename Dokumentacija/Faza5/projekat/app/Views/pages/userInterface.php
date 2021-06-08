@@ -31,13 +31,17 @@
         });
 
         $("#quit").click(function () {
-            $(".center").load("<?= base_url("User/echoView/quit") ?>");
+            toggleOtherButtons($(this));
+            setTimeout(function () {
+                $(".center").load("<?= base_url("User/echoView/quit") ?>");
+            }, 500)
         });
 
         $("#playlists").click(function () {
-            $.post("<?= base_url("User/echoView/genresAndPlaylists") ?>", function (data) {
-                $(".center").html(data);
-            })
+            toggleOtherButtons($(this));
+            setTimeout(function () {
+                $(".center").load("<?= base_url("User/echoView/genresAndPlaylists") ?>");
+            }, 500)
         });
         
         function toggleOtherButtons(clicked) {

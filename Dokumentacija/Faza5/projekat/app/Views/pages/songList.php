@@ -6,6 +6,14 @@
 
         listOutSongs();
 
+        $("#return").click(function () {
+            <?php
+                session()->remove("songs");
+                session()->remove("mode");
+                session()->remove("chosenGenre");
+            ?>
+        })
+
         function listOutSongs(){
             let mode = "<?php echo session()->get("mode"); ?>";
             if(mode === "unlock")
@@ -43,11 +51,6 @@
                         $(".tableSongList").append(tr);
                 }
             }
-            <?php
-                session()->remove("songs");
-                session()->remove("mode");
-                session()->remove("chosenGenre");
-            ?>
             localStorage.clear();
         }
 
@@ -72,6 +75,6 @@
         </tr>
     </table>
     <form method="get" action="<?= base_url("User") ?>">
-        <input type="submit" value="Return to menu" class="btnRegister btn-dark btn btnTransition">
+        <input type="submit" id="return" value="Return to menu" class="btnRegister btn-dark btn btnTransition">
     </form>
 </div>

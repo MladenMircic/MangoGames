@@ -173,19 +173,21 @@ class GameManager implements MessageComponentInterface {
     {
         $data = [];
         $whichToPick = rand(0, 100);
-        if ($whichToPick <= 60 || count($this->activeGames[$gameId]['oneHaveSongs'][0]) == 0 && count($this->activeGames[$gameId]['oneHaveSongs'][1]) == 0) {
+        if (($whichToPick <= 60 || count($this->activeGames[$gameId]['oneHaveSongs'][0]) == 0 && count($this->activeGames[$gameId]['oneHaveSongs'][1]) == 0)
+        && count($this->activeGames[$gameId]['bothHaveSongs']) > 0) {
             $songToPlayIndex = rand(0, count($this->activeGames[$gameId]['bothHaveSongs']) - 1);
             $data['songToBePlayed'] = $this->activeGames[$gameId]['bothHaveSongs'][$songToPlayIndex];
             array_splice($this->activeGames[$gameId]['bothHaveSongs'], $songToPlayIndex, 1);
         }
         else {
             $fromWhichPlayer = rand(0, 100);
-            if ($fromWhichPlayer <= 50 && count($this->activeGames[$gameId]['oneHaveSongs'][0]) > 0) {
+            if (($fromWhichPlayer <= 50 || count($this->activeGames[$gameId]['oneHaveSongs'][1]) == 0)
+                    && count($this->activeGames[$gameId]['oneHaveSongs'][0]) > 0) {
                 $songToPlayIndex = rand(0, count($this->activeGames[$gameId]['oneHaveSongs'][0]) - 1);
                 $data['songToBePlayed'] = $this->activeGames[$gameId]['oneHaveSongs'][0][$songToPlayIndex];
                 array_splice($this->activeGames[$gameId]['oneHaveSongs'][0], $songToPlayIndex, 1);
             }
-            else if ($fromWhichPlayer > 50 && count($this->activeGames[$gameId]['oneHaveSongs'][1]) > 0){
+            else if (count($this->activeGames[$gameId]['oneHaveSongs'][1]) > 0){
                 $songToPlayIndex = rand(0, count($this->activeGames[$gameId]['oneHaveSongs'][1]) - 1);
                 $data['songToBePlayed'] = $this->activeGames[$gameId]['oneHaveSongs'][1][$songToPlayIndex];
                 array_splice($this->activeGames[$gameId]['oneHaveSongs'][1], $songToPlayIndex, 1);
@@ -312,6 +314,7 @@ class GameManager implements MessageComponentInterface {
                     unset($this->activeGames[$gameId]['answer2']);
                     unset($this->activeGames[$gameId]['points1']);
                     unset($this->activeGames[$gameId]['points2']);
+                    $this->activeGames[$gameId]['player1']->send("numOfSongs|" . json_encode($this->activeGames[$gameId]['oneHaveSongs'][0]));
                     $this->activeGames[$gameId]['player1']->send("newRound|" . json_encode($pickedSongs));
                     $this->activeGames[$gameId]['player2']->send("newRound|" . json_encode($pickedSongs));
                 }

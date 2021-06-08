@@ -13,11 +13,12 @@
 
     $("#backToMistake").click(function(){
         $.post("<?= base_url("PrivilegedUser/echoView/mistakeLog") ?>", function (data) {
+            window.audio.pause();
             $(".center").html(data);
             $.get("<?= base_url("PrivilegedUser/getMistakes") ?>", function (data1) {
 
                 mistakes = data1.split(',');
-                for (let i=0; i<mistakes.length -1 ;i++)
+                for (let i=0; i < mistakes.length -1 ;i++)
                 {
                     let mistake = [];
                     mistake = mistakes[i].split('/');

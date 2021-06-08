@@ -21,7 +21,12 @@
                 Username:
             </td>
             <td>
-                <input type="text" name="username">
+                <input type="text" name="username" value="<?php
+                    if (!isset($errors['username']))
+                        echo set_value("username");
+                    else
+                        echo "";
+                ?>">
             </td>
         </tr>
         <tr>
