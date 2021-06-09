@@ -14,6 +14,7 @@
             localStorage.setItem("opponent", messageReceived[0]);
             localStorage.setItem("gameId", messageReceived[1]);
             window.songs = messageReceived[2];
+            window.songOrArtist = messageReceived[3];
             $("#insertable").load("<?= base_url("User/echoView/multiplayerGame") ?>");
         }
 

@@ -5,11 +5,11 @@
         // Teodora Mijatović 0314/2018
 
         $.post("<?php
-            if (session()->has("forRegister"))
-                echo base_url("Register/echoView/printGenreImages/getGenres");
-            else
-                echo base_url("User/echoView/printGenreImages/getGenres");
-            ?>", function (data) {
+                    if (session()->has("forRegister"))
+                        echo base_url("Register/echoView/printGenreImages/getGenres");
+                    else
+                        echo base_url("User/echoView/printGenreImages/getGenres");
+                ?>", function (data) {
             let row = $("<tr></tr>").html(data);
             $(".genres-table").append(row);
             $('[data-toggle="popover"]').popover();
