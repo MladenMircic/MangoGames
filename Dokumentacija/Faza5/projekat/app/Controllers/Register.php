@@ -11,6 +11,8 @@ use App\Models\UserPlaylistModel;
 /**
  * Class Register - For registering player users in the database
  * @package App\Controllers
+ *
+ * @version 1.0
  */
 class Register extends BaseController
 {
@@ -20,6 +22,16 @@ class Register extends BaseController
     public function index()
     {
         $this->showView('register');
+    }
+
+    /**
+     * An optional method which a class can implement if additional data is required by the showView method
+     *
+     * @return array
+     */
+    public function showAdditionalData()
+    {
+        return ['footerPart' => view('pages/registerFooter')];
     }
 
     /**
@@ -37,20 +49,59 @@ class Register extends BaseController
             return $this->showView('register', ['errors' => $this->validator->getErrors()]);
         }
 
+        /**
+         * A user model representing all types of users from database
+         */
+        $userModel = new UserModel();
+        $user = $userModel->find($this->request->getVar('username'));
+
+        if ($user != null)
+            return $this->showView('register', ['errors' => ['username' => 'User already exists.']]);
+
+        $this->session->set("forRegister", true);
         $this->session->set("username", $this->request->getVar("username"));
         $this->session->set("password", $this->request->getVar("password"));
         return redirect()->to(base_url("Register/pickGenres"));
     }
 
     /**
+     * Returns the map of all genres and information if it is locked or unlocked by the user
+     * @return array[]
+     */
+    public function getGenres() {
+        $genreModel = new GenreModel();
+        $userInfo = new UserInfoModel();
+        $user = $this->session->get("username");
+
+        $infos = $userInfo->where("username", $user)->findAll();
+        $genres = $genreModel->findAll();
+
+        $toSend = [];
+
+        foreach ($genres as $genre){
+            $flag = false;
+            foreach($infos as $info){
+                if($info->genre == $genre->name){
+                    $flag = true;
+                    break;
+                }
+            }
+            if($flag == true){
+                $toSend[$genre->name] = "unlocked";
+            }
+            else{
+                $toSend[$genre->name] = "locked";
+            }
+        }
+
+        return ["genres" => $toSend];
+    }
+
+    /**
      * A method that pulls all the present genres from the database, and sends them to the user for picking
      */
-    public function pickGenres(){
-        $genreModel=new GenreModel();
-        $data['genres'] =$genreModel->findAll();
-        foreach ($data['genres'] as $genre)
-            $genre->name = ucfirst($genre->name);
-        $this->showView('pickGenres',$data);
+    public function pickGenres() {
+        $this->showView('pickGenres');
     }
 
     /**
@@ -63,10 +114,6 @@ class Register extends BaseController
          * A user model representing all types of users from database
          */
         $userModel = new UserModel();
-        $user = $userModel->find($this->session->get('username'));
-
-        if ($user != null)
-            return $this->showView('register', ['errors' => ['username' => 'User already exists.']]);
 
         $userModel->insert([
             'username' => $this->session->get('username'),
@@ -74,6 +121,7 @@ class Register extends BaseController
             'type' => 'user'
         ]);
         $this->session->set("type", "user");
+        $this->session->remove("forRegister");
         $this->session->remove("password");
 
         /**
@@ -90,14 +138,14 @@ class Register extends BaseController
         ]);
 
         $user_info1 = $userInfoModel
-                                    ->where("username", $this->session->get("username"))
-                                    ->where("genre", $this->request->getVar('g1'))
-                                    ->first();
+            ->where("username", $this->session->get("username"))
+            ->where("genre", $this->request->getVar('g1'))
+            ->first();
 
         $user_info2 = $userInfoModel
-                                    ->where("username", $this->session->get("username"))
-                                    ->where("genre", $this->request->getVar('g2'))
-                                    ->first();
+            ->where("username", $this->session->get("username"))
+            ->where("genre", $this->request->getVar('g2'))
+            ->first();
 
         $userPlaylistModel = new UserPlaylistModel();
         $playlistModel = new PlaylistModel();
