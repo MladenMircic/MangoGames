@@ -21,6 +21,10 @@
             $("#winner1").append($("<img id='winnerImage' alt=''>").attr("src", "<?= base_url("images/winnerCup.png") ?>"));
         else
             $("#winner2").append($("<img id='winnerImage' alt=''>").attr("src", "<?= base_url("images/winnerCup.png") ?>"));
+        else {
+            $("#winner1").append($("<img id='winnerImage' alt=''>").attr("src", "<?= base_url("images/winnerCup.png") ?>"));
+            $("#winner2").append($("<img id='winnerImage' alt=''>").attr("src", "<?= base_url("images/winnerCup.png") ?>"));
+        }
 
         $("#myPoints").append("Points: " + myself.points);
         $("#opponentPoints").append("Points: " + opponent.points);

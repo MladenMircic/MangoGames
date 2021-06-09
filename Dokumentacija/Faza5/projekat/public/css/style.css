@@ -99,7 +99,7 @@ table.modMenu input {
     width: 50%;
 }
 
-.loginFooter {
+.loginFooter, .registerFooter {
     text-align: center;
     margin-top: 100px;
 

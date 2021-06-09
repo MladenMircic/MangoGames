@@ -93,11 +93,11 @@ class Training extends BaseController
         $userInfo = $userInfoModel
                                 ->where("username", $this->session->get("username"))
                                 ->where("genre", $this->session->get("chosenGenre"))
-                                ->findAll();
+                                ->first();
         $userInfoModel
                 ->where("username", $this->session->get("username"))
                 ->where("genre", $this->session->get("chosenGenre"))
-                ->update(null, ["tokens" => $userInfo[0]->tokens + $this->request->getVar("tokens")]);
+                ->update(null, ["tokens" => $userInfo->tokens + $this->request->getVar("tokens")]);
     }
 
     /**
@@ -121,5 +121,6 @@ class Training extends BaseController
             'idU' => $userInfo->idU,
             'idP' => $playlistModel->getIdOfMinNumOfGenre($this->session->get("chosenGenre"))
         ]);
+        $this->session->remove("mode");
     }
 }

@@ -6,26 +6,19 @@
 
         listOutSongs();
 
-        $("#return").click(function () {
-            <?php
-                session()->remove("songs");
-                session()->remove("mode");
-                session()->remove("chosenGenre");
-            ?>
-        })
-
         function listOutSongs(){
             let mode = "<?php echo session()->get("mode"); ?>";
             if(mode === "unlock")
                 {
+                    alert("radi");
                     $(".tableSongList").hide();
                     let correctGuesses = localStorage.getItem("numberOfGuesses");
                     let genre = "<?php echo session()->get("chosenGenre"); ?>";
-                    if(correctGuesses >= 6){
+                    if(correctGuesses >= 6) {
                         $.post("<?= base_url("Training/saveNewUserInfo") ?>");
                         $(".guessed").append("Congratulations you successfully unlocked " + genre + " genre!").css({"font-size" : "20px" , "font-weight" : "bold"});
                     }
-                    else{
+                    else {
                         $(".guessed").append("You failed to unlock " + genre + " genre! Better luck next time!").css({"font-size" : "20px" , "font-weight" : "bold"});
                     }
                     $(".guessed").append($("<h3></h3>").append(correctGuesses + "/" + "10"));

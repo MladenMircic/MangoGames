@@ -58,6 +58,7 @@
         })
 
         $("#show").click(function () {
+            $(".popover").remove();
             let data = $(".chosen").attr("data-content").split(" ");
             let chosenGenre = data[0];
             localStorage.setItem("chosenGenre", chosenGenre);
@@ -65,6 +66,7 @@
         });
 
         $("#return").click(function () {
+            $(".popover").remove();
             $(".center").load("<?= base_url("User/echoView/userInterface") ?>");
         });
     });
