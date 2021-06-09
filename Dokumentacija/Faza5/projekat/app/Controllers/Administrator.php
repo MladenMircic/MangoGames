@@ -5,6 +5,7 @@ namespace App\Controllers;
 
 
 use App\Models\ChangeLogModel;
+use App\Models\MistakeLogModel;
 use App\Models\UserInfoModel;
 use App\Models\UserModel;
 use App\Models\UserPlaylistModel;
@@ -96,5 +97,12 @@ class Administrator extends PrivilegedUser
         foreach ($logs as $log){
             echo $log->username.",". $log->operation.",".$log->dateTime."/";
         }
+    }
+
+    public function deleteMistake(){
+        $idS = $this->request->getVar("idSong");
+        $mistakeLogModel = new MistakeLogModel();
+
+        $mistakeLogModel->where("idS", $idS)->delete();
     }
 }

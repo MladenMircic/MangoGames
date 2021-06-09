@@ -6,3 +6,4 @@
     <br>
     Go to <?php echo anchor(base_url("/"), "Login") ?>
 </div>
+
