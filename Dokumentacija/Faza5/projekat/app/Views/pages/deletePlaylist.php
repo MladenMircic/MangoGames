@@ -1,3 +1,4 @@
+
 <script>
     $(document).ready(function(){
 
@@ -73,7 +74,7 @@
     <tr>
         <td>Playlist:</td>
         <td>
-            <select id="playlists" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+            <select style="width: 100%" id="playlists" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
                 <option id="playlistDefault" selected>Playlist</option>
             </select>
         </td>

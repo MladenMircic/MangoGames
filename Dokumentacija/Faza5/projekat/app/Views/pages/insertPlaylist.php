@@ -71,7 +71,7 @@
     <tr>
         <td>Genre:</td>
         <td>
-            <select id="genres" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+            <select style="width: 100%" id="genres" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
                 <option id="genreDefault" selected>Genre &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
             </select>
         </td>
@@ -79,7 +79,7 @@
     <tr>
         <td>Level:</td>
         <td>
-            <select id="levels" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+            <select style="width: 100%" id="levels" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
                 <option id="levelDefault" selected>Level&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
                 <option class="optLevel" id="easy">Easy</option>
                 <option class="optLevel" id="medium">Medium</option>

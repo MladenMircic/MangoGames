@@ -108,7 +108,7 @@
     <tr>
         <td>Playlist:</td>
         <td>
-            <select id="playlists" class="form-select  form-select-lg mb-3" aria-label=".form-select-lg example">
+            <select style="width: 100%" id="playlists" class="form-select  form-select-lg mb-3" aria-label=".form-select-lg example">
                 <option id="playlistDefault" selected>Playlist</option>
 
             </select>
@@ -117,7 +117,7 @@
     <tr>
         <td>Song:</td>
         <td>
-            <select  id="songs" class=" form-select  form-select-lg mb-3" aria-label=".form-select-lg example">
+            <select style="width: 100%" id="songs" class=" form-select  form-select-lg mb-3" aria-label=".form-select-lg example">
                 <option id="songDefault" selected>Song</option>
             </select>
         </td>
