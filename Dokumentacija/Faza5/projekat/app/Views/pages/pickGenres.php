@@ -4,6 +4,7 @@
         // Mladen Mirčić 0413/2018
         // Teodora Mijatović 0314/2018
 
+
         $.post("<?php
                     if (session()->has("forRegister"))
                         echo base_url("Register/echoView/printGenreImages/getGenres");
